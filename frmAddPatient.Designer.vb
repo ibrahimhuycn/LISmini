@@ -38,19 +38,17 @@ Partial Class frmAddPatient
         Me.btnAddressNext = New DevExpress.XtraEditors.SimpleButton()
         Me.xTabAddPatientRecords = New DevExpress.XtraTab.XtraTabControl()
         Me.xTabPagePersonalInfo = New DevExpress.XtraTab.XtraTabPage()
+        Me.txtEditDateOfBirth = New DevExpress.XtraEditors.DateEdit()
+        Me.lblHospitalNumber = New DevExpress.XtraEditors.LabelControl()
+        Me.txtEditHospitalNumber = New DevExpress.XtraEditors.TextEdit()
         Me.btnPersonalInfoNext = New DevExpress.XtraEditors.SimpleButton()
         Me.lblNid = New DevExpress.XtraEditors.LabelControl()
         Me.txtNid = New DevExpress.XtraEditors.TextEdit()
-        Me.txtDob = New DevExpress.XtraEditors.DateEdit()
         Me.lblPatientName = New DevExpress.XtraEditors.LabelControl()
         Me.cboGender = New DevExpress.XtraEditors.ComboBoxEdit()
         Me.txtPatientName = New DevExpress.XtraEditors.TextEdit()
         Me.lblDob = New DevExpress.XtraEditors.LabelControl()
-        Me.lblPrefix = New DevExpress.XtraEditors.LabelControl()
-        Me.cboSuffix = New DevExpress.XtraEditors.ComboBoxEdit()
-        Me.lblSuffix = New DevExpress.XtraEditors.LabelControl()
         Me.lblGender = New DevExpress.XtraEditors.LabelControl()
-        Me.cboPrefix = New DevExpress.XtraEditors.ComboBoxEdit()
         Me.xTabPageAddress = New DevExpress.XtraTab.XtraTabPage()
         Me.lblCountry = New DevExpress.XtraEditors.LabelControl()
         Me.txtAddress = New DevExpress.XtraEditors.TextEdit()
@@ -60,9 +58,9 @@ Partial Class frmAddPatient
         Me.lblIsland = New DevExpress.XtraEditors.LabelControl()
         Me.cboCountry = New DevExpress.XtraEditors.ComboBoxEdit()
         Me.GrpPatientDetails = New DevExpress.XtraEditors.GroupControl()
-        Me.GrpControlSummary = New DevExpress.XtraEditors.GroupControl()
-        Me.LabelControl1 = New DevExpress.XtraEditors.LabelControl()
         Me.lblClose = New DevExpress.XtraEditors.LabelControl()
+        Me.GrpControlSummary = New DevExpress.XtraEditors.GroupControl()
+        Me.lblSummary = New DevExpress.XtraEditors.LabelControl()
         Me.xTabPageContactInfo.SuspendLayout()
         CType(Me.GridControlAddContact, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GridViewAddContact, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -71,13 +69,12 @@ Partial Class frmAddPatient
         CType(Me.xTabAddPatientRecords, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.xTabAddPatientRecords.SuspendLayout()
         Me.xTabPagePersonalInfo.SuspendLayout()
+        CType(Me.txtEditDateOfBirth.Properties.CalendarTimeProperties, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtEditDateOfBirth.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtEditHospitalNumber.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtNid.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDob.Properties.CalendarTimeProperties, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDob.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboGender.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPatientName.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboSuffix.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboPrefix.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.xTabPageAddress.SuspendLayout()
         CType(Me.txtAddress.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboAtoll.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -102,14 +99,14 @@ Partial Class frmAddPatient
         '
         'lblAddress
         '
-        Me.lblAddress.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAddress.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAddress.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAddress.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAddress.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAddress.Location = New System.Drawing.Point(16, 15)
         Me.lblAddress.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblAddress.Name = "lblAddress"
-        Me.lblAddress.Size = New System.Drawing.Size(39, 16)
+        Me.lblAddress.Size = New System.Drawing.Size(41, 16)
         Me.lblAddress.TabIndex = 6
         Me.lblAddress.Text = "Address"
         '
@@ -126,7 +123,7 @@ Partial Class frmAddPatient
         Me.xTabPageContactInfo.Controls.Add(Me.lblContactType)
         Me.xTabPageContactInfo.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.xTabPageContactInfo.Name = "xTabPageContactInfo"
-        Me.xTabPageContactInfo.Size = New System.Drawing.Size(440, 154)
+        Me.xTabPageContactInfo.Size = New System.Drawing.Size(470, 154)
         Me.xTabPageContactInfo.Text = "CONTACT INFO"
         '
         'btnRemove
@@ -139,7 +136,7 @@ Partial Class frmAddPatient
         Me.btnRemove.AppearanceHovered.Options.UseFont = True
         Me.btnRemove.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.btnRemove.AppearancePressed.Options.UseFont = True
-        Me.btnRemove.Location = New System.Drawing.Point(362, 46)
+        Me.btnRemove.Location = New System.Drawing.Point(386, 46)
         Me.btnRemove.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.btnRemove.Name = "btnRemove"
         Me.btnRemove.Size = New System.Drawing.Size(75, 28)
@@ -154,7 +151,7 @@ Partial Class frmAddPatient
         Me.GridControlAddContact.MainView = Me.GridViewAddContact
         Me.GridControlAddContact.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.GridControlAddContact.Name = "GridControlAddContact"
-        Me.GridControlAddContact.Size = New System.Drawing.Size(342, 94)
+        Me.GridControlAddContact.Size = New System.Drawing.Size(372, 94)
         Me.GridControlAddContact.TabIndex = 15
         Me.GridControlAddContact.ViewCollection.AddRange(New DevExpress.XtraGrid.Views.Base.BaseView() {Me.GridViewAddContact})
         '
@@ -248,7 +245,7 @@ Partial Class frmAddPatient
         Me.btnAdd.AppearanceHovered.Options.UseFont = True
         Me.btnAdd.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.btnAdd.AppearancePressed.Options.UseFont = True
-        Me.btnAdd.Location = New System.Drawing.Point(362, 12)
+        Me.btnAdd.Location = New System.Drawing.Point(386, 12)
         Me.btnAdd.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.btnAdd.Name = "btnAdd"
         Me.btnAdd.Size = New System.Drawing.Size(75, 28)
@@ -263,7 +260,7 @@ Partial Class frmAddPatient
         Me.txtContactDetail.Name = "txtContactDetail"
         Me.txtContactDetail.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.txtContactDetail.Properties.Appearance.Options.UseFont = True
-        Me.txtContactDetail.Size = New System.Drawing.Size(188, 22)
+        Me.txtContactDetail.Size = New System.Drawing.Size(218, 22)
         Me.txtContactDetail.TabIndex = 9
         '
         'btnSave
@@ -276,7 +273,7 @@ Partial Class frmAddPatient
         Me.btnSave.AppearanceHovered.Options.UseFont = True
         Me.btnSave.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.btnSave.AppearancePressed.Options.UseFont = True
-        Me.btnSave.Location = New System.Drawing.Point(364, 121)
+        Me.btnSave.Location = New System.Drawing.Point(388, 121)
         Me.btnSave.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(75, 28)
@@ -285,15 +282,15 @@ Partial Class frmAddPatient
         '
         'lblContactDetail
         '
-        Me.lblContactDetail.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblContactDetail.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblContactDetail.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.lblContactDetail.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.lblContactDetail.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.lblContactDetail.Cursor = System.Windows.Forms.Cursors.Default
-        Me.lblContactDetail.Location = New System.Drawing.Point(8, 9)
+        Me.lblContactDetail.Location = New System.Drawing.Point(11, 9)
         Me.lblContactDetail.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblContactDetail.Name = "lblContactDetail"
-        Me.lblContactDetail.Size = New System.Drawing.Size(74, 16)
+        Me.lblContactDetail.Size = New System.Drawing.Size(75, 16)
         Me.lblContactDetail.TabIndex = 6
         Me.lblContactDetail.Text = "Contact Detail"
         '
@@ -307,7 +304,7 @@ Partial Class frmAddPatient
         Me.lblBackContactInfo.AppearanceHovered.Options.UseFont = True
         Me.lblBackContactInfo.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.lblBackContactInfo.AppearancePressed.Options.UseFont = True
-        Me.lblBackContactInfo.Location = New System.Drawing.Point(364, 86)
+        Me.lblBackContactInfo.Location = New System.Drawing.Point(388, 86)
         Me.lblBackContactInfo.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblBackContactInfo.Name = "lblBackContactInfo"
         Me.lblBackContactInfo.Size = New System.Drawing.Size(75, 28)
@@ -317,7 +314,7 @@ Partial Class frmAddPatient
         'cboContactType
         '
         Me.cboContactType.Cursor = System.Windows.Forms.Cursors.Default
-        Me.cboContactType.Location = New System.Drawing.Point(202, 28)
+        Me.cboContactType.Location = New System.Drawing.Point(232, 28)
         Me.cboContactType.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.cboContactType.Name = "cboContactType"
         Me.cboContactType.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
@@ -329,16 +326,16 @@ Partial Class frmAddPatient
         '
         'lblContactType
         '
-        Me.lblContactType.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblContactType.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblContactType.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.lblContactType.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.lblContactType.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.lblContactType.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
         Me.lblContactType.Cursor = System.Windows.Forms.Cursors.Default
-        Me.lblContactType.Location = New System.Drawing.Point(202, 10)
+        Me.lblContactType.Location = New System.Drawing.Point(235, 10)
         Me.lblContactType.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblContactType.Name = "lblContactType"
-        Me.lblContactType.Size = New System.Drawing.Size(65, 16)
+        Me.lblContactType.Size = New System.Drawing.Size(68, 16)
         Me.lblContactType.TabIndex = 11
         Me.lblContactType.Text = "Contact Type"
         '
@@ -361,7 +358,7 @@ Partial Class frmAddPatient
         Me.xTabAddPatientRecords.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.xTabAddPatientRecords.Name = "xTabAddPatientRecords"
         Me.xTabAddPatientRecords.SelectedTabPage = Me.xTabPagePersonalInfo
-        Me.xTabAddPatientRecords.Size = New System.Drawing.Size(446, 185)
+        Me.xTabAddPatientRecords.Size = New System.Drawing.Size(476, 185)
         Me.xTabAddPatientRecords.TabIndex = 24
         Me.xTabAddPatientRecords.TabPages.AddRange(New DevExpress.XtraTab.XtraTabPage() {Me.xTabPagePersonalInfo, Me.xTabPageAddress, Me.xTabPageContactInfo})
         '
@@ -377,27 +374,68 @@ Partial Class frmAddPatient
         Me.xTabPagePersonalInfo.Appearance.HeaderHotTracked.Options.UseFont = True
         Me.xTabPagePersonalInfo.Appearance.PageClient.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.xTabPagePersonalInfo.Appearance.PageClient.Options.UseFont = True
+        Me.xTabPagePersonalInfo.Controls.Add(Me.txtEditDateOfBirth)
+        Me.xTabPagePersonalInfo.Controls.Add(Me.lblHospitalNumber)
+        Me.xTabPagePersonalInfo.Controls.Add(Me.txtEditHospitalNumber)
         Me.xTabPagePersonalInfo.Controls.Add(Me.btnPersonalInfoNext)
         Me.xTabPagePersonalInfo.Controls.Add(Me.lblNid)
         Me.xTabPagePersonalInfo.Controls.Add(Me.txtNid)
-        Me.xTabPagePersonalInfo.Controls.Add(Me.txtDob)
         Me.xTabPagePersonalInfo.Controls.Add(Me.lblPatientName)
         Me.xTabPagePersonalInfo.Controls.Add(Me.cboGender)
         Me.xTabPagePersonalInfo.Controls.Add(Me.txtPatientName)
         Me.xTabPagePersonalInfo.Controls.Add(Me.lblDob)
-        Me.xTabPagePersonalInfo.Controls.Add(Me.lblPrefix)
-        Me.xTabPagePersonalInfo.Controls.Add(Me.cboSuffix)
-        Me.xTabPagePersonalInfo.Controls.Add(Me.lblSuffix)
         Me.xTabPagePersonalInfo.Controls.Add(Me.lblGender)
-        Me.xTabPagePersonalInfo.Controls.Add(Me.cboPrefix)
         Me.xTabPagePersonalInfo.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.xTabPagePersonalInfo.Name = "xTabPagePersonalInfo"
-        Me.xTabPagePersonalInfo.Size = New System.Drawing.Size(440, 154)
+        Me.xTabPagePersonalInfo.Size = New System.Drawing.Size(470, 154)
         Me.xTabPagePersonalInfo.Text = "PERSONAL INFO"
+        '
+        'txtEditDateOfBirth
+        '
+        Me.txtEditDateOfBirth.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtEditDateOfBirth.EditValue = ""
+        Me.txtEditDateOfBirth.Location = New System.Drawing.Point(177, 79)
+        Me.txtEditDateOfBirth.Name = "txtEditDateOfBirth"
+        Me.txtEditDateOfBirth.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtEditDateOfBirth.Properties.Appearance.Options.UseFont = True
+        Me.txtEditDateOfBirth.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.txtEditDateOfBirth.Properties.CalendarTimeProperties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
+        Me.txtEditDateOfBirth.Properties.DisplayFormat.FormatString = ""
+        Me.txtEditDateOfBirth.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime
+        Me.txtEditDateOfBirth.Properties.EditFormat.FormatString = ""
+        Me.txtEditDateOfBirth.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime
+        Me.txtEditDateOfBirth.Properties.Mask.BeepOnError = True
+        Me.txtEditDateOfBirth.Size = New System.Drawing.Size(152, 22)
+        Me.txtEditDateOfBirth.TabIndex = 27
+        '
+        'lblHospitalNumber
+        '
+        Me.lblHospitalNumber.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblHospitalNumber.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.lblHospitalNumber.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.lblHospitalNumber.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.lblHospitalNumber.Location = New System.Drawing.Point(6, 14)
+        Me.lblHospitalNumber.Name = "lblHospitalNumber"
+        Me.lblHospitalNumber.Size = New System.Drawing.Size(84, 16)
+        Me.lblHospitalNumber.TabIndex = 26
+        Me.lblHospitalNumber.Text = "Hospital Number"
+        '
+        'txtEditHospitalNumber
+        '
+        Me.txtEditHospitalNumber.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtEditHospitalNumber.EditValue = ""
+        Me.txtEditHospitalNumber.Location = New System.Drawing.Point(6, 32)
+        Me.txtEditHospitalNumber.Name = "txtEditHospitalNumber"
+        Me.txtEditHospitalNumber.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtEditHospitalNumber.Properties.Appearance.Options.UseFont = True
+        Me.txtEditHospitalNumber.Size = New System.Drawing.Size(165, 22)
+        Me.txtEditHospitalNumber.TabIndex = 25
         '
         'btnPersonalInfoNext
         '
-        Me.btnPersonalInfoNext.Location = New System.Drawing.Point(356, 118)
+        Me.btnPersonalInfoNext.Location = New System.Drawing.Point(380, 116)
         Me.btnPersonalInfoNext.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.btnPersonalInfoNext.Name = "btnPersonalInfoNext"
         Me.btnPersonalInfoNext.Size = New System.Drawing.Size(75, 28)
@@ -406,19 +444,20 @@ Partial Class frmAddPatient
         '
         'lblNid
         '
-        Me.lblNid.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNid.Location = New System.Drawing.Point(11, 7)
+        Me.lblNid.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblNid.Location = New System.Drawing.Point(9, 61)
         Me.lblNid.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblNid.Name = "lblNid"
-        Me.lblNid.Size = New System.Drawing.Size(125, 16)
+        Me.lblNid.Size = New System.Drawing.Size(126, 16)
         Me.lblNid.TabIndex = 11
         Me.lblNid.Text = "National ID Card Number"
         '
         'txtNid
         '
         Me.txtNid.CausesValidation = False
+        Me.txtNid.EditValue = ""
         Me.txtNid.EnterMoveNextControl = True
-        Me.txtNid.Location = New System.Drawing.Point(13, 24)
+        Me.txtNid.Location = New System.Drawing.Point(6, 79)
         Me.txtNid.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.txtNid.Name = "txtNid"
         Me.txtNid.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
@@ -427,52 +466,37 @@ Partial Class frmAddPatient
         Me.txtNid.Size = New System.Drawing.Size(158, 22)
         Me.txtNid.TabIndex = 1
         '
-        'txtDob
-        '
-        Me.txtDob.EditValue = Nothing
-        Me.txtDob.EnterMoveNextControl = True
-        Me.txtDob.Location = New System.Drawing.Point(14, 124)
-        Me.txtDob.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.txtDob.Name = "txtDob"
-        Me.txtDob.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
-        Me.txtDob.Properties.Appearance.Options.UseFont = True
-        Me.txtDob.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
-        Me.txtDob.Properties.CalendarTimeProperties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton()})
-        Me.txtDob.Properties.Mask.BeepOnError = True
-        Me.txtDob.Properties.Mask.EditMask = "g"
-        Me.txtDob.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtDob.Size = New System.Drawing.Size(158, 22)
-        Me.txtDob.TabIndex = 5
-        '
         'lblPatientName
         '
-        Me.lblPatientName.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPatientName.Location = New System.Drawing.Point(11, 56)
+        Me.lblPatientName.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPatientName.Location = New System.Drawing.Point(180, 14)
         Me.lblPatientName.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblPatientName.Name = "lblPatientName"
-        Me.lblPatientName.Size = New System.Drawing.Size(70, 16)
+        Me.lblPatientName.Size = New System.Drawing.Size(69, 16)
         Me.lblPatientName.TabIndex = 14
         Me.lblPatientName.Text = "Patient Name"
         '
         'cboGender
         '
+        Me.cboGender.EditValue = ""
         Me.cboGender.EnterMoveNextControl = True
-        Me.cboGender.Location = New System.Drawing.Point(328, 75)
+        Me.cboGender.Location = New System.Drawing.Point(335, 79)
         Me.cboGender.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.cboGender.Name = "cboGender"
         Me.cboGender.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.cboGender.Properties.Appearance.Options.UseFont = True
         Me.cboGender.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
-        Me.cboGender.Properties.Items.AddRange(New Object() {"Male", "Female", "Unspecified", " "})
+        Me.cboGender.Properties.Items.AddRange(New Object() {"Male", "Female", "Other", "Unknown", " "})
         Me.cboGender.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor
         Me.cboGender.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.cboGender.Size = New System.Drawing.Size(103, 22)
+        Me.cboGender.Size = New System.Drawing.Size(120, 22)
         Me.cboGender.TabIndex = 6
         '
         'txtPatientName
         '
+        Me.txtPatientName.EditValue = ""
         Me.txtPatientName.EnterMoveNextControl = True
-        Me.txtPatientName.Location = New System.Drawing.Point(14, 75)
+        Me.txtPatientName.Location = New System.Drawing.Point(177, 32)
         Me.txtPatientName.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.txtPatientName.Name = "txtPatientName"
         Me.txtPatientName.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
@@ -483,74 +507,23 @@ Partial Class frmAddPatient
         '
         'lblDob
         '
-        Me.lblDob.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDob.Location = New System.Drawing.Point(11, 105)
+        Me.lblDob.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDob.Location = New System.Drawing.Point(180, 61)
         Me.lblDob.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblDob.Name = "lblDob"
-        Me.lblDob.Size = New System.Drawing.Size(66, 16)
+        Me.lblDob.Size = New System.Drawing.Size(68, 16)
         Me.lblDob.TabIndex = 6
         Me.lblDob.Text = "Date of Birth"
         '
-        'lblPrefix
-        '
-        Me.lblPrefix.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPrefix.Location = New System.Drawing.Point(204, 7)
-        Me.lblPrefix.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.lblPrefix.Name = "lblPrefix"
-        Me.lblPrefix.Size = New System.Drawing.Size(30, 16)
-        Me.lblPrefix.TabIndex = 19
-        Me.lblPrefix.Text = "Prefix"
-        '
-        'cboSuffix
-        '
-        Me.cboSuffix.EditValue = "NULL"
-        Me.cboSuffix.EnterMoveNextControl = True
-        Me.cboSuffix.Location = New System.Drawing.Point(328, 24)
-        Me.cboSuffix.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.cboSuffix.Name = "cboSuffix"
-        Me.cboSuffix.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
-        Me.cboSuffix.Properties.Appearance.Options.UseFont = True
-        Me.cboSuffix.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
-        Me.cboSuffix.Properties.Items.AddRange(New Object() {"NULL", "MBBS", "MD", "Bsc MLT"})
-        Me.cboSuffix.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.cboSuffix.Size = New System.Drawing.Size(103, 22)
-        Me.cboSuffix.TabIndex = 4
-        '
-        'lblSuffix
-        '
-        Me.lblSuffix.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSuffix.Location = New System.Drawing.Point(328, 7)
-        Me.lblSuffix.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.lblSuffix.Name = "lblSuffix"
-        Me.lblSuffix.Size = New System.Drawing.Size(29, 16)
-        Me.lblSuffix.TabIndex = 22
-        Me.lblSuffix.Text = "Suffix"
-        '
         'lblGender
         '
-        Me.lblGender.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblGender.Location = New System.Drawing.Point(328, 54)
+        Me.lblGender.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblGender.Location = New System.Drawing.Point(338, 61)
         Me.lblGender.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblGender.Name = "lblGender"
         Me.lblGender.Size = New System.Drawing.Size(36, 16)
         Me.lblGender.TabIndex = 11
         Me.lblGender.Text = "Gender"
-        '
-        'cboPrefix
-        '
-        Me.cboPrefix.EditValue = ""
-        Me.cboPrefix.EnterMoveNextControl = True
-        Me.cboPrefix.Location = New System.Drawing.Point(204, 24)
-        Me.cboPrefix.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.cboPrefix.Name = "cboPrefix"
-        Me.cboPrefix.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
-        Me.cboPrefix.Properties.Appearance.Options.UseFont = True
-        Me.cboPrefix.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
-        Me.cboPrefix.Properties.Items.AddRange(New Object() {"MR", "MRS", "MS", "DR"})
-        Me.cboPrefix.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor
-        Me.cboPrefix.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.cboPrefix.Size = New System.Drawing.Size(88, 22)
-        Me.cboPrefix.TabIndex = 3
         '
         'xTabPageAddress
         '
@@ -574,19 +547,19 @@ Partial Class frmAddPatient
         Me.xTabPageAddress.Controls.Add(Me.cboCountry)
         Me.xTabPageAddress.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.xTabPageAddress.Name = "xTabPageAddress"
-        Me.xTabPageAddress.Size = New System.Drawing.Size(440, 154)
+        Me.xTabPageAddress.Size = New System.Drawing.Size(470, 154)
         Me.xTabPageAddress.Text = "ADDRESS"
         '
         'lblCountry
         '
-        Me.lblCountry.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCountry.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCountry.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCountry.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCountry.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCountry.Location = New System.Drawing.Point(285, 59)
+        Me.lblCountry.Location = New System.Drawing.Point(274, 56)
         Me.lblCountry.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblCountry.Name = "lblCountry"
-        Me.lblCountry.Size = New System.Drawing.Size(39, 16)
+        Me.lblCountry.Size = New System.Drawing.Size(41, 16)
         Me.lblCountry.TabIndex = 17
         Me.lblCountry.Text = "Country"
         '
@@ -604,7 +577,7 @@ Partial Class frmAddPatient
         'cboAtoll
         '
         Me.cboAtoll.EnterMoveNextControl = True
-        Me.cboAtoll.Location = New System.Drawing.Point(14, 77)
+        Me.cboAtoll.Location = New System.Drawing.Point(203, 74)
         Me.cboAtoll.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.cboAtoll.Name = "cboAtoll"
         Me.cboAtoll.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -615,21 +588,21 @@ Partial Class frmAddPatient
         '
         'lblAtoll
         '
-        Me.lblAtoll.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAtoll.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAtoll.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAtoll.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAtoll.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAtoll.Location = New System.Drawing.Point(16, 59)
+        Me.lblAtoll.Location = New System.Drawing.Point(205, 56)
         Me.lblAtoll.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblAtoll.Name = "lblAtoll"
-        Me.lblAtoll.Size = New System.Drawing.Size(24, 16)
+        Me.lblAtoll.Size = New System.Drawing.Size(27, 16)
         Me.lblAtoll.TabIndex = 14
         Me.lblAtoll.Text = "Atoll"
         '
         'cboIsland
         '
         Me.cboIsland.EnterMoveNextControl = True
-        Me.cboIsland.Location = New System.Drawing.Point(90, 77)
+        Me.cboIsland.Location = New System.Drawing.Point(14, 74)
         Me.cboIsland.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.cboIsland.Name = "cboIsland"
         Me.cboIsland.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -640,14 +613,14 @@ Partial Class frmAddPatient
         '
         'lblIsland
         '
-        Me.lblIsland.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIsland.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblIsland.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblIsland.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblIsland.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblIsland.Location = New System.Drawing.Point(92, 59)
+        Me.lblIsland.Location = New System.Drawing.Point(16, 56)
         Me.lblIsland.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblIsland.Name = "lblIsland"
-        Me.lblIsland.Size = New System.Drawing.Size(29, 16)
+        Me.lblIsland.Size = New System.Drawing.Size(30, 16)
         Me.lblIsland.TabIndex = 11
         Me.lblIsland.Text = "Island"
         '
@@ -655,19 +628,19 @@ Partial Class frmAddPatient
         '
         Me.cboCountry.EditValue = ""
         Me.cboCountry.EnterMoveNextControl = True
-        Me.cboCountry.Location = New System.Drawing.Point(283, 77)
+        Me.cboCountry.Location = New System.Drawing.Point(272, 74)
         Me.cboCountry.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.cboCountry.Name = "cboCountry"
         Me.cboCountry.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboCountry.Properties.Appearance.Options.UseFont = True
         Me.cboCountry.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
         Me.cboCountry.Properties.Items.AddRange(New Object() {"Maldives"})
-        Me.cboCountry.Size = New System.Drawing.Size(145, 22)
+        Me.cboCountry.Size = New System.Drawing.Size(156, 22)
         Me.cboCountry.TabIndex = 7
         '
         'GrpPatientDetails
         '
-        Me.GrpPatientDetails.AppearanceCaption.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GrpPatientDetails.AppearanceCaption.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GrpPatientDetails.AppearanceCaption.Options.UseFont = True
         Me.GrpPatientDetails.Controls.Add(Me.lblClose)
         Me.GrpPatientDetails.Controls.Add(Me.GrpControlSummary)
@@ -675,48 +648,48 @@ Partial Class frmAddPatient
         Me.GrpPatientDetails.Location = New System.Drawing.Point(1, 1)
         Me.GrpPatientDetails.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.GrpPatientDetails.Name = "GrpPatientDetails"
-        Me.GrpPatientDetails.Size = New System.Drawing.Size(447, 284)
+        Me.GrpPatientDetails.Size = New System.Drawing.Size(478, 284)
         Me.GrpPatientDetails.TabIndex = 32
         Me.GrpPatientDetails.Text = "frmLabelAddEditPatient"
-        '
-        'GrpControlSummary
-        '
-        Me.GrpControlSummary.AppearanceCaption.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GrpControlSummary.AppearanceCaption.Options.UseFont = True
-        Me.GrpControlSummary.Controls.Add(Me.LabelControl1)
-        Me.GrpControlSummary.Location = New System.Drawing.Point(3, 214)
-        Me.GrpControlSummary.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.GrpControlSummary.Name = "GrpControlSummary"
-        Me.GrpControlSummary.Size = New System.Drawing.Size(440, 69)
-        Me.GrpControlSummary.TabIndex = 33
-        Me.GrpControlSummary.Text = "Summary"
-        '
-        'LabelControl1
-        '
-        Me.LabelControl1.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LabelControl1.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.Vertical
-        Me.LabelControl1.Location = New System.Drawing.Point(14, 27)
-        Me.LabelControl1.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.LabelControl1.Name = "LabelControl1"
-        Me.LabelControl1.Size = New System.Drawing.Size(420, 16)
-        Me.LabelControl1.TabIndex = 34
-        Me.LabelControl1.Text = "# HospitalNumber:PatientName"
         '
         'lblClose
         '
         Me.lblClose.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblClose.Location = New System.Drawing.Point(428, 3)
+        Me.lblClose.Location = New System.Drawing.Point(459, 3)
         Me.lblClose.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblClose.Name = "lblClose"
         Me.lblClose.Size = New System.Drawing.Size(14, 16)
         Me.lblClose.TabIndex = 23
         Me.lblClose.Text = " X "
         '
+        'GrpControlSummary
+        '
+        Me.GrpControlSummary.AppearanceCaption.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GrpControlSummary.AppearanceCaption.Options.UseFont = True
+        Me.GrpControlSummary.Controls.Add(Me.lblSummary)
+        Me.GrpControlSummary.Location = New System.Drawing.Point(3, 214)
+        Me.GrpControlSummary.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.GrpControlSummary.Name = "GrpControlSummary"
+        Me.GrpControlSummary.Size = New System.Drawing.Size(470, 69)
+        Me.GrpControlSummary.TabIndex = 33
+        Me.GrpControlSummary.Text = "Summary"
+        '
+        'lblSummary
+        '
+        Me.lblSummary.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSummary.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.Vertical
+        Me.lblSummary.Location = New System.Drawing.Point(14, 27)
+        Me.lblSummary.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.lblSummary.Name = "lblSummary"
+        Me.lblSummary.Size = New System.Drawing.Size(420, 16)
+        Me.lblSummary.TabIndex = 34
+        Me.lblSummary.Text = "# HospitalNumber:PatientName"
+        '
         'frmAddPatient
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(450, 287)
+        Me.ClientSize = New System.Drawing.Size(481, 287)
         Me.ControlBox = False
         Me.Controls.Add(Me.GrpPatientDetails)
         Me.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -737,13 +710,12 @@ Partial Class frmAddPatient
         Me.xTabAddPatientRecords.ResumeLayout(False)
         Me.xTabPagePersonalInfo.ResumeLayout(False)
         Me.xTabPagePersonalInfo.PerformLayout()
+        CType(Me.txtEditDateOfBirth.Properties.CalendarTimeProperties, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtEditDateOfBirth.Properties, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtEditHospitalNumber.Properties, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtNid.Properties, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDob.Properties.CalendarTimeProperties, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDob.Properties, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboGender.Properties, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPatientName.Properties, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboSuffix.Properties, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboPrefix.Properties, System.ComponentModel.ISupportInitialize).EndInit()
         Me.xTabPageAddress.ResumeLayout(False)
         Me.xTabPageAddress.PerformLayout()
         CType(Me.txtAddress.Properties, System.ComponentModel.ISupportInitialize).EndInit()
@@ -775,19 +747,13 @@ Partial Class frmAddPatient
     Friend WithEvents btnAddressNext As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents xTabAddPatientRecords As DevExpress.XtraTab.XtraTabControl
     Friend WithEvents xTabPagePersonalInfo As DevExpress.XtraTab.XtraTabPage
-    Friend WithEvents btnPersonalInfoNext As DevExpress.XtraEditors.SimpleButton
     Friend WithEvents lblNid As DevExpress.XtraEditors.LabelControl
     Friend WithEvents txtNid As DevExpress.XtraEditors.TextEdit
-    Friend WithEvents txtDob As DevExpress.XtraEditors.DateEdit
     Friend WithEvents lblPatientName As DevExpress.XtraEditors.LabelControl
     Friend WithEvents cboGender As DevExpress.XtraEditors.ComboBoxEdit
     Friend WithEvents txtPatientName As DevExpress.XtraEditors.TextEdit
     Friend WithEvents lblDob As DevExpress.XtraEditors.LabelControl
-    Friend WithEvents lblPrefix As DevExpress.XtraEditors.LabelControl
-    Friend WithEvents cboSuffix As DevExpress.XtraEditors.ComboBoxEdit
-    Friend WithEvents lblSuffix As DevExpress.XtraEditors.LabelControl
     Friend WithEvents lblGender As DevExpress.XtraEditors.LabelControl
-    Friend WithEvents cboPrefix As DevExpress.XtraEditors.ComboBoxEdit
     Friend WithEvents xTabPageAddress As DevExpress.XtraTab.XtraTabPage
     Friend WithEvents lblCountry As DevExpress.XtraEditors.LabelControl
     Friend WithEvents txtAddress As DevExpress.XtraEditors.TextEdit
@@ -798,6 +764,10 @@ Partial Class frmAddPatient
     Friend WithEvents cboCountry As DevExpress.XtraEditors.ComboBoxEdit
     Friend WithEvents GrpPatientDetails As DevExpress.XtraEditors.GroupControl
     Friend WithEvents GrpControlSummary As DevExpress.XtraEditors.GroupControl
-    Friend WithEvents LabelControl1 As DevExpress.XtraEditors.LabelControl
+    Friend WithEvents lblSummary As DevExpress.XtraEditors.LabelControl
     Friend WithEvents lblClose As DevExpress.XtraEditors.LabelControl
+    Friend WithEvents btnPersonalInfoNext As DevExpress.XtraEditors.SimpleButton
+    Friend WithEvents lblHospitalNumber As DevExpress.XtraEditors.LabelControl
+    Friend WithEvents txtEditHospitalNumber As DevExpress.XtraEditors.TextEdit
+    Friend WithEvents txtEditDateOfBirth As DevExpress.XtraEditors.DateEdit
 End Class
