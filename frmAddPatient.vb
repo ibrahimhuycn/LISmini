@@ -1,5 +1,7 @@
 ﻿Imports System.ComponentModel
 Imports System.Text.RegularExpressions
+Imports DevExpress.XtraEditors.Controls
+
 Public Class frmAddPatient
 
     'Variables to move the form by grabbing GroupControl "gcAnalysisRequest"
@@ -8,7 +10,8 @@ Public Class frmAddPatient
     Dim MOUSE_POSITION_Y As Integer
 
     'SERVER OBJECT INITIALISATION FOR EXECUTING QUERIES
-    ReadOnly ComHandler As New ServerCommCD4()
+    ReadOnly MsSQLComHandler As New ServerCommunications()
+
 
     'TIMER TO INITIATE PERIODIC CHECKS TO SEE WHETHER CONNECTION TO SERVER IS AVAILABLE
     Dim WithEvents CnxMonitor As New Timers.Timer
@@ -23,7 +26,8 @@ Public Class frmAddPatient
     Dim Gender As Integer   '0 = MALE, 1 = FEMALE, 3 = OTHER, 4 = UNKNOWN
     Dim Dob As Date
 
-    Dim nidValidate As Boolean 'BOOLEAN STORING NID VALIDATE STATUS
+    Dim IsNidValid As Boolean   'BOOLEAN STORING WHETHER USER ENTERED IDCARD NUMBER IS VALID
+    Dim IsHospitalNumberValid As Boolean    'BOOLEAN STORING WHETHER USER ENTERED HOSPITAL NUMBER NUMBER IS VALID
 
     'QUERIES SERVER FOR PRESENCE OF THE ID AT TXTNID LOST FOCUS EVENT.
     Dim IsNidRegistered As Integer   '0 = NOT PRESENT  1=PRESENT (REGISTERED)
@@ -68,7 +72,7 @@ Public Class frmAddPatient
         'CONTROLS ARE ENABLED ON REQUIRMENT.
         xTabPagePersonalInfo.Select()
         xTabPageAddress.PageEnabled = False
-        xTabPageContactInfo.PageEnabled = False
+        xTabPageContactInfo.PageEnabled = True
         btnPersonalInfoNext.Enabled = False
         btnAddressNext.Enabled = False
         lblBackContactInfo.Enabled = False
@@ -84,7 +88,7 @@ Public Class frmAddPatient
         End If
 
         'QUERYING FOR HOSPITAL NUMBER TO BE GIVEN TO NEXT PATIENT & UPDATING PATIENT DETAILS DISPLAY LABEL
-        NextHospitalNumber = ComHandler.GetNextHNo()        'QUERYING
+        NextHospitalNumber = MsSQLComHandler.GetNextHNo()        'QUERYING
         UpdateSummaryDisplay()                       'UPDATING THE LABEL
 
         'SETTING FOCUS TO TEXT BOX TXTNID
@@ -97,7 +101,8 @@ Public Class frmAddPatient
 
     End Sub
     Private Sub btnPesonalInfoNextEnabledStatusHandler()
-        If txtNid.Text = "" Or txtPatientName.Text = "" Or cboGender.Text = "" Or txtEditDateOfBirth.Text = "" Or txtEditHospitalNumber.Text = "" Then
+        If txtNid.Text = "" Or txtPatientName.Text = "" Or cboGender.Text = "" Or txtEditDateOfBirth.Text = "" Or txtEditHospitalNumber.Text = "" _
+           Or IsNidValid = False Or IsHospitalNumberValid = False Then
             'btnPersonalInfoNext STAYS DISABLED AS LONG AS ANY OF THE FIELDS ARE EMPTY. ALL FIELDS ARE REQUIRED.
             btnPersonalInfoNext.Enabled = False
         Else
@@ -229,12 +234,11 @@ Public Class frmAddPatient
             'PatientName = Nothing
             Gender = Nothing
             Dob = Nothing
-
-
+            HospitalNumber = Nothing
 
             'VALIDATE(PREFERRABLY VALIDATE INDIVIDUAL FIELDS ON THEIR RESPECTIVE LOSTFOCUS EVENTS) AND ASSIGN TO VARIABLES DECLARED AT THE BEGINNING.
             Nid = txtNid.Text
-
+            HospitalNumber = txtEditHospitalNumber.Text
             'VALUES FOR THE ARRAY IndividualNameCollection IS ASSIGNED ON LOST FOCUS EVENT OF THE TXTPATENTNAME OBJECT. 
             Gender = cboGender.SelectedIndex
 
@@ -254,7 +258,7 @@ Public Class frmAddPatient
 
         'FETCH ATOLL DATA FROM SERVER BY EXECUTING A DATAREADER FOR THE ADDRESS TAB
         cboAtoll.Properties.Items.Clear()
-        Dim AtollList() As String = ComHandler.ExecuteMySQLReader("AtollAbbrv", "islandlist", False, "", True, True, "AtollAbbrv", True)
+        Dim AtollList() As String = MsSQLComHandler.ExecuteMsSQLReader("AtollAbbrv", "islandlist", False, "", True, True, "AtollAbbrv", True)
 
         For Each Atoll In AtollList         'ADDING ATOLL LIST TO COMBOBOX LIST ITEM
             cboAtoll.Properties.Items.Add(Atoll)
@@ -277,13 +281,13 @@ Public Class frmAddPatient
         '   309254 IS THE ID CARD NUMBER OF THE MOTHER.
 
         'USING REGEX REQUIRES Imports System.Text.RegularExpressions. REGEX STANDS FOR REGULAR EXPRESSIONS.
-        nidValidate = Regex.IsMatch(txtNid.Text, "^A[0-9]\d{5}$") Or Regex.IsMatch(txtNid.Text, "^BO[0-9]\d{7}$")
+        IsNidValid = Regex.IsMatch(txtNid.Text, "^A[0-9]\d{5}$") Or Regex.IsMatch(txtNid.Text, "^BO[0-9]\d{7}$")
 
-        'USER FEEDBACK FOR INVALID IDCARD NUMBER ENTRIES IS GIVEN BY CHANGING THE BACKCOLOR OF PICNID TO SALMON COLOR
-        If nidValidate = True Then
+        'USER FEEDBACK FOR INVALID IDCARD NUMBER ENTRIES IS GIVEN BY DISPLAYING A RED CROSS ICON WITH TOOLTIP 
+        If IsNidValid = True Then
             txtNid.ShowToolTips = False
             'CHECKING SERVER FOR THE PRESENCE OF THE ID CARD NUMBER WHICH WOULD INDICATE THAT THE PATIENT IS ALREADY REGISTERED.
-            IsNidRegistered = ComHandler.IsFieldValuePresent("patientdata", "idCardNo", txtNid.Text)
+            IsNidRegistered = MsSQLComHandler.IsFieldValuePresent("Individuals", "NidCardNumber", txtNid.Text)
             If IsNidRegistered = 0 Then
                 'IGNORE
             ElseIf IsNidRegistered = 1 Then
@@ -294,12 +298,16 @@ Public Class frmAddPatient
                 MsgBox("Dublicate records exist for this patient! Please contact systems administrator immediately.", vbCritical, "Warning")
             End If
         Else
+            e.Cancel = True
             txtNid.ShowToolTips = True                          'SETTING UP A TOOLTIP.
             txtNid.ToolTipTitle = "Invalid ID Card Number"
             txtNid.ToolTip = "Format: A012345 or BO01012345"
-            txtNid.Focus()
+
         End If
 
+    End Sub
+    Private Sub txtNid_InvalidValue(sender As Object, e As InvalidValueExceptionEventArgs) Handles txtNid.InvalidValue
+        e.ErrorText = "Invalid ID Card Number" & vbCrLf & "Format: A012345 or BO01012345"
     End Sub
     Private Sub CalculateAge(dob As Date)
 
@@ -342,7 +350,7 @@ Public Class frmAddPatient
     Private Sub CnXMonitor_Tick(sender As Object, e As EventArgs) Handles CnxMonitor.Elapsed
         Try
 
-            ComHandler.IsCnXAlive()
+            MsSQLComHandler.IsServerAccessAvailable()
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
@@ -368,7 +376,7 @@ Public Class frmAddPatient
         cboIsland.Properties.Items.Clear()
 
         If Not cboAtoll.Text = "" Then
-            Dim IslandList() As String = ComHandler.ExecuteMySQLReader("island", "islandlist", True, String.Format("AtollAbbrv = '{0}'", cboAtoll.Text), True, True, "island", True)
+            Dim IslandList() As String = MsSQLComHandler.ExecuteMsSQLReader("island", "islandlist", True, String.Format("AtollAbbrv = '{0}'", cboAtoll.Text), True, True, "island", True)
             For Each Island In IslandList
                 cboIsland.Properties.Items.Add(Island)
             Next
@@ -415,7 +423,7 @@ Public Class frmAddPatient
 
 
 
-        'VALIDATE THE CONTACT DETAILS USING REGREX
+        'VALIDATE THE CONTACT DETAILS USING REGEX
     End Sub
 
     Private Sub btnRemove_Click(sender As Object, e As EventArgs) Handles btnRemove.Click
@@ -455,5 +463,99 @@ Public Class frmAddPatient
         Close()
     End Sub
 
+    Private Sub txtEditHospitalNumber_LostFocus(sender As Object, e As EventArgs) Handles txtEditHospitalNumber.LostFocus
+        txtEditHospitalNumber.DoValidate()
+        btnPesonalInfoNextEnabledStatusHandler()
+    End Sub
 
+    Private Sub txtEditHospitalNumber_Validating(sender As Object, e As CancelEventArgs) Handles txtEditHospitalNumber.Validating
+
+        'VALIDATING HOSPITAL NUMBER
+        Try
+            'SQL SERVER HAS IdIndividual(USED AS HOSPITAL NUMBER) SET AS INT WHICH IS ACCEPTABLE BETWEEN 0 AND 2147483648 EXCLUSIVELY.
+            'HOSPITAL NUMBER CANNOT BE A NEGATIVE INTEGER.
+            IsHospitalNumberValid = Regex.IsMatch(txtEditHospitalNumber.Text, "^(?:214748364[0-7]|21474836[0-3][0-9]|2147483[0-5][0-9]{2}|214748[0-2][0-9]{3}|21474[0-7][0-9]{4}|2147[0-3][0-9]{5}|214[0-6][0-9]{6}|21[0-3][0-9]{7}|20[0-9]{8}|1[0-9]{9}|[1-9][0-9]{1,8}|[1-9])$", RegexOptions.Multiline)
+        Catch ex As ArgumentException
+            MsgBox(ex.Message)
+        Finally
+            If IsHospitalNumberValid = False Then
+                'SHOWING AN ICON INDICATING THAT THE VALUE ENTERED IS INVALID
+                e.Cancel = True
+                'TEXTBOX TOOLTIP HELP FOR THE CORRECT ENTRY
+                txtEditHospitalNumber.ToolTipTitle = "Invalid Hospital Number"
+                txtEditHospitalNumber.ToolTip = "Valid between 1 and 2147483648"
+            End If
+        End Try
+
+
+    End Sub
+    Private Sub txtEditHospitalNumber_InvalidValue(sender As Object, e As InvalidValueExceptionEventArgs) Handles txtEditHospitalNumber.InvalidValue
+        'DISPLAYING A TOOLTIP ON THE CROSS ICON TO HELP CORRECT THE ERROR
+        e.ErrorText = "Invalid Hospital Number" & vbCrLf & "Valid between 1 and 2147483648"
+    End Sub
+
+    Private Sub txtContactDetail_LostFocus(sender As Object, e As EventArgs) Handles txtContactDetail.LostFocus
+        'INITAILIZING VALIDATION. THIS WOULD RAISE THE EVENT "VALIDATING" WHICH WOULD HAVE THE CODE TO VALIDATE THE 
+        'USER ENTRY
+        txtContactDetail.DoValidate()
+    End Sub
+
+    Private Sub txtContactDetail_Validating(sender As Object, e As CancelEventArgs) Handles txtContactDetail.Validating
+        'INITIALISING VARIABLES
+
+        Dim DetectValidateMobileNumberOptionZero As Boolean = False
+        Dim DetectValidateMobileNumberOptionOne As Boolean = False
+        Dim DetectValidateHomePhone As Boolean = False
+        Dim DetectValidateEmail As Boolean = False
+
+        'INITAILIZING COMBOBOX "cboContactType" AS NOTHING
+        cboContactType.EditValue = ""
+
+        'VALIDATING DATA ENTRY TO THE TEXTBOX "txtContactDetail"
+        'IN ADDITION TO VALIDATION, THIS CODE SEGMENT WILL ALSO BE USED TO AUTO DETECT MOBILE NUMBER AND EMAIL ADDRESS AND SELECT THE 
+        'APPROPRIATE INDEX FOR THE COMBOBOX "cboContactType"
+        'REGEX INTERNATIONAL MOBILE NUMBERS: ^\+?(d+[- ])?\d{10}$ OR ^(d+[- ])?\d{7}$
+        'REGEX EMAIL ADDRESS: \b[!#$%&'*+./0-9=?_`a-z{|}~^-]+@[.0-9a-z-]+\.[a-z]{2,6}\b
+
+        DetectValidateMobileNumberOptionZero = Regex.IsMatch(txtContactDetail.Text, "^9|7\+?(d+[- ])?\d{9}$")
+        DetectValidateMobileNumberOptionOne = Regex.IsMatch(txtContactDetail.Text, "^9|7(d+[- ])?\d{6}$")
+        DetectValidateHomePhone = Regex.IsMatch(txtContactDetail.Text, "^(\+[1-9][0-9]*(\([0-9]*\)|-[0-9]*-))?[0]?[1-9][0-9\- ]*$")
+        DetectValidateEmail = Regex.IsMatch(txtContactDetail.Text, "\b[!#$%&'*+./0-9=?_`a-z{|}~^-]+@[.0-9a-z-]+\.[a-z]{2,6}\b", RegexOptions.IgnoreCase)
+
+        Try
+            If DetectValidateMobileNumberOptionZero = True Or DetectValidateMobileNumberOptionOne = True Then
+                cboContactType.SelectedIndex = 0
+            ElseIf DetectValidateHomePhone = True Then
+                cboContactType.SelectedIndex = 2
+            ElseIf DetectValidateEmail = True Then
+                cboContactType.SelectedIndex = 3
+            Else
+                'DISPLAYING CROSS ICON TO INDICATE THAT THE ENTRY IS INVALID
+                e.Cancel = True
+                txtContactDetail.ToolTipTitle = "Contact Detail"
+                txtContactDetail.ToolTip = "Enter an email or a phone number."
+            End If
+
+
+        Catch ex As Exception
+            'DSPLAYING ERRORS.., IF ANY
+            MsgBox(ex.Message)
+        Finally
+            If e.Cancel = False Then
+                'IF REGEX VALIDATED AND DETECTED THE ENTRY AS CONTACT, ADD BUTTON IS FOCUSED.
+                btnAdd.Focus()
+            End If
+
+            If btnAdd.Focus() = True Then
+                'CONTACT IS AUTOMATICALLY ADDED TO THE GRIDVIEW AND FOCUS IS RETURNED TO TEXTBOX "txtContactDetail"
+                btnAdd.PerformClick()
+                txtContactDetail.Focus()
+            End If
+        End Try
+    End Sub
+
+    Private Sub txtContactDetail_InvalidValue(sender As Object, e As InvalidValueExceptionEventArgs) Handles txtContactDetail.InvalidValue
+        'DISPLAYING A TOOLTIP ON THE CROSS ICON TO HELP CORRECT THE ERROR
+        e.ErrorText = "Invalid Contact" & vbCrLf & "Enter an Email or phone number."
+    End Sub
 End Class

@@ -254,6 +254,7 @@ Partial Class frmAddPatient
         '
         'txtContactDetail
         '
+        Me.txtContactDetail.CausesValidation = False
         Me.txtContactDetail.Cursor = System.Windows.Forms.Cursors.Default
         Me.txtContactDetail.Location = New System.Drawing.Point(8, 28)
         Me.txtContactDetail.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
@@ -321,6 +322,7 @@ Partial Class frmAddPatient
         Me.cboContactType.Properties.Appearance.Options.UseFont = True
         Me.cboContactType.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
         Me.cboContactType.Properties.Items.AddRange(New Object() {"Mobile ", "Office ", "Home", "Email"})
+        Me.cboContactType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor
         Me.cboContactType.Size = New System.Drawing.Size(148, 22)
         Me.cboContactType.TabIndex = 10
         '
@@ -395,7 +397,7 @@ Partial Class frmAddPatient
         Me.txtEditDateOfBirth.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtEditDateOfBirth.EditValue = ""
-        Me.txtEditDateOfBirth.Location = New System.Drawing.Point(177, 79)
+        Me.txtEditDateOfBirth.Location = New System.Drawing.Point(191, 79)
         Me.txtEditDateOfBirth.Name = "txtEditDateOfBirth"
         Me.txtEditDateOfBirth.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtEditDateOfBirth.Properties.Appearance.Options.UseFont = True
@@ -406,7 +408,7 @@ Partial Class frmAddPatient
         Me.txtEditDateOfBirth.Properties.EditFormat.FormatString = ""
         Me.txtEditDateOfBirth.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime
         Me.txtEditDateOfBirth.Properties.Mask.BeepOnError = True
-        Me.txtEditDateOfBirth.Size = New System.Drawing.Size(152, 22)
+        Me.txtEditDateOfBirth.Size = New System.Drawing.Size(138, 22)
         Me.txtEditDateOfBirth.TabIndex = 27
         '
         'lblHospitalNumber
@@ -415,7 +417,7 @@ Partial Class frmAddPatient
         Me.lblHospitalNumber.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblHospitalNumber.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblHospitalNumber.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lblHospitalNumber.Location = New System.Drawing.Point(6, 14)
+        Me.lblHospitalNumber.Location = New System.Drawing.Point(17, 14)
         Me.lblHospitalNumber.Name = "lblHospitalNumber"
         Me.lblHospitalNumber.Size = New System.Drawing.Size(84, 16)
         Me.lblHospitalNumber.TabIndex = 26
@@ -425,12 +427,13 @@ Partial Class frmAddPatient
         '
         Me.txtEditHospitalNumber.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtEditHospitalNumber.CausesValidation = False
         Me.txtEditHospitalNumber.EditValue = ""
-        Me.txtEditHospitalNumber.Location = New System.Drawing.Point(6, 32)
+        Me.txtEditHospitalNumber.Location = New System.Drawing.Point(14, 32)
         Me.txtEditHospitalNumber.Name = "txtEditHospitalNumber"
         Me.txtEditHospitalNumber.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtEditHospitalNumber.Properties.Appearance.Options.UseFont = True
-        Me.txtEditHospitalNumber.Size = New System.Drawing.Size(165, 22)
+        Me.txtEditHospitalNumber.Size = New System.Drawing.Size(157, 22)
         Me.txtEditHospitalNumber.TabIndex = 25
         '
         'btnPersonalInfoNext
@@ -445,7 +448,7 @@ Partial Class frmAddPatient
         'lblNid
         '
         Me.lblNid.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNid.Location = New System.Drawing.Point(9, 61)
+        Me.lblNid.Location = New System.Drawing.Point(17, 61)
         Me.lblNid.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblNid.Name = "lblNid"
         Me.lblNid.Size = New System.Drawing.Size(126, 16)
@@ -457,19 +460,19 @@ Partial Class frmAddPatient
         Me.txtNid.CausesValidation = False
         Me.txtNid.EditValue = ""
         Me.txtNid.EnterMoveNextControl = True
-        Me.txtNid.Location = New System.Drawing.Point(6, 79)
+        Me.txtNid.Location = New System.Drawing.Point(14, 79)
         Me.txtNid.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.txtNid.Name = "txtNid"
         Me.txtNid.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.txtNid.Properties.Appearance.Options.UseFont = True
         Me.txtNid.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtNid.Size = New System.Drawing.Size(158, 22)
+        Me.txtNid.Size = New System.Drawing.Size(157, 22)
         Me.txtNid.TabIndex = 1
         '
         'lblPatientName
         '
         Me.lblPatientName.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPatientName.Location = New System.Drawing.Point(180, 14)
+        Me.lblPatientName.Location = New System.Drawing.Point(195, 14)
         Me.lblPatientName.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblPatientName.Name = "lblPatientName"
         Me.lblPatientName.Size = New System.Drawing.Size(69, 16)
@@ -480,7 +483,7 @@ Partial Class frmAddPatient
         '
         Me.cboGender.EditValue = ""
         Me.cboGender.EnterMoveNextControl = True
-        Me.cboGender.Location = New System.Drawing.Point(335, 79)
+        Me.cboGender.Location = New System.Drawing.Point(359, 79)
         Me.cboGender.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.cboGender.Name = "cboGender"
         Me.cboGender.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
@@ -489,26 +492,29 @@ Partial Class frmAddPatient
         Me.cboGender.Properties.Items.AddRange(New Object() {"Male", "Female", "Other", "Unknown", " "})
         Me.cboGender.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor
         Me.cboGender.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.cboGender.Size = New System.Drawing.Size(120, 22)
+        Me.cboGender.Size = New System.Drawing.Size(96, 22)
         Me.cboGender.TabIndex = 6
         '
         'txtPatientName
         '
         Me.txtPatientName.EditValue = ""
         Me.txtPatientName.EnterMoveNextControl = True
-        Me.txtPatientName.Location = New System.Drawing.Point(177, 32)
+        Me.txtPatientName.Location = New System.Drawing.Point(191, 32)
         Me.txtPatientName.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.txtPatientName.Name = "txtPatientName"
         Me.txtPatientName.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.txtPatientName.Properties.Appearance.Options.UseFont = True
+        Me.txtPatientName.Properties.Mask.BeepOnError = True
+        Me.txtPatientName.Properties.Mask.EditMask = "[a-zA-Z '-]+"
+        Me.txtPatientName.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx
         Me.txtPatientName.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtPatientName.Size = New System.Drawing.Size(278, 22)
+        Me.txtPatientName.Size = New System.Drawing.Size(264, 22)
         Me.txtPatientName.TabIndex = 2
         '
         'lblDob
         '
         Me.lblDob.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDob.Location = New System.Drawing.Point(180, 61)
+        Me.lblDob.Location = New System.Drawing.Point(195, 61)
         Me.lblDob.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblDob.Name = "lblDob"
         Me.lblDob.Size = New System.Drawing.Size(68, 16)
@@ -518,7 +524,7 @@ Partial Class frmAddPatient
         'lblGender
         '
         Me.lblGender.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblGender.Location = New System.Drawing.Point(338, 61)
+        Me.lblGender.Location = New System.Drawing.Point(359, 61)
         Me.lblGender.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblGender.Name = "lblGender"
         Me.lblGender.Size = New System.Drawing.Size(36, 16)
