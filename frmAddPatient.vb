@@ -545,12 +545,6 @@ Public Class frmAddPatient
                 'IF REGEX VALIDATED AND DETECTED THE ENTRY AS CONTACT, ADD BUTTON IS FOCUSED.
                 btnAdd.Focus()
             End If
-
-            If btnAdd.Focus() = True Then
-                'CONTACT IS AUTOMATICALLY ADDED TO THE GRIDVIEW AND FOCUS IS RETURNED TO TEXTBOX "txtContactDetail"
-                btnAdd.PerformClick()
-                txtContactDetail.Focus()
-            End If
         End Try
     End Sub
 
