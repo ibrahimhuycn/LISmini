@@ -72,7 +72,7 @@ Public Class frmAddPatient
         'CONTROLS ARE ENABLED ON REQUIRMENT.
         xTabPagePersonalInfo.Select()
         xTabPageAddress.PageEnabled = False
-        xTabPageContactInfo.PageEnabled = True
+        xTabPageContactInfo.PageEnabled = False
         btnPersonalInfoNext.Enabled = False
         btnAddressNext.Enabled = False
         lblBackContactInfo.Enabled = False
@@ -417,11 +417,13 @@ Public Class frmAddPatient
         GridControlAddContact.DataSource = Nothing
         GridControlAddContact.DataSource = PatientContacts
 
+        'GETTING "txtContactDetail" BACK ON FOCUS FOR NEXT ENTRY
+        txtContactDetail.Focus()
+        txtContactDetail.SelectAll()
+
         'THIS WRAPPED DATA STRING ARRAY WILL BE ASSIGNED TO THE GRIDCONTROL.DATASOURCE PROPERTY.
         'EVERYTIME THE STRING ARRAY CHANGES. DATASOURCE NEEDS TO UNASSIGNED AND THEN ASSIGNED TO GRIDCONTROL TO DISPLAY THE
         'CHANGES. THIS NEEDS TO BE IMPROVED GREATLY.
-
-
 
         'VALIDATE THE CONTACT DETAILS USING REGEX
     End Sub
