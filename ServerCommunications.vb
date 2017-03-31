@@ -11,9 +11,12 @@ Public Class ServerCommunications
     Dim MsSQLStatement As String 'FOR TEXT SQL QUERY
     Dim MsSQLCmd As SqlCommand
     Dim DataReader As SqlDataReader
+    Dim Transection As SqlTransaction
+
+    Dim RowsEffected As Integer = Nothing 'TO GET THE NUMBER OF ROWS EFFECTED EXECUTING NON-QUERY
 
     'CONNECTIONSTRING OPTIONAL VARIABLES
-    Dim MsSQLAttachDbFileName As String = "C:\Users\Ibrahim Hussain\Documents\Visual Studio 2015\Projects\LISmini\LISmini\Database\lismini.mdf"  'CAN BE CHANGED IF AND WHEN DATABASE FILE LOCATION IS CHANGED.
+    Dim MsSQLAttachDbFileName As String = "C:\Users\ibrah\OneDrive\Documents\Visual Studio 2015\Projects\LISmini\LISmini\Database\lismini.mdf"  'CAN BE CHANGED IF AND WHEN DATABASE FILE LOCATION IS CHANGED.
     Public Sub CnxStr()
         'THIS METHOD WILL BE CALLED TO SET THE CONNECTION STRING EACH TIME A QUERY IS EXECUTED.
         MsSQLCnx.ConnectionString = "Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" & MsSQLAttachDbFileName & ";Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=True"
@@ -80,7 +83,7 @@ Public Class ServerCommunications
     End Function
     Public Function IsFieldValuePresent(DataTable As String, FieldName As String, ExpectedValue As String)
 
-        'THIS FUNCTION CHECKS QUERIES FOR THE A PARTICULAR STRING TO CHECK WHETHER A RECORD WITH THE EXPECTED VALUE IS PRESENT BY USING
+        'THIS FUNCTION QUERIES FOR THE A PARTICULAR STRING TO CHECK WHETHER A RECORD WITH THE EXPECTED VALUE IS PRESENT BY USING
         'THE FOLLOWING QUERY.
         'SELECT COUNT(FIELDNAME) AS EXPECTEDVALUEINCIDENCE FROM DATATABLE WHERE FIELDNAME=EXPECTEDVALUE
 
@@ -130,24 +133,35 @@ Public Class ServerCommunications
         Return IsLimsCnXAvailable
 
     End Function
-    Public Function ExecuteMsSQLReader(Fields As String, DataTable As String, IsWhereClause As Boolean, WhereCondition As String, IsDistinct As Boolean, IsOrderBy As Boolean, OrderByField As String, IsASC As Boolean)
+    Public Function ExecuteMsSQLReader(Field As String, DataTable As String, IsWhereClause As Boolean, WhereCondition As String, IsDistinct As Boolean, IsOrderBy As Boolean, OrderByField As String, IsASC As Boolean, Optional RenamedField As String = Nothing)
         'LOTS OF IMPROVEMENT IS REQUIRED FOR THIS FUNCTION TO BE TRUELY DYNAMIC
 
         'THIS METHOD RUNS AN SQL QUERY BY EXECUTING SQL DATA READER AND RETURNS THE COLLECTION AS A STRING ARRAY.
         'READS ONE COLUMN AT A TIME
+        Dim QueryRowCount As Integer
         Dim ReadData() As String = Nothing
-        Dim TempReadDataHold(1000) As String
+        ' Dim TempReadDataHold(QueryRowCount) As String   'Declare this after getting a count of total number of rows The query returns. Use ExecuteScalarQuery Function to get the RowCount.
         Dim Counter As Integer = 0
 
 
         'PARSING SQL READER STATEMENT
         Dim MsSQlReaderQueryStatement As String
         If IsDistinct = True Then
-            MsSQlReaderQueryStatement = String.Format("{0}DISTINCT {1} FROM {2}", "Select ", Fields, DataTable)
+            MsSQlReaderQueryStatement = String.Format("{0}DISTINCT {1} FROM {2}", "Select ", Field, DataTable)
         Else
-            MsSQlReaderQueryStatement = "Select "
+            MsSQlReaderQueryStatement = String.Format("SELECT {0} FROM {1}", Field, DataTable)
         End If
         If IsWhereClause = True Then MsSQlReaderQueryStatement = String.Format("{0} WHERE {1}", MsSQlReaderQueryStatement, WhereCondition)
+
+        'THIS STEP NEEDS TO BE IMPLEMENTED BEFORE "ORDER BY" CLAUSE OF THE SQL STATEMENT IS PARSED, OTHERWISE THE COUNT(*) FROM STATEMENT WILL THOW AN EXCEPTION.
+
+        'PARSE A QUERY TO COUNT THE TOTAL NUMBER OF ROWS RETURNED FROM THE QUERY.
+        'TOTAL NUMBER OF ROWS IS DETERMINED USING THE FUNCTION "Public Function ExecuteScalarQuery()" AND THE QUERY. " "SELECT COUNT(*) AS TotalRows FROM (" & MsSQlReaderQueryStatement &") AS TotalRows ""
+        Dim DetermineRowCount As String = "SELECT COUNT(*) AS TotalRows FROM (" & MsSQlReaderQueryStatement & ") AS TotalRows "
+        MsSQLStatement = DetermineRowCount
+        QueryRowCount = ExecuteScalarQuery()
+
+        Dim TempReadDataHold(QueryRowCount) As String
         If IsOrderBy = True Then
             MsSQlReaderQueryStatement = String.Format("{0} ORDER BY {1}", MsSQlReaderQueryStatement, OrderByField)
 
@@ -159,11 +173,12 @@ Public Class ServerCommunications
 
         End If
 
-
-
-
         'ASSIGN PARSED TEXT QUERY TO MySQLStatement
         MsSQLStatement = MsSQlReaderQueryStatement
+
+        'CHECKING WHETHER THE RETURNED FIELD IS RENAMED USING SQL "AS" STATEMENT. IF SO THE NEW NAME NEEDS TO BE ASSIGNED AS THE FIELD NAME TO BE READ BY THE DATA READER.
+        'THIS IS IMPLEMENTED AS FOLLOWS.
+        If Not RenamedField = Nothing Then Field = RenamedField
 
         If Not MsSQLCnx Is Nothing Then MsSQLCnx.Close()
         'ASSIGN CNX STRING
@@ -174,15 +189,19 @@ Public Class ServerCommunications
                 DataReader = MsSQLCmd.ExecuteReader()                       'EXECUTING DATA READER
 
                 While DataReader.Read                   'TO MAKE THIS TRULY DYNAMIC, FIELDS PARAMETER HAS TO BE SPLIT USING A DELIMITER
-                    TempReadDataHold(Counter) = DataReader(Fields)          'TO GET SEPARATE FIELDS AND ASSIGN THEM TO ARRAYS OR DATASETS.
+                    TempReadDataHold(Counter) = DataReader(Field)          'TO GET SEPARATE FIELDS AND ASSIGN THEM TO ARRAYS OR DATASETS.
                     Counter = Counter + 1
                 End While
                 DataReader.Close()
                 MsSQLCnx.Close()
 
             End Using
+            DataReader.Close()
+            MsSQLCnx.Close()
 
         Catch ex As Exception
+            DataReader.Close()
+            MsSQLCnx.Close()
             MsgBox(ex.Message)
         Finally
             ReDim ReadData(Counter - 1)
@@ -198,5 +217,73 @@ Public Class ServerCommunications
         End Try
         Return ReadData
     End Function
+    Public Function NonQueryINSERT(Table As String, InsertValues As String, Optional Fields As String = Nothing)
+        'INITIALISATIONS
+        RowsEffected = Nothing
+        Dim MsSqlCmdStatement As String = Nothing
 
+        'PARSE THE QUERY
+        ' ************IMPORTANT NOTE: FIELDS AND INSERTVALUES SHOULD BE PROPERLY FORMATTED
+        'WITH COMMAS AND BREAKETS AS FOLLOWS       *********************
+
+        'INSERT INTO table
+        '(field1, field2, ... )
+        'VALUES
+        '(InsertValue1, InsertValue2, ... ),
+        '(InsertValue1, InsertValue2, ... ),
+        '...;
+
+        If Not Fields = Nothing Then
+            MsSqlCmdStatement = String.Format("INSERT INTO {0} {1} VALUES {2}", Table, Fields, InsertValues)
+        ElseIf Fields = Nothing Then
+            MsSqlCmdStatement = String.Format("INSERT INTO {0} VALUES {1}", Table, InsertValues)
+        End If
+
+
+        Using MsSQLCnx
+
+            'EXECUTING INSERT STATEMENTS
+            If Not MsSQLCnx Is Nothing Then MsSQLCnx.Close() 'TRYING TO CLOSE THE CONNECTION IF ONE EXISTS.
+            'ASSIGN CNX STRING
+
+            CnxStr()
+            MsSQLCnx.Open()
+            MsSQLCmd = MsSQLCnx.CreateCommand() 'CREATS AND RETURNS SQL COMMAND OBJECT ASSOCIATED WITH THE SQLCONNECTION
+            Transection = MsSQLCnx.BeginTransaction("InsertQuery")  'INITIALIZE A LOCAL TRANSECTION NAMED "InsertQuery".
+
+            'MUST ASSIGN BOTH TRANSACTION OBJECT AND CONNECTION
+            'TO COMMAND OBJECT FOR A PENDING LOCAL TRANSACTION
+            MsSQLCmd.Connection = MsSQLCnx
+            MsSQLCmd.Transaction = Transection
+
+            Try
+                MsSQLCmd.CommandText = MsSqlCmdStatement
+
+                RowsEffected = MsSQLCmd.ExecuteNonQuery()
+
+                'ATTEMPT TO COMMIT THE TRANSECTION
+                Transection.Commit()
+            Catch ex As Exception
+                MsgBox(String.Format("Commit exception type: {0}" & vbCrLf & "Message {1}", ex.GetType, ex.Message), vbInformation, "Transections")
+
+                'ATTEMPT TO ROLL BACK THE TRANSECTION
+                Try
+                    Transection.Rollback()
+                Catch exRollingBack As Exception
+                    MsgBox(String.Format("Rollback exception type: {0}" & vbCrLf & "Message: {1}", exRollingBack.GetType, exRollingBack.Message), vbCritical, "Transections")
+                End Try
+
+            Finally
+                MsSQLCnx.Close()
+            End Try
+
+        End Using
+
+
+
+        'EXECUTING UPDATE STATEMENTS
+
+        'EXECUTING DELETE STATEMENTS
+        Return RowsEffected
+    End Function
 End Class

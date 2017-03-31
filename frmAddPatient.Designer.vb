@@ -100,9 +100,13 @@ Partial Class frmAddPatient
         'lblAddress
         '
         Me.lblAddress.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAddress.Appearance.Options.UseFont = True
         Me.lblAddress.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAddress.AppearanceDisabled.Options.UseFont = True
         Me.lblAddress.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAddress.AppearanceHovered.Options.UseFont = True
         Me.lblAddress.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAddress.AppearancePressed.Options.UseFont = True
         Me.lblAddress.Location = New System.Drawing.Point(16, 15)
         Me.lblAddress.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblAddress.Name = "lblAddress"
@@ -284,9 +288,13 @@ Partial Class frmAddPatient
         'lblContactDetail
         '
         Me.lblContactDetail.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblContactDetail.Appearance.Options.UseFont = True
         Me.lblContactDetail.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblContactDetail.AppearanceDisabled.Options.UseFont = True
         Me.lblContactDetail.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblContactDetail.AppearanceHovered.Options.UseFont = True
         Me.lblContactDetail.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblContactDetail.AppearancePressed.Options.UseFont = True
         Me.lblContactDetail.Cursor = System.Windows.Forms.Cursors.Default
         Me.lblContactDetail.Location = New System.Drawing.Point(11, 9)
         Me.lblContactDetail.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
@@ -329,9 +337,13 @@ Partial Class frmAddPatient
         'lblContactType
         '
         Me.lblContactType.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblContactType.Appearance.Options.UseFont = True
         Me.lblContactType.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblContactType.AppearanceDisabled.Options.UseFont = True
         Me.lblContactType.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblContactType.AppearanceHovered.Options.UseFont = True
         Me.lblContactType.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblContactType.AppearancePressed.Options.UseFont = True
         Me.lblContactType.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
         Me.lblContactType.Cursor = System.Windows.Forms.Cursors.Default
         Me.lblContactType.Location = New System.Drawing.Point(235, 10)
@@ -414,9 +426,13 @@ Partial Class frmAddPatient
         'lblHospitalNumber
         '
         Me.lblHospitalNumber.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblHospitalNumber.Appearance.Options.UseFont = True
         Me.lblHospitalNumber.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.lblHospitalNumber.AppearanceDisabled.Options.UseFont = True
         Me.lblHospitalNumber.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.lblHospitalNumber.AppearanceHovered.Options.UseFont = True
         Me.lblHospitalNumber.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.lblHospitalNumber.AppearancePressed.Options.UseFont = True
         Me.lblHospitalNumber.Location = New System.Drawing.Point(17, 14)
         Me.lblHospitalNumber.Name = "lblHospitalNumber"
         Me.lblHospitalNumber.Size = New System.Drawing.Size(84, 16)
@@ -448,6 +464,7 @@ Partial Class frmAddPatient
         'lblNid
         '
         Me.lblNid.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblNid.Appearance.Options.UseFont = True
         Me.lblNid.Location = New System.Drawing.Point(17, 61)
         Me.lblNid.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblNid.Name = "lblNid"
@@ -472,6 +489,7 @@ Partial Class frmAddPatient
         'lblPatientName
         '
         Me.lblPatientName.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPatientName.Appearance.Options.UseFont = True
         Me.lblPatientName.Location = New System.Drawing.Point(195, 14)
         Me.lblPatientName.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblPatientName.Name = "lblPatientName"
@@ -505,7 +523,7 @@ Partial Class frmAddPatient
         Me.txtPatientName.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.txtPatientName.Properties.Appearance.Options.UseFont = True
         Me.txtPatientName.Properties.Mask.BeepOnError = True
-        Me.txtPatientName.Properties.Mask.EditMask = "[a-zA-Z '-]+"
+        Me.txtPatientName.Properties.Mask.EditMask = "[a-zA-Z -]+"
         Me.txtPatientName.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx
         Me.txtPatientName.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.txtPatientName.Size = New System.Drawing.Size(264, 22)
@@ -514,6 +532,7 @@ Partial Class frmAddPatient
         'lblDob
         '
         Me.lblDob.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDob.Appearance.Options.UseFont = True
         Me.lblDob.Location = New System.Drawing.Point(195, 61)
         Me.lblDob.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblDob.Name = "lblDob"
@@ -524,6 +543,7 @@ Partial Class frmAddPatient
         'lblGender
         '
         Me.lblGender.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblGender.Appearance.Options.UseFont = True
         Me.lblGender.Location = New System.Drawing.Point(359, 61)
         Me.lblGender.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblGender.Name = "lblGender"
@@ -559,9 +579,13 @@ Partial Class frmAddPatient
         'lblCountry
         '
         Me.lblCountry.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCountry.Appearance.Options.UseFont = True
         Me.lblCountry.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCountry.AppearanceDisabled.Options.UseFont = True
         Me.lblCountry.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCountry.AppearanceHovered.Options.UseFont = True
         Me.lblCountry.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCountry.AppearancePressed.Options.UseFont = True
         Me.lblCountry.Location = New System.Drawing.Point(274, 56)
         Me.lblCountry.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblCountry.Name = "lblCountry"
@@ -595,9 +619,13 @@ Partial Class frmAddPatient
         'lblAtoll
         '
         Me.lblAtoll.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAtoll.Appearance.Options.UseFont = True
         Me.lblAtoll.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAtoll.AppearanceDisabled.Options.UseFont = True
         Me.lblAtoll.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAtoll.AppearanceHovered.Options.UseFont = True
         Me.lblAtoll.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAtoll.AppearancePressed.Options.UseFont = True
         Me.lblAtoll.Location = New System.Drawing.Point(17, 56)
         Me.lblAtoll.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblAtoll.Name = "lblAtoll"
@@ -620,9 +648,13 @@ Partial Class frmAddPatient
         'lblIsland
         '
         Me.lblIsland.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIsland.Appearance.Options.UseFont = True
         Me.lblIsland.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIsland.AppearanceDisabled.Options.UseFont = True
         Me.lblIsland.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIsland.AppearanceHovered.Options.UseFont = True
         Me.lblIsland.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIsland.AppearancePressed.Options.UseFont = True
         Me.lblIsland.Location = New System.Drawing.Point(85, 56)
         Me.lblIsland.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblIsland.Name = "lblIsland"
@@ -661,6 +693,7 @@ Partial Class frmAddPatient
         'lblClose
         '
         Me.lblClose.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblClose.Appearance.Options.UseFont = True
         Me.lblClose.Location = New System.Drawing.Point(459, 3)
         Me.lblClose.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblClose.Name = "lblClose"
@@ -683,6 +716,7 @@ Partial Class frmAddPatient
         'lblSummary
         '
         Me.lblSummary.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSummary.Appearance.Options.UseFont = True
         Me.lblSummary.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.Vertical
         Me.lblSummary.Location = New System.Drawing.Point(14, 27)
         Me.lblSummary.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)

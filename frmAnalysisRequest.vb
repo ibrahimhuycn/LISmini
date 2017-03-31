@@ -54,8 +54,10 @@
 
         If WindowState = FormWindowState.Normal Then
             WindowState = 2 'Maximaized
+            lblClose.Visible = False
         ElseIf WindowState = FormWindowState.Maximized Then
             WindowState = 0
+            lblClose.Visible = True
         End If
 
     End Sub

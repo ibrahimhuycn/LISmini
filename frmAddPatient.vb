@@ -95,6 +95,7 @@ Public Class frmAddPatient
         txtNid.Focus()
     End Sub
     Private Sub txtPatientName_EditValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles txtPatientName.EditValueChanged
+
         'INDIVIDUAL NAMES ARE REQUIRED TO BE ALL CAPITALS. THIS WOULD AVOID DUBLICATE INDIVIDUAL NAMES IN BIG AND LITTLE LETTERS.
         'ON EDITVALUECHANGED: ALL TEXT IN THE TEXTBOX IS SET TO UPPER I.E. CAPITALS
         txtPatientName.Text = txtPatientName.Text.ToUpper
@@ -371,7 +372,8 @@ Public Class frmAddPatient
     End Sub
 
     Private Sub txtAtoll_LostFocus(sender As Object, e As EventArgs) Handles cboAtoll.LostFocus
-
+        'TODO PERFORMANCE: CHANGE THE DATABASE STRUCTURE TO INCLUDE SAPARATE TABLES FOR ATOLLS AND ISLANDS
+        'CHANGE THE QUERY SO THAT THE QUERY UTILIZES IdAtolls TO GET THE LIST OF ISLANDS FOR THE PARTICULAR ATOLL RATHER THAN USING A STRING LIKE NOW.
         Dim Island As String
         cboIsland.Properties.Items.Clear()
 
@@ -410,7 +412,7 @@ Public Class frmAddPatient
 
 
         'GRIDVIEW REQUIRES TO BE BOUND TO SOME SORTA DATA SOURCE FOR IT TO HAVE EVEN THE MOST BASIC FUNCTION
-        'MAKE A WRAPPER TO WRAP A STRING ARRAY TO STORE CONTACT AND CORRESPONG CONTACT UNTIL THEY ARE WRITTEN TO SERVER.
+        'MAKE A WRAPPER TO WRAP A STRING ARRAY TO STORE CONTACT AND CORRESPONG CONTACT DETAIL UNTIL THEY ARE WRITTEN TO SERVER.
         'THIS STEP WILL BE IMPLEMENTED IN A NEW CLASS.
 
         PatientContacts.Add(New Contacts(txtContactDetail.Text, cboContactType.Text))
@@ -521,7 +523,7 @@ Public Class frmAddPatient
 
         DetectValidateMobileNumberOptionZero = Regex.IsMatch(txtContactDetail.Text, "^9|7\+?(d+[- ])?\d{9}$")
         DetectValidateMobileNumberOptionOne = Regex.IsMatch(txtContactDetail.Text, "^9|7(d+[- ])?\d{6}$")
-        DetectValidateHomePhone = Regex.IsMatch(txtContactDetail.Text, "^(\+[1-9][0-9]*(\([0-9]*\)|-[0-9]*-))?[0]?[1-9][0-9\- ]*$")
+        DetectValidateHomePhone = Regex.IsMatch(txtContactDetail.Text, "^(301|330|331|332|333|334|335|339|688|689|690|650|652|652|654|656|658|660|662|664|666|668|670|672|674|676|678|680|682|684|686)+[0-9]{4}$")
         DetectValidateEmail = Regex.IsMatch(txtContactDetail.Text, "\b[!#$%&'*+./0-9=?_`a-z{|}~^-]+@[.0-9a-z-]+\.[a-z]{2,6}\b", RegexOptions.IgnoreCase)
 
         Try
@@ -553,5 +555,68 @@ Public Class frmAddPatient
     Private Sub txtContactDetail_InvalidValue(sender As Object, e As InvalidValueExceptionEventArgs) Handles txtContactDetail.InvalidValue
         'DISPLAYING A TOOLTIP ON THE CROSS ICON TO HELP CORRECT THE ERROR
         e.ErrorText = "Invalid Contact" & vbCrLf & "Enter an Email or phone number."
+    End Sub
+
+    Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+        'GETTING INDIVIDUAL NAMES FROM ARRAY.
+
+        'INITIALISING ALL REQUIRED VARIABLES. MOVE THESE TO THE TOP OF THE DOCUMENT LATER.
+        Dim i As Integer 'COUNTER VARIABLE FOR LOOP
+        Dim ArrayLength As Integer
+        Dim Individual As String = ""
+        Dim IsNamePresentOnServer As Integer
+        ArrayLength = IndividualNameCollection.Length   'GETTING ARRAY LENGTH FOR ARRAY HOLDING INDIVIDUAL NAMES
+        Dim IdIndividualNameStore(ArrayLength - 1) As Integer
+        Dim RetrievedIdIndividualName(ArrayLength - 1) As String
+        Dim RowsInserted As Integer
+
+
+        'USING FOR LOOP TO RETRIEVE THE VALUES
+        For i = 0 To ArrayLength - 1
+            RowsInserted = 0    'INITIALISE VARIABLE EVERYTIME THE QUERY IS RUN.
+            Individual = IndividualNameCollection.GetValue(i)
+
+            'CHECK WHETHER THE INDIVIDUAL NAME IS PRESENT IN THE SERVER. [dbo].[IndividualNames]. THE FOLLOWING QUERY RETURNS THE NUMBER OF TIMES THE EXPECTED VALUE IS PRESENT ON SERVER
+            'USING SQL COUNT FUNCTION.
+            'THE COLUMN [dbo].[IndividualNames].[Individual] is a UNIQUE FIELD WHICH MEANS THAT THE RESULT WOULD EITHER BE 1 OR 0 INDICATING PRESENCE OR ABSENCE OF THE NAME ON SERVER.
+
+RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVER.
+
+            IsNamePresentOnServer = MsSQLComHandler.IsFieldValuePresent("[dbo].[IndividualNames]", "Individual", Individual)
+            'IF FIELD IS PRESENT, GET THE IdIndividualName and store it in the an array " Dim IdIndividualNameStore(ArrayLength -1) As Integer". 
+            'The length of the array would be The number of individual names in the Patient name MINUS ONE 
+
+            If IsNamePresentOnServer = 1 Then
+                'ONLY THE ID IdIndividual IS RETURNED AND THEREFORE ONLY ONE FIELD WILL BE PRESENT IN THE ARRAY "RetrievedID()". TAKE THE VALUE AT INDEX 0 AND ASSIGN IT TO "RetrievedIdIndividualName"
+                Dim RetrievedID() As String = MsSQLComHandler.ExecuteMsSQLReader("[IdindividualName] AS HA", "[dbo].[IndividualNames]", True, String.Format("[Individual] = '{0}'", Individual), False, False, "", False, "HA")
+                RetrievedIdIndividualName(i) = RetrievedID(0)
+            ElseIf IsNamePresentOnServer = 0 Then
+                'EXECUTING ExecuteNonQuery TO ADD THE NAME TO SERVER
+                RowsInserted = MsSQLComHandler.NonQueryINSERT("[dbo].[IndividualNames]", "('" & Individual & "')", "([Individual])")
+                If RowsInserted = 1 Then
+                    GoTo RetryForID
+                ElseIf Not RowsInserted = 1 Then
+                    MsgBox("Error inserting patient name to server.", vbInformation, "Patient Registration")
+                End If
+
+            Else
+                MsgBox("An Error occured while checking for the presence of IndividualNames on server!", vbCritical,)
+            End If
+        Next
+
+        'GETTING CONTACT DETAILS FROM THE CLASS CONTACTS.VB
+        Dim ii As Integer = 0  'COUNTER FOR THE LOOP
+        Dim ListLength As Integer = 0
+        Dim Contact As String
+        Dim Type As String = ""
+        Dim ContactO As String = ""
+
+        ListLength = PatientContacts.Count
+        For ii = 0 To ListLength - 1
+            Contact = PatientContacts.Item(ii).Contact_Detail.ToString
+            Type = PatientContacts.Item(ii).Contact_Type
+            ContactO = ContactO & Type & ": " & Contact & " "
+        Next
+
     End Sub
 End Class
