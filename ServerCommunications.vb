@@ -203,14 +203,13 @@ Public Class ServerCommunications
                 MsSQLCnx.Close()
 
             End Using
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        Finally
+
             DataReader.Close()
             MsSQLCnx.Close()
 
-        Catch ex As Exception
-            DataReader.Close()
-            MsSQLCnx.Close()
-            MsgBox(ex.Message)
-        Finally
             ReDim ReadData(Counter - 1)
             Counter = 0                 'RESETING THE PREVIOUS COUNTER FOR ANOTHER ARRAY.
             For Each ArrayPosition In TempReadDataHold

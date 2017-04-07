@@ -558,8 +558,11 @@ Public Class frmAddPatient
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        'INSERT NONEXISTING NAMES AND GET ALL IDs FOR INDIVIDUAL NAMES OF PATIENT
-        Dim IdIndivdualNames() As Integer = RetrieveIndividualNameIDs()
+        '1)GATHERING DATA
+
+        Dim IdIndivdualNames() As Integer = FetchIndividualNameIDs()         'i) INSERT NONEXISTING NAMES AND GET ALL IDs FOR INDIVIDUAL NAMES OF PATIENT
+        Dim IdIslandAndAtoll As Integer = FetchIdIslandList()
+
 
         'GETTING CONTACT DETAILS FROM THE CLASS CONTACTS.VB
         Dim ii As Integer = 0  'COUNTER FOR THE LOOP
@@ -578,7 +581,7 @@ Public Class frmAddPatient
         Next
 
     End Sub
-    Private Function RetrieveIndividualNameIDs()
+    Private Function FetchIndividualNameIDs()
         'TASK OF THIS FUNCTION: CHECK SERVER FOR THE PRESENCE OF INDIVIDUAL NAMES. IF PRESENT, GET THEIR IDs ELSE EXECUTE AN INSERT QUERY AND EXECUTE ANOTHER QUERY TO GET THE IDs.
         'THIS FUNCTION USES ServerCommunications.vb CLASS.
 
@@ -625,5 +628,17 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
             End If
         Next
         Return RetrievedIdIndividualName
+    End Function
+    Private Function FetchIdIslandList()
+        'TASK OF THE FUNCTION: GET THE ATOLL AND ISLAND(ATOLL AND ISLAND ID IS JUST ONE VALUE. IdIslandList) ID OF THE PATIENTS ADDRESS AND RETURN IT.
+
+        Dim IdIslandAndAtoll As Integer
+        Dim IdIslandAndAtollArray() As String
+        IdIslandAndAtollArray = MsSQLComHandler.ExecuteMsSQLReader("[IdIslandList] AS IdIslandAndAtoll", "[dbo].[IslandList]", True, String.Format("[Island]='{0}' AND [AtollAbbrv]='{1}'", Island, Atoll), False, False, "", False, "IdIslandAndAtoll")
+
+        'THE ARRAY RETURNED WILL HAVE ONLY ONE VALUE AND HENCE THERE IS NO NEED TO ITERATE THROUGH THE ARRAY.
+        'GETTING THE 0 INDEX OF THE ARRAY TO AN INTEGER AND RETURNING THE VALUE SHOULD DO THE JOB.
+        IdIslandAndAtoll = IdIslandAndAtollArray(0)
+        Return IdIslandAndAtoll
     End Function
 End Class
