@@ -186,9 +186,9 @@ Public Class frmAddPatient
             PatientGender = "M"
         ElseIf cboGender.SelectedIndex = 1 Then
             PatientGender = "F"
-        ElseIf cboGender.SelectedIndex = 2
+        ElseIf cboGender.SelectedIndex = 2 Then
             PatientGender = "O"
-        ElseIf cboGender.SelectedIndex = 3
+        ElseIf cboGender.SelectedIndex = 3 Then
             PatientGender = "U"
 
         End If
@@ -558,18 +558,39 @@ Public Class frmAddPatient
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        'GETTING INDIVIDUAL NAMES FROM ARRAY.
+        'INSERT NONEXISTING NAMES AND GET ALL IDs FOR INDIVIDUAL NAMES OF PATIENT
+        Dim IdIndivdualNames() As Integer = RetrieveIndividualNameIDs()
 
-        'INITIALISING ALL REQUIRED VARIABLES. MOVE THESE TO THE TOP OF THE DOCUMENT LATER.
+        'GETTING CONTACT DETAILS FROM THE CLASS CONTACTS.VB
+        Dim ii As Integer = 0  'COUNTER FOR THE LOOP
+        Dim ListLength As Integer = 0
+        Dim Contact As String
+        Dim Type As String = ""
+        Dim ContactO As String = ""
+
+
+
+        ListLength = PatientContacts.Count
+        For ii = 0 To ListLength - 1
+            Contact = PatientContacts.Item(ii).Contact_Detail.ToString
+            Type = PatientContacts.Item(ii).Contact_Type
+            ContactO = ContactO & Type & ": " & Contact & " "
+        Next
+
+    End Sub
+    Private Function RetrieveIndividualNameIDs()
+        'TASK OF THIS FUNCTION: CHECK SERVER FOR THE PRESENCE OF INDIVIDUAL NAMES. IF PRESENT, GET THEIR IDs ELSE EXECUTE AN INSERT QUERY AND EXECUTE ANOTHER QUERY TO GET THE IDs.
+        'THIS FUNCTION USES ServerCommunications.vb CLASS.
+
+        'GETTING INDIVIDUAL NAMES FROM ARRAY.
+        'INITIALISING ALL REQUIRED VARIABLES TO GATHER INFORMATION FROM SERVER.
         Dim i As Integer 'COUNTER VARIABLE FOR LOOP
-        Dim ArrayLength As Integer
+        Dim ArrayLength As Integer = IndividualNameCollection.Length   'GETTING ARRAY LENGTH FOR ARRAY HOLDING INDIVIDUAL NAMES
         Dim Individual As String = ""
         Dim IsNamePresentOnServer As Integer
-        ArrayLength = IndividualNameCollection.Length   'GETTING ARRAY LENGTH FOR ARRAY HOLDING INDIVIDUAL NAMES
         Dim IdIndividualNameStore(ArrayLength - 1) As Integer
-        Dim RetrievedIdIndividualName(ArrayLength - 1) As String
+        Dim RetrievedIdIndividualName(ArrayLength - 1) As Integer
         Dim RowsInserted As Integer
-
 
         'USING FOR LOOP TO RETRIEVE THE VALUES
         For i = 0 To ArrayLength - 1
@@ -588,7 +609,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
 
             If IsNamePresentOnServer = 1 Then
                 'ONLY THE ID IdIndividual IS RETURNED AND THEREFORE ONLY ONE FIELD WILL BE PRESENT IN THE ARRAY "RetrievedID()". TAKE THE VALUE AT INDEX 0 AND ASSIGN IT TO "RetrievedIdIndividualName"
-                Dim RetrievedID() As String = MsSQLComHandler.ExecuteMsSQLReader("[IdindividualName] AS HA", "[dbo].[IndividualNames]", True, String.Format("[Individual] = '{0}'", Individual), False, False, "", False, "HA")
+                Dim RetrievedID() As String = MsSQLComHandler.ExecuteMsSQLReader("[IdindividualName] AS IName", "[dbo].[IndividualNames]", True, String.Format("[Individual] = '{0}'", Individual), False, False, "", False, "IName")
                 RetrievedIdIndividualName(i) = RetrievedID(0)
             ElseIf IsNamePresentOnServer = 0 Then
                 'EXECUTING ExecuteNonQuery TO ADD THE NAME TO SERVER
@@ -596,27 +617,13 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
                 If RowsInserted = 1 Then
                     GoTo RetryForID
                 ElseIf Not RowsInserted = 1 Then
-                    MsgBox("Error inserting patient name to server.", vbInformation, "Patient Registration")
+                    MsgBox("Error inserting patient name to server." & vbCrLf & "Number of Rows Inserted: " & RowsInserted, vbInformation, "Patient Registration")
                 End If
 
             Else
                 MsgBox("An Error occured while checking for the presence of IndividualNames on server!", vbCritical,)
             End If
         Next
-
-        'GETTING CONTACT DETAILS FROM THE CLASS CONTACTS.VB
-        Dim ii As Integer = 0  'COUNTER FOR THE LOOP
-        Dim ListLength As Integer = 0
-        Dim Contact As String
-        Dim Type As String = ""
-        Dim ContactO As String = ""
-
-        ListLength = PatientContacts.Count
-        For ii = 0 To ListLength - 1
-            Contact = PatientContacts.Item(ii).Contact_Detail.ToString
-            Type = PatientContacts.Item(ii).Contact_Type
-            ContactO = ContactO & Type & ": " & Contact & " "
-        Next
-
-    End Sub
+        Return RetrievedIdIndividualName
+    End Function
 End Class

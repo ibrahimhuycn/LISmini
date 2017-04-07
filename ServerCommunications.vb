@@ -40,21 +40,27 @@ Public Class ServerCommunications
             PatientRowCount = 0
         End If
 
-        'RUN A SCALAR QUERY TO GET LAST HOSPITAL NUMBER+1 WHICH WILL BE THE NEXT HOSP NUMBER. THIS IS ACHIEVED BY A OFFSET, FETCH NEXT CLAUSE AS BELOW. 
-        Dim sqlQueryGetNextHno As String = String.Format("SELECT (dbo.Individuals.IdIndividual + 1) as NextHNo" +
+        If PatientRowCount = 0 Then
+            NextHNo = 0
+        Else
+            'RUN A SCALAR QUERY TO GET LAST HOSPITAL NUMBER+1 WHICH WILL BE THE NEXT HOSP NUMBER. THIS IS ACHIEVED BY A OFFSET, FETCH NEXT CLAUSE AS BELOW. 
+            Dim sqlQueryGetNextHno As String = String.Format("SELECT (dbo.Individuals.IdIndividual + 1) as NextHNo" +
                                                         " From dbo.Individuals" +
                                                         " ORDER BY dbo.Individuals.IdIndividual" +
                                                         " OFFSET {0} ROWS" +
                                                         " FETCH NEXT 1 ROWS ONLY;", PatientRowCount - 1)
-        MsSQLStatement = sqlQueryGetNextHno
-        NextHnoRow = ExecuteScalarQuery()
+            MsSQLStatement = sqlQueryGetNextHno
+            NextHnoRow = ExecuteScalarQuery()
 
-        'EXCLUDING THE POSSIBILITY OF ROW COUNT BEING NULL TO AVOID AN ERROR IN THE NEXT STEP.
-        If Not NextHnoRow = Nothing Then   'EXCLUDING THE POSSIBILITY OF ROW COUNT BEING NULL TO AVOID AN ERROR IN THE NEXT STEP.
-            NextHNo = Convert.ToInt32(NextHnoRow)
-        Else
-            NextHNo = 0
+            'EXCLUDING THE POSSIBILITY OF ROW COUNT BEING NULL TO AVOID AN ERROR IN THE NEXT STEP.
+            If Not NextHnoRow = Nothing Then   'EXCLUDING THE POSSIBILITY OF ROW COUNT BEING NULL TO AVOID AN ERROR IN THE NEXT STEP.
+                NextHNo = Convert.ToInt32(NextHnoRow)
+            Else
+                NextHNo = 0
+            End If
         End If
+
+
         Return NextHNo
     End Function
     Public Function ExecuteScalarQuery()
@@ -74,6 +80,7 @@ Public Class ServerCommunications
                 MsgBox(String.Format("{0}  Error Code: {1}", ex.Message, ex.HResult), MsgBoxStyle.Critical, "Server Connection Failed")
 
             Finally
+                MsSQLCnx.Close()
                 MsSQLCnx.Dispose()
             End Try
         End Using
@@ -153,7 +160,7 @@ Public Class ServerCommunications
         End If
         If IsWhereClause = True Then MsSQlReaderQueryStatement = String.Format("{0} WHERE {1}", MsSQlReaderQueryStatement, WhereCondition)
 
-        'THIS STEP NEEDS TO BE IMPLEMENTED BEFORE "ORDER BY" CLAUSE OF THE SQL STATEMENT IS PARSED, OTHERWISE THE COUNT(*) FROM STATEMENT WILL THOW AN EXCEPTION.
+        'THIS STEP NEEDS TO BE IMPLEMENTED BEFORE "ORDER BY" CLAUSE OF THE SQL STATEMENT PARSED, OTHERWISE THE COUNT(*) FROM STATEMENT WILL THOW AN EXCEPTION.
 
         'PARSE A QUERY TO COUNT THE TOTAL NUMBER OF ROWS RETURNED FROM THE QUERY.
         'TOTAL NUMBER OF ROWS IS DETERMINED USING THE FUNCTION "Public Function ExecuteScalarQuery()" AND THE QUERY. " "SELECT COUNT(*) AS TotalRows FROM (" & MsSQlReaderQueryStatement &") AS TotalRows ""
