@@ -558,31 +558,71 @@ Public Class frmAddPatient
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        '1)GATHERING DATA
 
+        Dim RowsInsertedIndividual As Integer = Nothing
+        Dim RowsInsertedNameHandler As Integer = Nothing
+        Dim IdIndividualNameArrayLength As Integer
+        Dim NameHandlerInsertStatement As String = ""
+
+        '1)GATHERING DATA
+        Dim PatientEntryStep As Integer = Nothing
         Dim IdIndivdualNames() As Integer = FetchIndividualNameIDs()         'i) INSERT NONEXISTING NAMES AND GET ALL IDs FOR INDIVIDUAL NAMES OF PATIENT
         Dim IdIslandAndAtoll As Integer = FetchIdIslandList()
+        Dim IdCountry As Integer = FetchCountryID()
+
+        '2) INSERTING DATA INTO DBO.INDIVIDUALS & NAMEHANDLER
+        Try
+            'INSERTING DATA INTO DBO.INDIVIDUALS
+            PatientEntryStep = 0
+            RowsInsertedIndividual = MsSQLComHandler.NonQueryINSERT("[dbo].[Individuals]", String.Format("'{0}','{1}',N'{2}','{3}','{4}','{5}','{6}'", HospitalNumber, Dob, Address, 1, IdIslandAndAtoll, IdCountry, Gender),
+                                                      "([Idindividual],[dob],[Address],[IsAlive],[IdIsland],[IdCountry],[IdGender])")
+            PatientEntryStep = 1
+
+            'INSERTING DATA INTO DBO.NAMEHANDLER
+            'i) PARSE INSERT VALUES FOR INSERT QUERY
+            IdIndividualNameArrayLength = IdIndivdualNames.Length
+            For i = 0 To (IdIndividualNameArrayLength - 1)
+                If i = 0 Then
+                    NameHandlerInsertStatement = String.Format("({0},{1},{2})", HospitalNumber, i, IdIndivdualNames(i))
+                ElseIf i > 0 Then
+                    NameHandlerInsertStatement = NameHandlerInsertStatement & String.Format(", ({0},{1},{2})", HospitalNumber, i, IdIndivdualNames(i))
+                End If
+            Next
+            'ii)EXECUTE INSERT STATEMENT
+            RowsInsertedNameHandler = MsSQLComHandler.NonQueryINSERT("[dbo].[NameHander]", NameHandlerInsertStatement, String.Format("({0}, {1}, {2})", "[IdIndividual]", "[SortOrder]", "[IdIndividualName]"))
+        Catch ex As Exception
+
+        End Try
 
 
-        'GETTING CONTACT DETAILS FROM THE CLASS CONTACTS.VB
+
+        'TASK: VARIBLES FETCHING CONTACT DETAILS FROM ARRAY LIST AND ADD THEM TO SERVER.
+        '[GETTING CONTACT DETAILS FROM THE CLASS CONTACTS.VB]
+
         Dim ii As Integer = 0  'COUNTER FOR THE LOOP
         Dim ListLength As Integer = 0
         Dim Contact As String
         Dim Type As String = ""
-        Dim ContactO As String = ""
 
-
-
+        '1) FETCH THE DETAILS.
         ListLength = PatientContacts.Count
         For ii = 0 To ListLength - 1
             Contact = PatientContacts.Item(ii).Contact_Detail.ToString
             Type = PatientContacts.Item(ii).Contact_Type
-            ContactO = ContactO & Type & ": " & Contact & " "
+
+            '2) TRY ADDING THE CONTACT DETAILS TO SERVER.
+            Try
+
+            Catch ex As Exception
+
+                MsgBox(String.Format("An error adding patient contact details to server. Error message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType.ToString), vbInformation, "Patient Registration")
+            End Try
         Next
 
     End Sub
     Private Function FetchIndividualNameIDs()
-        'TASK OF THIS FUNCTION: CHECK SERVER FOR THE PRESENCE OF INDIVIDUAL NAMES. IF PRESENT, GET THEIR IDs ELSE EXECUTE AN INSERT QUERY AND EXECUTE ANOTHER QUERY TO GET THE IDs.
+        'TASK OF THIS FUNCTION: CHECK SERVER FOR THE PRESENCE OF INDIVIDUAL NAMES. IF PRESENT, GET THEIR IDs ELSE EXECUTE AN INSERT QUERY TO ADD THE NON-EXISTANT NAMES
+        'AND EXECUTE ANOTHER QUERY TO GET THE IDs.
         'THIS FUNCTION USES ServerCommunications.vb CLASS.
 
         'GETTING INDIVIDUAL NAMES FROM ARRAY.
@@ -616,7 +656,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
                 RetrievedIdIndividualName(i) = RetrievedID(0)
             ElseIf IsNamePresentOnServer = 0 Then
                 'EXECUTING ExecuteNonQuery TO ADD THE NAME TO SERVER
-                RowsInserted = MsSQLComHandler.NonQueryINSERT("[dbo].[IndividualNames]", "('" & Individual & "')", "([Individual])")
+                RowsInserted = MsSQLComHandler.NonQueryINSERT("[dbo].[IndividualNames]", "(N'" & Individual & "')", "([Individual])")
                 If RowsInserted = 1 Then
                     GoTo RetryForID
                 ElseIf Not RowsInserted = 1 Then
@@ -641,4 +681,23 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
         IdIslandAndAtoll = IdIslandAndAtollArray(0)
         Return IdIslandAndAtoll
     End Function
+    Private Function FetchCountryID()
+
+        'TASK FOR THIS FUNCTION: FETCH THE COUNTRY ID FOR THE PATIENTS' COUNTRY.
+
+        Dim CountryID() As String = Nothing
+        Dim IdCountry As Integer
+        Try
+            CountryID = MsSQLComHandler.ExecuteMsSQLReader("[IdCountry] as CountryID", "[dbo].[Countries]", True, String.Format("[Countries].[Country] = {0}", Country),
+                                                           False, False, False, False, "CountryID")
+
+            IdCountry = CountryID(0)    'ONLY ONE VALUE WILL BE RETUNED BY MSSQL READER AND THEREFORE, ASSIGNING ONLY INDEX 0 IS SUFFICIENT.
+        Catch ex As Exception
+            MsgBox(String.Format("An error occured while looking up the Country ID for the patient." & vbCrLf & "Error Message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType), vbExclamation,
+                   "Patient Registration")
+        End Try
+
+        Return IdCountry
+    End Function
+
 End Class
