@@ -420,6 +420,7 @@ Partial Class frmAddPatient
         Me.txtEditDateOfBirth.Properties.EditFormat.FormatString = ""
         Me.txtEditDateOfBirth.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime
         Me.txtEditDateOfBirth.Properties.Mask.BeepOnError = True
+        Me.txtEditDateOfBirth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.None
         Me.txtEditDateOfBirth.Size = New System.Drawing.Size(138, 22)
         Me.txtEditDateOfBirth.TabIndex = 4
         '

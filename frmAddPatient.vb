@@ -565,7 +565,7 @@ Public Class frmAddPatient
         Dim NameHandlerInsertStatement As String = ""
 
         '1)GATHERING DATA
-        Dim PatientEntryStep As Integer = Nothing
+        Dim PatientEntryStep As Integer = Nothing   'FOR ERROR HANDLING
         Dim IdIndivdualNames() As Integer = FetchIndividualNameIDs()         'i) INSERT NONEXISTING NAMES AND GET ALL IDs FOR INDIVIDUAL NAMES OF PATIENT
         Dim IdIslandAndAtoll As Integer = FetchIdIslandList()
         Dim IdCountry As Integer = FetchCountryID()
@@ -574,8 +574,8 @@ Public Class frmAddPatient
         Try
             'INSERTING DATA INTO DBO.INDIVIDUALS
             PatientEntryStep = 0
-            RowsInsertedIndividual = MsSQLComHandler.NonQueryINSERT("[dbo].[Individuals]", String.Format("'{0}','{1}',N'{2}','{3}','{4}','{5}','{6}'", HospitalNumber, Dob, Address, 1, IdIslandAndAtoll, IdCountry, Gender),
-                                                      "([Idindividual],[dob],[Address],[IsAlive],[IdIsland],[IdCountry],[IdGender])")
+            RowsInsertedIndividual = MsSQLComHandler.NonQueryINSERT("[dbo].[Individuals]", String.Format("('{0}',N'{1}',N'{2}','{3}','{4}','{5}','{6}','{7}')", HospitalNumber, Nid, Dob, Address, 1, IdIslandAndAtoll, IdCountry, Gender),
+                                                      "([Idindividual],[NidCardNumber],[dob],[Address],[IsAlive],[IdIsland],[IdCountry],[IdGender])")
             PatientEntryStep = 1
 
             'INSERTING DATA INTO DBO.NAMEHANDLER
@@ -588,10 +588,14 @@ Public Class frmAddPatient
                     NameHandlerInsertStatement = NameHandlerInsertStatement & String.Format(", ({0},{1},{2})", HospitalNumber, i, IdIndivdualNames(i))
                 End If
             Next
-            'ii)EXECUTE INSERT STATEMENT
-            RowsInsertedNameHandler = MsSQLComHandler.NonQueryINSERT("[dbo].[NameHander]", NameHandlerInsertStatement, String.Format("({0}, {1}, {2})", "[IdIndividual]", "[SortOrder]", "[IdIndividualName]"))
-        Catch ex As Exception
+            PatientEntryStep = 2
 
+            'ii)EXECUTE INSERT STATEMENT
+            RowsInsertedNameHandler = MsSQLComHandler.NonQueryINSERT("[dbo].[NameHandler]", NameHandlerInsertStatement, String.Format("({0}, {1}, {2})", "[IdIndividual]", "[SortOrder]", "[IdIndividualName]"))
+            PatientEntryStep = 3
+
+        Catch ex As Exception
+            MsgBox(ex.Message & vbCrLf & "")
         End Try
 
 
@@ -688,7 +692,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
         Dim CountryID() As String = Nothing
         Dim IdCountry As Integer
         Try
-            CountryID = MsSQLComHandler.ExecuteMsSQLReader("[IdCountry] as CountryID", "[dbo].[Countries]", True, String.Format("[Countries].[Country] = {0}", Country),
+            CountryID = MsSQLComHandler.ExecuteMsSQLReader("[IdCountry] as CountryID", "[dbo].[Countries]", True, String.Format("[Countries].[Country] = '{0}'", Country),
                                                            False, False, False, False, "CountryID")
 
             IdCountry = CountryID(0)    'ONLY ONE VALUE WILL BE RETUNED BY MSSQL READER AND THEREFORE, ASSIGNING ONLY INDEX 0 IS SUFFICIENT.
