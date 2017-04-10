@@ -24,8 +24,7 @@
         'Verify whether user wants to logout
         'Logout User, Close any and all open child forms, Disable ribbon, Display loginScreen
 
-        Dim IsIntentionLogOut As Integer   '6 = Yes, 7 = No
-        IsIntentionLogOut = MsgBox("Would you like to logout?", vbYesNo, "Confirm logout")
+        Dim IsIntentionLogOut As Integer = MsgBox("Would you like to logout?", vbYesNo, "Confirm logout")   '6 = Yes, 7 = No
 
         'checking user response
         If IsIntentionLogOut = 6 Then

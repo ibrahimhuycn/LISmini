@@ -80,8 +80,4 @@
     Private Sub lblClose_Click(sender As Object, e As EventArgs) Handles lblClose.Click
         Close()
     End Sub
-
-    Private Sub IterateAnalyteList(ByVal SearchValue As String)
-
-    End Sub
 End Class

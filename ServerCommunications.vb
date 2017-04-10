@@ -4,6 +4,7 @@
 'AUTHOR: IBRAHIM HUSSAIN
 'SWAT INC
 Public Class ServerCommunications
+    Implements IDisposable
     'INITIALIZING OBJECTS AND VARIALBLES REQUIRED TO EXECUTE QUERIES.
     ReadOnly MsSQLCnx As New SqlConnection
     ReadOnly MsSQLCnxCheck As New SqlConnection
@@ -16,7 +17,27 @@ Public Class ServerCommunications
     Dim RowsEffected As Integer = Nothing 'TO GET THE NUMBER OF ROWS EFFECTED EXECUTING NON-QUERY
 
     'CONNECTIONSTRING OPTIONAL VARIABLES
-    Dim MsSQLAttachDbFileName As String = "C:\Users\ibrah\OneDrive\Documents\Visual Studio 2015\Projects\LISmini\LISmini\Database\lismini.mdf"  'CAN BE CHANGED IF AND WHEN DATABASE FILE LOCATION IS CHANGED.
+    Const MsSQLAttachDbFileName As String = "C:\Users\ibrah\OneDrive\Documents\Visual Studio 2015\Projects\LISmini\LISmini\Database\lismini.mdf"  'CAN BE CHANGED IF AND WHEN DATABASE FILE LOCATION IS CHANGED.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        If MsSQLCnx IsNot Nothing Then
+            MsSQLCnx.Dispose()
+        End If
+        If MsSQLCnxCheck IsNot Nothing Then
+            MsSQLCnxCheck.Dispose()
+        End If
+        If MsSQLCmd IsNot Nothing Then
+            MsSQLCmd.Dispose()
+            MsSQLCmd = Nothing
+        End If
+        If DataReader IsNot Nothing Then
+            DataReader.Dispose()
+            DataReader = Nothing
+        End If
+        If Transection IsNot Nothing Then
+            Transection.Dispose()
+            Transection = Nothing
+        End If
+    End Sub
     Public Sub CnxStr()
         'THIS METHOD WILL BE CALLED TO SET THE CONNECTION STRING EACH TIME A QUERY IS EXECUTED.
         MsSQLCnx.ConnectionString = "Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" & MsSQLAttachDbFileName & ";Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=True"
@@ -25,13 +46,13 @@ Public Class ServerCommunications
         'GETTING LAST HOSPITAL NUMBER TO DETERMINE NEXT HOSPITAL NUMBER FOR NEW PATIENT REGISTRATION.
         Dim NextHNo As Integer
         Dim NextHnoRow As Object
-        Dim PatientDataRowCount As Object
+        ' Dim PatientDataRowCount As Object
         Dim PatientRowCount As Integer
 
         'EXECUTE A SCALAR QUERY TO DETERMINE A COUNT OF ROWS IN THE TABLE PATIENT DATA.
         'EXECUTION OF THIS STATEMENT WILL RETURN A COUNT OF TOTAL ROWS AS THE FIELD TotalRows
         MsSQLStatement = "SELECT count(*) as TotalRows FROM Individuals"    'dbo.Individuals.Idindividual is used as Hospital Number
-        PatientDataRowCount = ExecuteScalarQuery()
+        Dim PatientDataRowCount As Object = ExecuteScalarQuery()
 
         'SINCE PatientDataRowCount IS RETURNED AS A ROW(OBJECT), THE VALUE NEEDS TO BE CONVERTED TO AN INTEGER BEFORE IT CAN BE USED.
         If Not PatientDataRowCount = Nothing Then   'EXCLUDING THE POSSIBILITY OF ROW COUNT BEING NULL TO AVOID AN ERROR IN THE NEXT STEP.
@@ -95,7 +116,7 @@ Public Class ServerCommunications
         'SELECT COUNT(FIELDNAME) AS EXPECTEDVALUEINCIDENCE FROM DATATABLE WHERE FIELDNAME=EXPECTEDVALUE
 
         'VARIABLE OBJECT AND INTEGER TO STORE RETURNED EXPECTEDVALUEINCIDENCE ROW AND CONVERTED INTEGER RESPECTIVELY.
-        Dim ExpectedValueIncidence As Object
+
         Dim ValueIncidence As Integer
 
         'PARSING DYNAMIC VALUES AS TEXT QUERY
@@ -105,7 +126,7 @@ Public Class ServerCommunications
         MsSQLStatement = ParsedDynamicQueryStr
 
         'EXECUTING SCALAR QUERY AND ASSIGNING RETURNED COUNT FIELD TO ExpectedValueIncidence OBJECT FOR CONVERSION
-        ExpectedValueIncidence = ExecuteScalarQuery()
+        Dim ExpectedValueIncidence As Object = ExecuteScalarQuery()
         If Not ExpectedValueIncidence = Nothing Then    'EXCLUDING THE POSSIBILITY OF COUNT BEING NULL TO AVOID AN ERROR IN THE NEXT STEP.
             ValueIncidence = Convert.ToInt32(ExpectedValueIncidence)
         End If
@@ -123,8 +144,7 @@ Public Class ServerCommunications
             'CHECK IF CONNECTION IS OPENED BY ANOTHER FUNCTION BY USING "STATE" STATE=0 IS CLOSED.
             feedback = MsSQLCnxCheck.State.ToString
             If MsSQLCnxCheck.State.value__ = 0 Then
-                feedback = feedback & " " & MsSQLCnxCheck.State.ToString
-                Dim a As Integer = MsSQLCnx.State
+                feedback = String.Format("{0} {1}", feedback, MsSQLCnxCheck.State)
                 MsSQLCnxCheck.Open()     'OPEN CONNECTION
                 MsSQLCnxCheck.Close()     'CLOSE CONNECTION
                 MsSQLCnxCheck.Dispose()      'DISPOSING CONNECTION
@@ -145,7 +165,7 @@ Public Class ServerCommunications
 
         'THIS METHOD RUNS AN SQL QUERY BY EXECUTING SQL DATA READER AND RETURNS THE COLLECTION AS A STRING ARRAY.
         'READS ONE COLUMN AT A TIME
-        Dim QueryRowCount As Integer
+
         Dim ReadData() As String = Nothing
         ' Dim TempReadDataHold(QueryRowCount) As String   'Declare this after getting a count of total number of rows The query returns. Use ExecuteScalarQuery Function to get the RowCount.
         Dim Counter As Integer = 0
@@ -164,9 +184,9 @@ Public Class ServerCommunications
 
         'PARSE A QUERY TO COUNT THE TOTAL NUMBER OF ROWS RETURNED FROM THE QUERY.
         'TOTAL NUMBER OF ROWS IS DETERMINED USING THE FUNCTION "Public Function ExecuteScalarQuery()" AND THE QUERY. " "SELECT COUNT(*) AS TotalRows FROM (" & MsSQlReaderQueryStatement &") AS TotalRows ""
-        Dim DetermineRowCount As String = "SELECT COUNT(*) AS TotalRows FROM (" & MsSQlReaderQueryStatement & ") AS TotalRows "
+        Dim DetermineRowCount As String = String.Format("SELECT COUNT(*) AS TotalRows FROM ({0}) AS TotalRows ", MsSQlReaderQueryStatement)
         MsSQLStatement = DetermineRowCount
-        QueryRowCount = ExecuteScalarQuery()
+        Dim QueryRowCount As Integer = ExecuteScalarQuery()
 
         Dim TempReadDataHold(QueryRowCount) As String
         If IsOrderBy = True Then

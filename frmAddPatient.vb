@@ -505,15 +505,10 @@ Public Class frmAddPatient
     End Sub
 
     Private Sub txtContactDetail_Validating(sender As Object, e As CancelEventArgs) Handles txtContactDetail.Validating
-        'INITIALISING VARIABLES
-
-        Dim DetectValidateMobileNumberOptionZero As Boolean = False
-        Dim DetectValidateMobileNumberOptionOne As Boolean = False
-        Dim DetectValidateHomePhone As Boolean = False
-        Dim DetectValidateEmail As Boolean = False
-
         'INITAILIZING COMBOBOX "cboContactType" AS NOTHING
         cboContactType.EditValue = ""
+
+        'INITIALISING VARIABLES
 
         'VALIDATING DATA ENTRY TO THE TEXTBOX "txtContactDetail"
         'IN ADDITION TO VALIDATION, THIS CODE SEGMENT WILL ALSO BE USED TO AUTO DETECT MOBILE NUMBER AND EMAIL ADDRESS AND SELECT THE 
@@ -521,10 +516,10 @@ Public Class frmAddPatient
         'REGEX INTERNATIONAL MOBILE NUMBERS: ^\+?(d+[- ])?\d{10}$ OR ^(d+[- ])?\d{7}$
         'REGEX EMAIL ADDRESS: \b[!#$%&'*+./0-9=?_`a-z{|}~^-]+@[.0-9a-z-]+\.[a-z]{2,6}\b
 
-        DetectValidateMobileNumberOptionZero = Regex.IsMatch(txtContactDetail.Text, "^9|7\+?(d+[- ])?\d{9}$")
-        DetectValidateMobileNumberOptionOne = Regex.IsMatch(txtContactDetail.Text, "^9|7(d+[- ])?\d{6}$")
-        DetectValidateHomePhone = Regex.IsMatch(txtContactDetail.Text, "^(301|330|331|332|333|334|335|339|688|689|690|650|652|652|654|656|658|660|662|664|666|668|670|672|674|676|678|680|682|684|686)+[0-9]{4}$")
-        DetectValidateEmail = Regex.IsMatch(txtContactDetail.Text, "\b[!#$%&'*+./0-9=?_`a-z{|}~^-]+@[.0-9a-z-]+\.[a-z]{2,6}\b", RegexOptions.IgnoreCase)
+        Dim DetectValidateMobileNumberOptionZero As Boolean = Regex.IsMatch(txtContactDetail.Text, "^9|7\+?(d+[- ])?\d{9}$")
+        Dim DetectValidateMobileNumberOptionOne As Boolean = Regex.IsMatch(txtContactDetail.Text, "^9|7(d+[- ])?\d{6}$")
+        Dim DetectValidateHomePhone As Boolean = Regex.IsMatch(txtContactDetail.Text, "^(301|330|331|332|333|334|335|339|688|689|690|650|652|652|654|656|658|660|662|664|666|668|670|672|674|676|678|680|682|684|686)+[0-9]{4}$")
+        Dim DetectValidateEmail As Boolean = Regex.IsMatch(txtContactDetail.Text, "\b[!#$%&'*+./0-9=?_`a-z{|}~^-]+@[.0-9a-z-]+\.[a-z]{2,6}\b", RegexOptions.IgnoreCase)
 
         Try
             If DetectValidateMobileNumberOptionZero = True Or DetectValidateMobileNumberOptionOne = True Then
@@ -595,7 +590,7 @@ Public Class frmAddPatient
             PatientEntryStep = 3
 
         Catch ex As Exception
-            MsgBox(ex.Message & vbCrLf & "")
+            MsgBox(String.Format("{0}{1}", ex.Message, vbCrLf))
         End Try
 
 
@@ -604,12 +599,11 @@ Public Class frmAddPatient
         '[GETTING CONTACT DETAILS FROM THE CLASS CONTACTS.VB]
 
         Dim ii As Integer = 0  'COUNTER FOR THE LOOP
-        Dim ListLength As Integer = 0
+        Dim ListLength As Integer = PatientContacts.Count
         Dim Contact As String
         Dim Type As String = ""
 
         '1) FETCH THE DETAILS.
-        ListLength = PatientContacts.Count
         For ii = 0 To ListLength - 1
             Contact = PatientContacts.Item(ii).Contact_Detail.ToString
             Type = PatientContacts.Item(ii).Contact_Type
@@ -635,7 +629,6 @@ Public Class frmAddPatient
         Dim ArrayLength As Integer = IndividualNameCollection.Length   'GETTING ARRAY LENGTH FOR ARRAY HOLDING INDIVIDUAL NAMES
         Dim Individual As String = ""
         Dim IsNamePresentOnServer As Integer
-        Dim IdIndividualNameStore(ArrayLength - 1) As Integer
         Dim RetrievedIdIndividualName(ArrayLength - 1) As Integer
         Dim RowsInserted As Integer
 
@@ -660,11 +653,11 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
                 RetrievedIdIndividualName(i) = RetrievedID(0)
             ElseIf IsNamePresentOnServer = 0 Then
                 'EXECUTING ExecuteNonQuery TO ADD THE NAME TO SERVER
-                RowsInserted = MsSQLComHandler.NonQueryINSERT("[dbo].[IndividualNames]", "(N'" & Individual & "')", "([Individual])")
+                RowsInserted = MsSQLComHandler.NonQueryINSERT("[dbo].[IndividualNames]", String.Format("(N'{0}')", Individual), "([Individual])")
                 If RowsInserted = 1 Then
                     GoTo RetryForID
                 ElseIf Not RowsInserted = 1 Then
-                    MsgBox("Error inserting patient name to server." & vbCrLf & "Number of Rows Inserted: " & RowsInserted, vbInformation, "Patient Registration")
+                    MsgBox(String.Format("Error inserting patient name to server.{0}Number of Rows Inserted: {1}", vbCrLf, RowsInserted), vbInformation, "Patient Registration")
                 End If
 
             Else
@@ -677,8 +670,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
         'TASK OF THE FUNCTION: GET THE ATOLL AND ISLAND(ATOLL AND ISLAND ID IS JUST ONE VALUE. IdIslandList) ID OF THE PATIENTS ADDRESS AND RETURN IT.
 
         Dim IdIslandAndAtoll As Integer
-        Dim IdIslandAndAtollArray() As String
-        IdIslandAndAtollArray = MsSQLComHandler.ExecuteMsSQLReader("[IdIslandList] AS IdIslandAndAtoll", "[dbo].[IslandList]", True, String.Format("[Island]='{0}' AND [AtollAbbrv]='{1}'", Island, Atoll), False, False, "", False, "IdIslandAndAtoll")
+        Dim IdIslandAndAtollArray As String() = MsSQLComHandler.ExecuteMsSQLReader("[IdIslandList] AS IdIslandAndAtoll", "[dbo].[IslandList]", True, String.Format("[Island]='{0}' AND [AtollAbbrv]='{1}'", Island, Atoll), False, False, "", False, "IdIslandAndAtoll")
 
         'THE ARRAY RETURNED WILL HAVE ONLY ONE VALUE AND HENCE THERE IS NO NEED TO ITERATE THROUGH THE ARRAY.
         'GETTING THE 0 INDEX OF THE ARRAY TO AN INTEGER AND RETURNING THE VALUE SHOULD DO THE JOB.
