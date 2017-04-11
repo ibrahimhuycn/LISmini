@@ -592,31 +592,6 @@ Public Class frmAddPatient
         Catch ex As Exception
             MsgBox(String.Format("{0}{1}", ex.Message, vbCrLf))
         End Try
-
-
-
-        'TASK: VARIBLES FETCHING CONTACT DETAILS FROM ARRAY LIST AND ADD THEM TO SERVER.
-        '[GETTING CONTACT DETAILS FROM THE CLASS CONTACTS.VB]
-
-        Dim ii As Integer = 0  'COUNTER FOR THE LOOP
-        Dim ListLength As Integer = PatientContacts.Count
-        Dim Contact As String
-        Dim Type As String = ""
-
-        '1) FETCH THE DETAILS.
-        For ii = 0 To ListLength - 1
-            Contact = PatientContacts.Item(ii).Contact_Detail.ToString
-            Type = PatientContacts.Item(ii).Contact_Type
-
-            '2) TRY ADDING THE CONTACT DETAILS TO SERVER.
-            Try
-
-            Catch ex As Exception
-
-                MsgBox(String.Format("An error adding patient contact details to server. Error message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType.ToString), vbInformation, "Patient Registration")
-            End Try
-        Next
-
     End Sub
     Private Function FetchIndividualNameIDs()
         'TASK OF THIS FUNCTION: CHECK SERVER FOR THE PRESENCE OF INDIVIDUAL NAMES. IF PRESENT, GET THEIR IDs ELSE EXECUTE AN INSERT QUERY TO ADD THE NON-EXISTANT NAMES
@@ -687,7 +662,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
             CountryID = MsSQLComHandler.ExecuteMsSQLReader("[IdCountry] as CountryID", "[dbo].[Countries]", True, String.Format("[Countries].[Country] = '{0}'", Country),
                                                            False, False, False, False, "CountryID")
 
-            IdCountry = CountryID(0)    'ONLY ONE VALUE WILL BE RETUNED BY MSSQL READER AND THEREFORE, ASSIGNING ONLY INDEX 0 IS SUFFICIENT.
+            IdCountry = CountryID(0)    'ONLY ONE VALUE WILL BE RETUNED BY MSSQL READER IN THIS CASE AND THEREFORE, ASSIGNING ONLY INDEX 0 IS SUFFICIENT.
         Catch ex As Exception
             MsgBox(String.Format("An error occured while looking up the Country ID for the patient." & vbCrLf & "Error Message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType), vbExclamation,
                    "Patient Registration")
@@ -695,5 +670,45 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
 
         Return IdCountry
     End Function
+
+    Function ParseAndInsertContactDetails()
+        'TASK: VARIBLES FETCHING CONTACT DETAILS FROM ARRAY LIST AND ADD THEM TO SERVER.
+        '[GETTING CONTACT DETAILS FROM THE CLASS CONTACTS.VB]
+
+        Dim ii As Integer = 0  'COUNTER FOR THE LOOP
+        Dim ListLength As Integer = PatientContacts.Count
+        Dim Contact As String
+        Dim Type As String = ""
+        Dim ContactsInsertStatement As String = Nothing
+
+        '1) FETCH THE DETAILS.
+        For ii = 0 To ListLength - 1
+            Contact = PatientContacts.Item(ii).Contact_Detail.ToString
+            Type = PatientContacts.Item(ii).Contact_Type
+
+            '2) PARSING CONTACT DETAILS AS PART OF AN INSERT STATEMENT.
+            If ii = 0 Then
+                ContactsInsertStatement = String.Format("({0}, {1}, {2})", HospitalNumber, Type, Contact)
+            ElseIf ii > 0 Then
+                ContactsInsertStatement += String.Format(", ({0}, {1}, {2})", HospitalNumber, Type, Contact)
+            End If
+
+            '3) TRY ADDING THE CONTACT DETAILS TO SERVER.
+            If ii = ListLength - 1 Then
+
+                Try
+
+                Catch ex As Exception
+
+                    MsgBox(String.Format("An error adding patient contact details to server. Error message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType.ToString), vbInformation, "Patient Registration")
+                End Try
+
+            End If
+        Next
+
+        'this return statement has to be changed to a meaningful one
+        Return 0
+    End Function
+
 
 End Class
