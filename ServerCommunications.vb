@@ -13,7 +13,7 @@ Public Class ServerCommunications
     Dim DataReader As SqlDataReader
 
     'CONNECTIONSTRING OPTIONAL VARIABLES
-    Dim MsSQLAttachDbFileName As String = "C:\Users\Ibrahim Hussain\Documents\Visual Studio 2015\Projects\LISmini\LISmini\Database\lismini.mdf"  'CAN BE CHANGED IF AND WHEN DATABASE FILE LOCATION IS CHANGED.
+    Dim MsSQLAttachDbFileName As String = "C:\Users\ibrah\OneDrive\Documents\Visual Studio 2015\Projects\LISmini\LISmini\Database\lismini.mdf"  'CAN BE CHANGED IF AND WHEN DATABASE FILE LOCATION IS CHANGED.
     Public Sub CnxStr()
         'THIS METHOD WILL BE CALLED TO SET THE CONNECTION STRING EACH TIME A QUERY IS EXECUTED.
         MsSQLCnx.ConnectionString = "Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" & MsSQLAttachDbFileName & ";Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=True"
