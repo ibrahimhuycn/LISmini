@@ -329,7 +329,7 @@ Partial Class frmAddPatient
         Me.cboContactType.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.cboContactType.Properties.Appearance.Options.UseFont = True
         Me.cboContactType.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
-        Me.cboContactType.Properties.Items.AddRange(New Object() {"Mobile ", "Office ", "Home", "Email"})
+        Me.cboContactType.Properties.Items.AddRange(New Object() {"Mobile", "Office", "Home", "Email"})
         Me.cboContactType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor
         Me.cboContactType.Size = New System.Drawing.Size(148, 22)
         Me.cboContactType.TabIndex = 14

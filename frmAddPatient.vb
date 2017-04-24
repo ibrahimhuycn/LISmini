@@ -3,6 +3,7 @@ Imports System.Text.RegularExpressions
 Imports DevExpress.XtraEditors.Controls
 
 Public Class frmAddPatient
+    'TODO: IMPLEMENT A WAY TO ENTER PASSPORT NUMBER FOR FORIGNERS.
 
     'Variables to move the form by grabbing GroupControl "gcAnalysisRequest"
     Dim DRAG_ANALYSIS_REQUEST As Boolean
@@ -589,6 +590,8 @@ Public Class frmAddPatient
             RowsInsertedNameHandler = MsSQLComHandler.NonQueryINSERT("[dbo].[NameHandler]", NameHandlerInsertStatement, String.Format("({0}, {1}, {2})", "[IdIndividual]", "[SortOrder]", "[IdIndividualName]"))
             PatientEntryStep = 3
 
+            'SAVING CONTACT DETAILS TO SERVER
+            ParseAndInsertContactDetails()
         Catch ex As Exception
             MsgBox(String.Format("{0}{1}", ex.Message, vbCrLf))
         End Try
@@ -672,32 +675,55 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
     End Function
 
     Function ParseAndInsertContactDetails()
-        'TASK: VARIBLES FETCHING CONTACT DETAILS FROM ARRAY LIST AND ADD THEM TO SERVER.
+        'TASK: FETCHING CONTACT DETAILS FROM ARRAY LIST AND ADD THEM TO SERVER.
         '[GETTING CONTACT DETAILS FROM THE CLASS CONTACTS.VB]
 
+        ' VARIBLES FETCHING CONTACT DETAILS FROM ARRAY LIST
         Dim ii As Integer = 0  'COUNTER FOR THE LOOP
         Dim ListLength As Integer = PatientContacts.Count
         Dim Contact As String
+        Dim IdContactType As Integer = Nothing
         Dim Type As String = ""
         Dim ContactsInsertStatement As String = Nothing
+        Dim RowsInserted As Integer
 
         '1) FETCH THE DETAILS.
         For ii = 0 To ListLength - 1
             Contact = PatientContacts.Item(ii).Contact_Detail.ToString
             Type = PatientContacts.Item(ii).Contact_Type
 
+            If Type = "Mobile" Then
+                IdContactType = 1
+            ElseIf Type = "Office" Then
+                IdContactType = 2
+            ElseIf Type = "Office" Then
+                IdContactType = 2
+            ElseIf Type = "Home" Then
+                IdContactType = 3
+            ElseIf Type = "Email" Then
+                IdContactType = 4
+            Else
+                MsgBox("Invalid Contact Type selected.", vbExclamation, "Patient Registration")
+            End If
+
+
             '2) PARSING CONTACT DETAILS AS PART OF AN INSERT STATEMENT.
             If ii = 0 Then
-                ContactsInsertStatement = String.Format("({0}, {1}, {2})", HospitalNumber, Type, Contact)
+                ContactsInsertStatement = String.Format("({0}, {1}, '{2}')", HospitalNumber, IdContactType, Contact)
             ElseIf ii > 0 Then
-                ContactsInsertStatement += String.Format(", ({0}, {1}, {2})", HospitalNumber, Type, Contact)
+                ContactsInsertStatement += String.Format(", ({0}, {1}, '{2}')", HospitalNumber, IdContactType, Contact)
             End If
 
             '3) TRY ADDING THE CONTACT DETAILS TO SERVER.
             If ii = ListLength - 1 Then
 
                 Try
+                    'CHECK WHETHER CONTACT TYPE IS A VALID TYPE BY CHECKING WHETHER THE TYPE EXISTS ON SERVER AND FETCH IdContactType TO BE INSERTED INTO CONTACTS TABLE . THIS IS NOT DONE FOR NOW. 
+                    'THIS PART WILL BE HARDCODED IN SOFTWARE AS FOLLOWS.
+                    '1= Mobile 2= Office 3= Home 4 = Email
 
+                    'EXECUTE COMMAND.EXECUTENONQUERY TO INSERY THE CONTACTS.
+                    RowsInserted = MsSQLComHandler.NonQueryINSERT("[dbo].[Contacts]", ContactsInsertStatement)
                 Catch ex As Exception
 
                     MsgBox(String.Format("An error adding patient contact details to server. Error message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType.ToString), vbInformation, "Patient Registration")
