@@ -11,7 +11,13 @@ Public Class frmNotification
     Dim WithEvents LifeTime As New Timer           'TIMER WHICH HANDLES AUTOMATIC CLOSING OF NOTIFICATION. 
 
     Private AlreadyActiveNotificationsNO As Integer = 1 'THIS VARIABLE DETERMINES WHETHER THERE ARE ANY PREVIOUS NOTIFICATIONS
+    Private Const NotificationRelocationFactor As Integer = 96 'VERTICAL DISPLACEMENT OF THE NOTIFICATION OF THE NOTIFICATION POPUP IN THE PRESENCE OF 
+    'ANOTHER POPUP TO AVOID OVERLAP OF NOTIFICATION POPUP WINDOWS.
 
+    Private Const LifeTimeInMilliseconds As Integer = 3600  'THIS IS THE AMOUNT OF TIME IN MILLISECONDS UNTIL THE NOTIFICATION CLOSES AFTER FORM LOAD.
+    'LifeTime TIMER WILL TICK WHEN THE MILLISECONDS SET BY THIS VARIABE IS SET UNLOADING THE NOTIFICATION.
+
+    Dim IsLocationDefault As Boolean = False 'IF THIS IS TRUE THE NOTIFICATION POPUP WINDOW WILL SET frmLisMini.IsRelocateNofitication to FALSE WHILE UNLOADING THE NOTIFICATION
     'THE CURRENT NOTIFICATION POPPED UP. THIS ALLOWS ADJUSTING THE LOCATION OF THE NOTIFICATION WNINDOW SO THAT BOTH THE 
     'NOTIFICATIONS CAN BE SEEN ON SCREEN.
 
@@ -30,7 +36,7 @@ Public Class frmNotification
         RegisterNotification(False)
         Close()
     End Sub
-    Sub ShowNotification(ByVal NotificationMessage As String, ByVal NotificationTitle As String, ByVal LifeTimeInMilliseconds As Integer)
+    Sub ShowNotification(ByVal NotificationMessage As String, ByVal NotificationTitle As String)
 
         RegisterNotification(True)
 
@@ -65,7 +71,6 @@ Public Class frmNotification
         RegisterNotification(False)
         LifeTime.Stop()
         LifeTime.Enabled = False
-
         Close()
 
     End Sub
@@ -74,7 +79,7 @@ Public Class frmNotification
 
         ScreenDiametions(POINT_X, POINT_Y)
         NotificationLocation.X = POINT_X - 450
-        Do Until i = (200 + AlreadyActiveNotificationsNO)
+        Do Until i = (200 + (AlreadyActiveNotificationsNO * NotificationRelocationFactor))
             NotificationLocation.Y = POINT_Y - i
             Location = NotificationLocation
             i = i + 1
@@ -87,16 +92,40 @@ Public Class frmNotification
 
     Private Sub NotificationIcon_Click(sender As Object, e As EventArgs) Handles NotificationIcon.Click
         Dim Notify As New frmNotification
-        Notify.ShowNotification("Hello, This is a notification.", "Test Notification", 3000)
+        Notify.ShowNotification("Hello, This is a notification.", "Test Notification")
     End Sub
     Sub RegisterNotification(ByVal IsLoading As Boolean)
+
+        'THIS SUB STILL HAVE SOME BUGS TO FIX. ADD COMMENTS
         Dim ErrorCount As Integer = 0
+
         Try
-            If IsLoading = True Then
-                frmLisMini.AlreadyActiveNotificationsNO += 100
-            ElseIf IsLoading = False Then
-                frmLisMini.AlreadyActiveNotificationsNO -= 100
+
+            If IsLoading = True Then    'WHEN LOADING A NOTIFICATION
+                If frmLisMini.IsRelocateNofitication = False Then 'THIS VARIABLE BEING FALSE MEANS THAT THERE IS NO WINDOW AT DEFAULT POSITION
+                    frmLisMini.IsRelocateNofitication = True
+                    IsLocationDefault = True
+                Else
+                    frmLisMini.AlreadyActiveNotificationsMonitor += 1
+                End If
+
+            ElseIf IsLoading = False Then   'WHEN UNLOADING A NOTIFICATION
+
+                If IsLocationDefault = True Then        'IF THE NOTIFICATION AT THE DEFAULT LOCATION IS UNLOADING, NEXT NOTIFICATION WILL NOT BE RELOCATED.
+                    frmLisMini.IsRelocateNofitication = False
+                    frmLisMini.AlreadyActiveNotificationsMonitor = 0 'IF NOTIFICATION AT DEFAULT LOCATION HAS UNLOADED, THEN NEXT NOTIFICATION SHOULD APPEAR AT DEFAULT LOCATION AND HENCE THIS VARIABLE 
+                    'SHOULD RESET.
+
+                Else
+                    If frmLisMini.AlreadyActiveNotificationsMonitor >= 1 Then
+                        frmLisMini.AlreadyActiveNotificationsMonitor -= 1
+                    Else
+                        frmLisMini.AlreadyActiveNotificationsMonitor = 0
+                    End If
+                End If
+
             End If
+
 
         Catch ex As Exception
             MsgBox(String.Format("{0}{1}Error setting notification location.", ex.Message, vbCrLf))
@@ -105,8 +134,16 @@ Public Class frmNotification
             If ErrorCount = 1 Then
                 AlreadyActiveNotificationsNO = 1
             Else
-                AlreadyActiveNotificationsNO = frmLisMini.AlreadyActiveNotificationsNO
+                AlreadyActiveNotificationsNO = frmLisMini.AlreadyActiveNotificationsMonitor
             End If
         End Try
     End Sub
+    Function DetermineFeasibleAmountNotifications()
+        'THIS IS NOT IMPLEMENTED YET.
+        'PURPOSE: THIS FUNCTION DETERMINES THE NUMBER OF WINDOWS THAT CAN BE DISPLAYED VERTICALLY ON THE OUTPUT SCREEN WITHOUT THEM OVERLAPPING
+        'AND RETURNS THE NUMBER.
+        Dim FeasibleAmount As Integer
+
+        Return FeasibleAmount
+    End Function
 End Class
