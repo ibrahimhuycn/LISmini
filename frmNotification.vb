@@ -1,5 +1,4 @@
-﻿
-Public Class frmNotification
+﻿Public Class frmNotification
 
     'TODO: IMPLEMENT A WAY TO FADE OUT THE NOTIFICATION AS IT CLOSES. IT'S WEIRD JUST CLOSING ALL OF A SUDDEN.
     'THIS FORM WILL BE USED TO SHOW NOTIFICATIONS WHICH DO NOT REQUITRE USER INTERACTION.
@@ -9,13 +8,13 @@ Public Class frmNotification
     Dim WithEvents AnimationControl As New Timer   'TO CONTROL THE WAY NOTIFICATION SHOWS UP.
     Dim i As Integer = 0                            'COUNTER FOR LOOP USED FOR NOTIFICATION SHOW UP ANIMATION.
     Dim WithEvents LifeTime As New Timer           'TIMER WHICH HANDLES AUTOMATIC CLOSING OF NOTIFICATION. 
+    Dim TicksCount As Integer = 0
 
     Private AlreadyActiveNotificationsNO As Integer = 1 'THIS VARIABLE DETERMINES WHETHER THERE ARE ANY PREVIOUS NOTIFICATIONS
     Private Const NotificationRelocationFactor As Integer = 96 'VERTICAL DISPLACEMENT OF THE NOTIFICATION OF THE NOTIFICATION POPUP IN THE PRESENCE OF 
     'ANOTHER POPUP TO AVOID OVERLAP OF NOTIFICATION POPUP WINDOWS.
 
-    Private Const LifeTimeInMilliseconds As Integer = 3600  'THIS IS THE AMOUNT OF TIME IN MILLISECONDS UNTIL THE NOTIFICATION CLOSES AFTER FORM LOAD.
-    'LifeTime TIMER WILL TICK WHEN THE MILLISECONDS SET BY THIS VARIABE IS SET UNLOADING THE NOTIFICATION.
+    Private Const LifeTimeInMilliseconds As Integer = 1  'THIS IS THE INTERVAL OF THE TIMER WHICH COUNTS DOWN TO CLOSE THE NOTIFICATION.
 
     Dim IsLocationDefault As Boolean = False 'IF THIS IS TRUE THE NOTIFICATION POPUP WINDOW WILL SET frmLisMini.IsRelocateNofitication to FALSE WHILE UNLOADING THE NOTIFICATION
     'THE CURRENT NOTIFICATION POPPED UP. THIS ALLOWS ADJUSTING THE LOCATION OF THE NOTIFICATION WNINDOW SO THAT BOTH THE 
@@ -66,12 +65,21 @@ Public Class frmNotification
     End Sub
 
     Private Sub LifeTime_Tick(sender As Object, e As EventArgs) Handles LifeTime.Tick
-
         'THIS EVEN IS RAISED WHEN A SPECIFIED TIME HAS ELAPSED AND NOTIFICATION SHOULD CLOSE ON THIS TICK.
-        RegisterNotification(False)
-        LifeTime.Stop()
-        LifeTime.Enabled = False
-        Close()
+
+        If TicksCount >= 100 Then   'FADING OUT OF THE NOTIFICATION STARTS WHEN THE TIMER TICKS UPTO 100
+            If Opacity > 0 Then
+                Opacity -= 0.01     'WHEN THE NOTIFICATION IS TRANSPARENT, ITS UNLOADED.
+            Else
+                RegisterNotification(False)     'NOTIFYING THAT THE NOTIFICATION POP UP  IS UNLOADING.
+                LifeTime.Stop()
+                LifeTime.Enabled = False
+                Close()
+            End If
+
+        Else
+            TicksCount += 1
+        End If
 
     End Sub
 

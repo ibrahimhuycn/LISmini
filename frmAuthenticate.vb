@@ -73,8 +73,8 @@
         If IS_USER_AUTHENTICATED = True Then
             'Enabling Parent ribbon
             frmLisMini.EnableRibbon(True)
-            'frmNotification.ShowNotification("User authenticated successfully!" & vbCrLf & "Welcome", "Authentication")
-            frmNotification.Show()
+            frmNotification.ShowNotification("User authenticated successfully!" & vbCrLf & "Welcome", "Authentication")
+            'frmNotification.Show()
             Close()
             Dispose()
         End If
