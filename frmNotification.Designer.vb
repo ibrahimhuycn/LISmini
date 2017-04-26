@@ -121,6 +121,7 @@ Partial Class frmNotification
         Me.Controls.Add(Me.NotificationUI)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "frmNotification"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "frmNotification"
         Me.TransparencyKey = System.Drawing.SystemColors.Control
         CType(Me.NotificationUI, System.ComponentModel.ISupportInitialize).EndInit()

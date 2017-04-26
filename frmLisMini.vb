@@ -1,5 +1,6 @@
 ﻿Public Class frmLisMini
-
+    Public AlreadyActiveNotificationsNO As Integer = 0 'VARIABLE FOR DETERMING NUMBER OF ACTIVE NOFIFICATION WINDOWS ON 
+    'SCREEN. THIS IS TO ADJUST VERTICAL POSITION OF THE NOTIFICATIONS SO THAT ALL CAN BE SEEN ON SCREEN.
     Private Sub frmLisMini_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Disable Ribbon. Will be enabled after Authentication.
         EnableRibbon(False)
@@ -24,8 +25,7 @@
         'Verify whether user wants to logout
         'Logout User, Close any and all open child forms, Disable ribbon, Display loginScreen
 
-        Dim IsIntentionLogOut As Integer   '6 = Yes, 7 = No
-        IsIntentionLogOut = MsgBox("Would you like to logout?", vbYesNo, "Confirm logout")
+        Dim IsIntentionLogOut As Integer = MsgBox("Would you like to logout?", vbYesNo, "Confirm logout")   '6 = Yes, 7 = No
 
         'checking user response
         If IsIntentionLogOut = 6 Then

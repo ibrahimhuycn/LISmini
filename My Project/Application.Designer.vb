@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.LISmini.frmNotification
+            Me.MainForm = Global.LISmini.frmLisMini
         End Sub
     End Class
 End Namespace

@@ -73,7 +73,7 @@
         If IS_USER_AUTHENTICATED = True Then
             'Enabling Parent ribbon
             frmLisMini.EnableRibbon(True)
-
+            frmNotification.Show()
             Close()
             Dispose()
         End If
