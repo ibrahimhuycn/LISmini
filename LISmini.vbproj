@@ -209,6 +209,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\CodeMap 16062017.dgml">
+      <Link>CodeMap 16062017.dgml</Link>
+    </None>
     <None Include="LISmini_TemporaryKey.pfx" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">

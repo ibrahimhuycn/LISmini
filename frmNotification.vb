@@ -35,7 +35,7 @@
         RegisterNotification(False)
         Close()
     End Sub
-    Sub ShowNotification(ByVal NotificationMessage As String, ByVal NotificationTitle As String)
+    Sub ShowNotification(ByVal NotificationMessage As String, ByVal NotificationTitle As String, ByVal NotficationPNG_IconName As String, Optional ByVal Heading As String = "")
 
         RegisterNotification(True)
 
@@ -48,7 +48,9 @@
 
         NotificationUI.Text = NotificationTitle
         lblNotificationMessage.Text = NotificationMessage
-        ' NotificationIcon.Image = icon
+        lblHeading.Text = Heading
+
+        NotificationIcon.Image = Image.FromFile(GetImagePath(NotficationPNG_IconName))
 
 
         Location = NotificationLocation     'SETTING INITIAL LOCATION OF NOTIFICATION FORM.
@@ -100,7 +102,10 @@
 
     Private Sub NotificationIcon_Click(sender As Object, e As EventArgs) Handles NotificationIcon.Click
         Dim Notify As New frmNotification
-        Notify.ShowNotification("Hello, This is a notification.", "Test Notification")
+        Notify.ShowNotification(NotificationMessage:="Hello, This is a notification.",
+            NotificationTitle:="Test Notification",
+            NotficationPNG_IconName:="LanTech",
+            Heading:="Testing")
     End Sub
     Sub RegisterNotification(ByVal IsLoading As Boolean)
 
@@ -153,5 +158,15 @@
         Dim FeasibleAmount As Integer
 
         Return FeasibleAmount
+    End Function
+    Function GetImagePath(ImageName As String)
+        'PURPOSE: PROVIDE COMPLETE PATH FOR A PNG TO BE DISPLAYED AS NOTIFICATION ICON WHEN THIS FUNCTION IS PROVIDED WITH THE IMAGE NAME. THIS AVOIDS HAVING TO CHANGE IMAGE PATH FROM EVERY SINGLE 
+        'REFERENCE POINT INCASE THE PATH CHANGES.
+        'ALL IMAGES ARE STORED IN A SINGLE DIRECTORY REFFERED TO AS "ImagerRootDir". THE PROVIDED "ImageName As String" IS CONCENCATED AS "ImagePath As String" AND RETURNED.
+
+        Const ImagerRootDir As String = "C:\Users\ibrah\OneDrive\Documents\Visual Studio 2015\Projects\LISmini\LISmini\Resources\"
+        Dim ImagePath As String = String.Format("{0}{1}.PNG", ImagerRootDir, ImageName)
+
+        Return ImagePath
     End Function
 End Class
