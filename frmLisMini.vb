@@ -1,5 +1,7 @@
 ﻿Public Class frmLisMini
-
+    Public AlreadyActiveNotificationsMonitor As Integer = 0 'VARIABLE FOR DETERMING NUMBER OF ACTIVE NOFIFICATION WINDOWS ON
+    'SCREEN. THIS IS TO ADJUST VERTICAL POSITION OF THE NOTIFICATIONS SO THAT ALL CAN BE SEEN ON SCREEN.
+    Public IsRelocateNofitication As Boolean = False 'DETERMINES WHETHER NOTIFICATION NEEDS TO BE RELOCATED FROM DEFAULT POSITION.
     Private Sub frmLisMini_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Disable Ribbon. Will be enabled after Authentication.
         EnableRibbon(False)

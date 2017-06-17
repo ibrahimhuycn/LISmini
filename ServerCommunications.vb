@@ -17,6 +17,7 @@ Public Class ServerCommunications
     Dim RowsEffected As Integer = Nothing 'TO GET THE NUMBER OF ROWS EFFECTED EXECUTING NON-QUERY
 
     'CONNECTIONSTRING OPTIONAL VARIABLES
+
     Const MsSQLAttachDbFileName As String = "C:\Users\ibrah\OneDrive\Documents\Visual Studio 2015\Projects\LISmini\LISmini\Database\lismini.mdf"  'CAN BE CHANGED IF AND WHEN DATABASE FILE LOCATION IS CHANGED.
     Public Sub Dispose() Implements IDisposable.Dispose
         If MsSQLCnx IsNot Nothing Then
@@ -38,6 +39,7 @@ Public Class ServerCommunications
             Transection = Nothing
         End If
     End Sub
+
     Public Sub CnxStr()
         'THIS METHOD WILL BE CALLED TO SET THE CONNECTION STRING EACH TIME A QUERY IS EXECUTED.
         MsSQLCnx.ConnectionString = "Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" & MsSQLAttachDbFileName & ";Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=True"
