@@ -3,6 +3,7 @@ Imports System.Text.RegularExpressions
 Imports DevExpress.XtraEditors.Controls
 
 Public Class frmAddPatient
+    'TODO: IMPLEMENT A WAY TO ENTER PASSPORT NUMBER FOR FORIGNERS.
 
     'Variables to move the form by grabbing GroupControl "gcAnalysisRequest"
     Dim DRAG_ANALYSIS_REQUEST As Boolean
@@ -95,6 +96,7 @@ Public Class frmAddPatient
         txtNid.Focus()
     End Sub
     Private Sub txtPatientName_EditValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles txtPatientName.EditValueChanged
+
         'INDIVIDUAL NAMES ARE REQUIRED TO BE ALL CAPITALS. THIS WOULD AVOID DUBLICATE INDIVIDUAL NAMES IN BIG AND LITTLE LETTERS.
         'ON EDITVALUECHANGED: ALL TEXT IN THE TEXTBOX IS SET TO UPPER I.E. CAPITALS
         txtPatientName.Text = txtPatientName.Text.ToUpper
@@ -185,9 +187,9 @@ Public Class frmAddPatient
             PatientGender = "M"
         ElseIf cboGender.SelectedIndex = 1 Then
             PatientGender = "F"
-        ElseIf cboGender.SelectedIndex = 2
+        ElseIf cboGender.SelectedIndex = 2 Then
             PatientGender = "O"
-        ElseIf cboGender.SelectedIndex = 3
+        ElseIf cboGender.SelectedIndex = 3 Then
             PatientGender = "U"
 
         End If
@@ -371,7 +373,8 @@ Public Class frmAddPatient
     End Sub
 
     Private Sub txtAtoll_LostFocus(sender As Object, e As EventArgs) Handles cboAtoll.LostFocus
-
+        'TODO PERFORMANCE: CHANGE THE DATABASE STRUCTURE TO INCLUDE SAPARATE TABLES FOR ATOLLS AND ISLANDS
+        'CHANGE THE QUERY SO THAT THE QUERY UTILIZES IdAtolls TO GET THE LIST OF ISLANDS FOR THE PARTICULAR ATOLL RATHER THAN USING A STRING LIKE NOW.
         Dim Island As String
         cboIsland.Properties.Items.Clear()
 
@@ -410,7 +413,7 @@ Public Class frmAddPatient
 
 
         'GRIDVIEW REQUIRES TO BE BOUND TO SOME SORTA DATA SOURCE FOR IT TO HAVE EVEN THE MOST BASIC FUNCTION
-        'MAKE A WRAPPER TO WRAP A STRING ARRAY TO STORE CONTACT AND CORRESPONG CONTACT UNTIL THEY ARE WRITTEN TO SERVER.
+        'MAKE A WRAPPER TO WRAP A STRING ARRAY TO STORE CONTACT AND CORRESPONG CONTACT DETAIL UNTIL THEY ARE WRITTEN TO SERVER.
         'THIS STEP WILL BE IMPLEMENTED IN A NEW CLASS.
 
         PatientContacts.Add(New Contacts(txtContactDetail.Text, cboContactType.Text))
@@ -503,15 +506,10 @@ Public Class frmAddPatient
     End Sub
 
     Private Sub txtContactDetail_Validating(sender As Object, e As CancelEventArgs) Handles txtContactDetail.Validating
-        'INITIALISING VARIABLES
-
-        Dim DetectValidateMobileNumberOptionZero As Boolean = False
-        Dim DetectValidateMobileNumberOptionOne As Boolean = False
-        Dim DetectValidateHomePhone As Boolean = False
-        Dim DetectValidateEmail As Boolean = False
-
         'INITAILIZING COMBOBOX "cboContactType" AS NOTHING
         cboContactType.EditValue = ""
+
+        'INITIALISING VARIABLES
 
         'VALIDATING DATA ENTRY TO THE TEXTBOX "txtContactDetail"
         'IN ADDITION TO VALIDATION, THIS CODE SEGMENT WILL ALSO BE USED TO AUTO DETECT MOBILE NUMBER AND EMAIL ADDRESS AND SELECT THE 
@@ -519,10 +517,10 @@ Public Class frmAddPatient
         'REGEX INTERNATIONAL MOBILE NUMBERS: ^\+?(d+[- ])?\d{10}$ OR ^(d+[- ])?\d{7}$
         'REGEX EMAIL ADDRESS: \b[!#$%&'*+./0-9=?_`a-z{|}~^-]+@[.0-9a-z-]+\.[a-z]{2,6}\b
 
-        DetectValidateMobileNumberOptionZero = Regex.IsMatch(txtContactDetail.Text, "^9|7\+?(d+[- ])?\d{9}$")
-        DetectValidateMobileNumberOptionOne = Regex.IsMatch(txtContactDetail.Text, "^9|7(d+[- ])?\d{6}$")
-        DetectValidateHomePhone = Regex.IsMatch(txtContactDetail.Text, "^(\+[1-9][0-9]*(\([0-9]*\)|-[0-9]*-))?[0]?[1-9][0-9\- ]*$")
-        DetectValidateEmail = Regex.IsMatch(txtContactDetail.Text, "\b[!#$%&'*+./0-9=?_`a-z{|}~^-]+@[.0-9a-z-]+\.[a-z]{2,6}\b", RegexOptions.IgnoreCase)
+        Dim DetectValidateMobileNumberOptionZero As Boolean = Regex.IsMatch(txtContactDetail.Text, "^9|7\+?(d+[- ])?\d{9}$")
+        Dim DetectValidateMobileNumberOptionOne As Boolean = Regex.IsMatch(txtContactDetail.Text, "^9|7(d+[- ])?\d{6}$")
+        Dim DetectValidateHomePhone As Boolean = Regex.IsMatch(txtContactDetail.Text, "^(301|330|331|332|333|334|335|339|688|689|690|650|652|652|654|656|658|660|662|664|666|668|670|672|674|676|678|680|682|684|686)+[0-9]{4}$")
+        Dim DetectValidateEmail As Boolean = Regex.IsMatch(txtContactDetail.Text, "\b[!#$%&'*+./0-9=?_`a-z{|}~^-]+@[.0-9a-z-]+\.[a-z]{2,6}\b", RegexOptions.IgnoreCase)
 
         Try
             If DetectValidateMobileNumberOptionZero = True Or DetectValidateMobileNumberOptionOne = True Then
@@ -554,4 +552,189 @@ Public Class frmAddPatient
         'DISPLAYING A TOOLTIP ON THE CROSS ICON TO HELP CORRECT THE ERROR
         e.ErrorText = "Invalid Contact" & vbCrLf & "Enter an Email or phone number."
     End Sub
+
+    Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+
+        Dim RowsInsertedIndividual As Integer = Nothing
+        Dim RowsInsertedNameHandler As Integer = Nothing
+        Dim IdIndividualNameArrayLength As Integer
+        Dim NameHandlerInsertStatement As String = ""
+
+        '1)GATHERING DATA
+        Dim PatientEntryStep As Integer = Nothing   'FOR ERROR HANDLING
+        Dim IdIndivdualNames() As Integer = FetchIndividualNameIDs()         'i) INSERT NONEXISTING NAMES AND GET ALL IDs FOR INDIVIDUAL NAMES OF PATIENT
+        Dim IdIslandAndAtoll As Integer = FetchIdIslandList()
+        Dim IdCountry As Integer = FetchCountryID()
+
+        '2) INSERTING DATA INTO DBO.INDIVIDUALS & NAMEHANDLER
+        Try
+            'INSERTING DATA INTO DBO.INDIVIDUALS
+            PatientEntryStep = 0
+            RowsInsertedIndividual = MsSQLComHandler.NonQueryINSERT("[dbo].[Individuals]", String.Format("('{0}',N'{1}',N'{2}','{3}','{4}','{5}','{6}','{7}')", HospitalNumber, Nid, Dob, Address, 1, IdIslandAndAtoll, IdCountry, Gender),
+                                                      "([Idindividual],[NidCardNumber],[dob],[Address],[IsAlive],[IdIsland],[IdCountry],[IdGender])")
+            PatientEntryStep = 1
+
+            'INSERTING DATA INTO DBO.NAMEHANDLER
+            'i) PARSE INSERT VALUES FOR INSERT QUERY
+            IdIndividualNameArrayLength = IdIndivdualNames.Length
+            For i = 0 To (IdIndividualNameArrayLength - 1)
+                If i = 0 Then
+                    NameHandlerInsertStatement = String.Format("({0},{1},{2})", HospitalNumber, i, IdIndivdualNames(i))
+                ElseIf i > 0 Then
+                    NameHandlerInsertStatement = NameHandlerInsertStatement & String.Format(", ({0},{1},{2})", HospitalNumber, i, IdIndivdualNames(i))
+                End If
+            Next
+            PatientEntryStep = 2
+
+            'ii)EXECUTE INSERT STATEMENT
+            RowsInsertedNameHandler = MsSQLComHandler.NonQueryINSERT("[dbo].[NameHandler]", NameHandlerInsertStatement, String.Format("({0}, {1}, {2})", "[IdIndividual]", "[SortOrder]", "[IdIndividualName]"))
+            PatientEntryStep = 3
+
+            'SAVING CONTACT DETAILS TO SERVER
+            ParseAndInsertContactDetails()
+        Catch ex As Exception
+            MsgBox(String.Format("{0}{1}", ex.Message, vbCrLf))
+        End Try
+    End Sub
+    Private Function FetchIndividualNameIDs()
+        'TASK OF THIS FUNCTION: CHECK SERVER FOR THE PRESENCE OF INDIVIDUAL NAMES. IF PRESENT, GET THEIR IDs ELSE EXECUTE AN INSERT QUERY TO ADD THE NON-EXISTANT NAMES
+        'AND EXECUTE ANOTHER QUERY TO GET THE IDs.
+        'THIS FUNCTION USES ServerCommunications.vb CLASS.
+
+        'GETTING INDIVIDUAL NAMES FROM ARRAY.
+        'INITIALISING ALL REQUIRED VARIABLES TO GATHER INFORMATION FROM SERVER.
+        Dim i As Integer 'COUNTER VARIABLE FOR LOOP
+        Dim ArrayLength As Integer = IndividualNameCollection.Length   'GETTING ARRAY LENGTH FOR ARRAY HOLDING INDIVIDUAL NAMES
+        Dim Individual As String = ""
+        Dim IsNamePresentOnServer As Integer
+        Dim RetrievedIdIndividualName(ArrayLength - 1) As Integer
+        Dim RowsInserted As Integer
+
+        'USING FOR LOOP TO RETRIEVE THE VALUES
+        For i = 0 To ArrayLength - 1
+            RowsInserted = 0    'INITIALISE VARIABLE EVERYTIME THE QUERY IS RUN.
+            Individual = IndividualNameCollection.GetValue(i)
+
+            'CHECK WHETHER THE INDIVIDUAL NAME IS PRESENT IN THE SERVER. [dbo].[IndividualNames]. THE FOLLOWING QUERY RETURNS THE NUMBER OF TIMES THE EXPECTED VALUE IS PRESENT ON SERVER
+            'USING SQL COUNT FUNCTION.
+            'THE COLUMN [dbo].[IndividualNames].[Individual] is a UNIQUE FIELD WHICH MEANS THAT THE RESULT WOULD EITHER BE 1 OR 0 INDICATING PRESENCE OR ABSENCE OF THE NAME ON SERVER.
+
+RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVER.
+
+            IsNamePresentOnServer = MsSQLComHandler.IsFieldValuePresent("[dbo].[IndividualNames]", "Individual", Individual)
+            'IF FIELD IS PRESENT, GET THE IdIndividualName and store it in the an array " Dim IdIndividualNameStore(ArrayLength -1) As Integer". 
+            'The length of the array would be The number of individual names in the Patient name MINUS ONE 
+
+            If IsNamePresentOnServer = 1 Then
+                'ONLY THE ID IdIndividual IS RETURNED AND THEREFORE ONLY ONE FIELD WILL BE PRESENT IN THE ARRAY "RetrievedID()". TAKE THE VALUE AT INDEX 0 AND ASSIGN IT TO "RetrievedIdIndividualName"
+                Dim RetrievedID() As String = MsSQLComHandler.ExecuteMsSQLReader("[IdindividualName] AS IName", "[dbo].[IndividualNames]", True, String.Format("[Individual] = '{0}'", Individual), False, False, "", False, "IName")
+                RetrievedIdIndividualName(i) = RetrievedID(0)
+            ElseIf IsNamePresentOnServer = 0 Then
+                'EXECUTING ExecuteNonQuery TO ADD THE NAME TO SERVER
+                RowsInserted = MsSQLComHandler.NonQueryINSERT("[dbo].[IndividualNames]", String.Format("(N'{0}')", Individual), "([Individual])")
+                If RowsInserted = 1 Then
+                    GoTo RetryForID
+                ElseIf Not RowsInserted = 1 Then
+                    MsgBox(String.Format("Error inserting patient name to server.{0}Number of Rows Inserted: {1}", vbCrLf, RowsInserted), vbInformation, "Patient Registration")
+                End If
+
+            Else
+                MsgBox("An Error occured while checking for the presence of IndividualNames on server!", vbCritical,)
+            End If
+        Next
+        Return RetrievedIdIndividualName
+    End Function
+    Private Function FetchIdIslandList()
+        'TASK OF THE FUNCTION: GET THE ATOLL AND ISLAND(ATOLL AND ISLAND ID IS JUST ONE VALUE. IdIslandList) ID OF THE PATIENTS ADDRESS AND RETURN IT.
+
+        Dim IdIslandAndAtoll As Integer
+        Dim IdIslandAndAtollArray As String() = MsSQLComHandler.ExecuteMsSQLReader("[IdIslandList] AS IdIslandAndAtoll", "[dbo].[IslandList]", True, String.Format("[Island]='{0}' AND [AtollAbbrv]='{1}'", Island, Atoll), False, False, "", False, "IdIslandAndAtoll")
+
+        'THE ARRAY RETURNED WILL HAVE ONLY ONE VALUE AND HENCE THERE IS NO NEED TO ITERATE THROUGH THE ARRAY.
+        'GETTING THE 0 INDEX OF THE ARRAY TO AN INTEGER AND RETURNING THE VALUE SHOULD DO THE JOB.
+        IdIslandAndAtoll = IdIslandAndAtollArray(0)
+        Return IdIslandAndAtoll
+    End Function
+    Private Function FetchCountryID()
+
+        'TASK FOR THIS FUNCTION: FETCH THE COUNTRY ID FOR THE PATIENTS' COUNTRY.
+
+        Dim CountryID() As String = Nothing
+        Dim IdCountry As Integer
+        Try
+            CountryID = MsSQLComHandler.ExecuteMsSQLReader("[IdCountry] as CountryID", "[dbo].[Countries]", True, String.Format("[Countries].[Country] = '{0}'", Country),
+                                                           False, False, False, False, "CountryID")
+
+            IdCountry = CountryID(0)    'ONLY ONE VALUE WILL BE RETUNED BY MSSQL READER IN THIS CASE AND THEREFORE, ASSIGNING ONLY INDEX 0 IS SUFFICIENT.
+        Catch ex As Exception
+            MsgBox(String.Format("An error occured while looking up the Country ID for the patient." & vbCrLf & "Error Message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType), vbExclamation,
+                   "Patient Registration")
+        End Try
+
+        Return IdCountry
+    End Function
+
+    Function ParseAndInsertContactDetails()
+        'TASK: FETCHING CONTACT DETAILS FROM ARRAY LIST AND ADD THEM TO SERVER.
+        '[GETTING CONTACT DETAILS FROM THE CLASS CONTACTS.VB]
+
+        ' VARIBLES FETCHING CONTACT DETAILS FROM ARRAY LIST
+        Dim ii As Integer = 0  'COUNTER FOR THE LOOP
+        Dim ListLength As Integer = PatientContacts.Count
+        Dim Contact As String
+        Dim IdContactType As Integer = Nothing
+        Dim Type As String = ""
+        Dim ContactsInsertStatement As String = Nothing
+        Dim RowsInserted As Integer
+
+        '1) FETCH THE DETAILS.
+        For ii = 0 To ListLength - 1
+            Contact = PatientContacts.Item(ii).Contact_Detail.ToString
+            Type = PatientContacts.Item(ii).Contact_Type
+
+            If Type = "Mobile" Then
+                IdContactType = 1
+            ElseIf Type = "Office" Then
+                IdContactType = 2
+            ElseIf Type = "Office" Then
+                IdContactType = 2
+            ElseIf Type = "Home" Then
+                IdContactType = 3
+            ElseIf Type = "Email" Then
+                IdContactType = 4
+            Else
+                MsgBox("Invalid Contact Type selected.", vbExclamation, "Patient Registration")
+            End If
+
+
+            '2) PARSING CONTACT DETAILS AS PART OF AN INSERT STATEMENT.
+            If ii = 0 Then
+                ContactsInsertStatement = String.Format("({0}, {1}, '{2}')", HospitalNumber, IdContactType, Contact)
+            ElseIf ii > 0 Then
+                ContactsInsertStatement += String.Format(", ({0}, {1}, '{2}')", HospitalNumber, IdContactType, Contact)
+            End If
+
+            '3) TRY ADDING THE CONTACT DETAILS TO SERVER.
+            If ii = ListLength - 1 Then
+
+                Try
+                    'CHECK WHETHER CONTACT TYPE IS A VALID TYPE BY CHECKING WHETHER THE TYPE EXISTS ON SERVER AND FETCH IdContactType TO BE INSERTED INTO CONTACTS TABLE . THIS IS NOT DONE FOR NOW. 
+                    'THIS PART WILL BE HARDCODED IN SOFTWARE AS FOLLOWS.
+                    '1= Mobile 2= Office 3= Home 4 = Email
+
+                    'EXECUTE COMMAND.EXECUTENONQUERY TO INSERY THE CONTACTS.
+                    RowsInserted = MsSQLComHandler.NonQueryINSERT("[dbo].[Contacts]", ContactsInsertStatement)
+                Catch ex As Exception
+
+                    MsgBox(String.Format("An error adding patient contact details to server. Error message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType.ToString), vbInformation, "Patient Registration")
+                End Try
+
+            End If
+        Next
+
+        'this return statement has to be changed to a meaningful one
+        Return 0
+    End Function
+
+
 End Class

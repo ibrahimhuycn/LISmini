@@ -54,8 +54,10 @@
 
         If WindowState = FormWindowState.Normal Then
             WindowState = 2 'Maximaized
+            lblClose.Visible = False
         ElseIf WindowState = FormWindowState.Maximized Then
             WindowState = 0
+            lblClose.Visible = True
         End If
 
     End Sub
@@ -77,9 +79,5 @@
 
     Private Sub lblClose_Click(sender As Object, e As EventArgs) Handles lblClose.Click
         Close()
-    End Sub
-
-    Private Sub IterateAnalyteList(ByVal SearchValue As String)
-
     End Sub
 End Class
