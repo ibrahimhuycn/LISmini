@@ -73,7 +73,10 @@
         If IS_USER_AUTHENTICATED = True Then
             'Enabling Parent ribbon
             frmLisMini.EnableRibbon(True)
-            frmNotification.ShowNotification("User authenticated successfully!" & vbCrLf & "Welcome", "Authentication")
+            frmNotification.ShowNotification(NotificationMessage:="User authenticated successfully!",
+                NotificationTitle:="Authentication",
+                NotficationPNG_IconName:="GreenTick",
+                Heading:="Welcome USERNAME")
             'frmNotification.Show()
             Close()
             Dispose()
@@ -81,7 +84,7 @@
     End Sub
 
     Private Sub txtUserName_LostFocus(sender As Object, e As EventArgs) Handles txtUserName.LostFocus
-        '1) Giving feednack on whether username was entered.
+        '1) Giving feedback on whether username was entered.
         '2) Setting default text if field is empty on lost focus.
 
         'Initialise IS_USERNAME_ENTERED variable as False

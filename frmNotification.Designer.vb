@@ -89,6 +89,7 @@ Partial Class frmNotification
         Me.NotificationIcon.Location = New System.Drawing.Point(5, 26)
         Me.NotificationIcon.Name = "NotificationIcon"
         Me.NotificationIcon.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.[Auto]
+        Me.NotificationIcon.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch
         Me.NotificationIcon.Properties.ZoomAccelerationFactor = 1.0R
         Me.NotificationIcon.Size = New System.Drawing.Size(64, 64)
         Me.NotificationIcon.TabIndex = 1
