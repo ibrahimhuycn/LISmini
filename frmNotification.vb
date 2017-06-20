@@ -1,6 +1,5 @@
 ﻿Public Class frmNotification
 
-    'TODO: IMPLEMENT A WAY TO FADE OUT THE NOTIFICATION AS IT CLOSES. IT'S WEIRD JUST CLOSING ALL OF A SUDDEN.
     'THIS FORM WILL BE USED TO SHOW NOTIFICATIONS WHICH DO NOT REQUITRE USER INTERACTION.
     'AUTHOR: IBRAHIM HUSSAIN
     'SWAT INC
@@ -35,8 +34,8 @@
         RegisterNotification(False)
         Close()
     End Sub
-    Sub ShowNotification(ByVal NotificationMessage As String, ByVal NotificationTitle As String, ByVal NotficationPNG_IconName As String, Optional ByVal Heading As String = "")
-
+    Public Sub ShowNotification(ByVal NotificationMessage As String, ByVal NotificationTitle As String, ByVal NotficationPNG_IconName As String, Optional ByVal Heading As String = "")
+        On Error Resume Next
         RegisterNotification(True)
 
         ScreenDiametions(POINT_X, POINT_Y)

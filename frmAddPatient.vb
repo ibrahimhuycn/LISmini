@@ -4,6 +4,7 @@ Imports DevExpress.XtraEditors.Controls
 
 Public Class frmAddPatient
     'TODO: IMPLEMENT A WAY TO ENTER PASSPORT NUMBER FOR FORIGNERS.
+    'MOVE SERVER CONNECTION STATUS CHECKING FUNCTION TO MAIN FORM.
 
     'Variables to move the form by grabbing GroupControl "gcAnalysisRequest"
     Dim DRAG_ANALYSIS_REQUEST As Boolean
@@ -310,6 +311,16 @@ Public Class frmAddPatient
     End Sub
     Private Sub txtNid_InvalidValue(sender As Object, e As InvalidValueExceptionEventArgs) Handles txtNid.InvalidValue
         e.ErrorText = "Invalid ID Card Number" & vbCrLf & "Format: A012345 or BO01012345"
+
+
+        'INITIALISING AN INSTANCE OF THE NOTIFICATION FORM TO PROVIDE NOTOFICATIONS.
+        Dim Notify As New frmNotification
+
+        'SHOWING A POP UP NOTIFICATION
+        Notify.ShowNotification(NotificationMessage:="Invalid ID Card Number. Correct format: A012345 or BO01012345",
+            NotificationTitle:="New Patient Entry",
+            NotficationPNG_IconName:="LanTech",
+            Heading:="Invalid ID !")
     End Sub
     Private Sub CalculateAge(dob As Date)
 
@@ -489,6 +500,15 @@ Public Class frmAddPatient
                 'TEXTBOX TOOLTIP HELP FOR THE CORRECT ENTRY
                 txtEditHospitalNumber.ToolTipTitle = "Invalid Hospital Number"
                 txtEditHospitalNumber.ToolTip = "Valid between 1 and 2147483648"
+
+                'INITIALISING AN INSTANCE OF THE NOTIFICATION FORM TO PROVIDE NOTOFICATIONS.
+                Dim Notify As New frmNotification
+
+                'SHOWING A POP UP NOTIFICATION
+                Notify.ShowNotification(NotificationMessage:="Invalid Hospital Number. Valid between 1 and 2147483648",
+                    NotificationTitle:="New Patient Entry",
+                    NotficationPNG_IconName:="LanTech",
+                    Heading:="Invalid Hosptal Number !")
             End If
         End Try
 
@@ -551,6 +571,15 @@ Public Class frmAddPatient
     Private Sub txtContactDetail_InvalidValue(sender As Object, e As InvalidValueExceptionEventArgs) Handles txtContactDetail.InvalidValue
         'DISPLAYING A TOOLTIP ON THE CROSS ICON TO HELP CORRECT THE ERROR
         e.ErrorText = "Invalid Contact" & vbCrLf & "Enter an Email or phone number."
+
+        'INITIALISING AN INSTANCE OF THE NOTIFICATION FORM TO PROVIDE NOTOFICATIONS.
+        Dim Notify As New frmNotification
+
+        'SHOWING A POP UP NOTIFICATION
+        Notify.ShowNotification(NotificationMessage:="Invalid contact.Enter a valid Email or phone number.",
+            NotificationTitle:="New Patient Entry",
+            NotficationPNG_IconName:="LanTech",
+            Heading:="Invalid Contact Details !")
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
@@ -559,6 +588,9 @@ Public Class frmAddPatient
         Dim RowsInsertedNameHandler As Integer = Nothing
         Dim IdIndividualNameArrayLength As Integer
         Dim NameHandlerInsertStatement As String = ""
+
+        Dim TotalRowsInsertedForNewPTEntry As Integer = Nothing
+        Dim ExpectedNoRowInsertForNewPTEntry As Integer = Nothing
 
         '1)GATHERING DATA
         Dim PatientEntryStep As Integer = Nothing   'FOR ERROR HANDLING
@@ -570,8 +602,19 @@ Public Class frmAddPatient
         Try
             'INSERTING DATA INTO DBO.INDIVIDUALS
             PatientEntryStep = 0
-            RowsInsertedIndividual = MsSQLComHandler.NonQueryINSERT("[dbo].[Individuals]", String.Format("('{0}',N'{1}',N'{2}','{3}','{4}','{5}','{6}','{7}')", HospitalNumber, Nid, Dob, Address, 1, IdIslandAndAtoll, IdCountry, Gender),
-                                                      "([Idindividual],[NidCardNumber],[dob],[Address],[IsAlive],[IdIsland],[IdCountry],[IdGender])")
+            RowsInsertedIndividual = MsSQLComHandler.NonQueryINSERT(Table:="[dbo].[Individuals]",
+                                         InsertValues:=String.Format("('{0}',N'{1}',N'{2}','{3}','{4}','{5}','{6}','{7}')", HospitalNumber, Nid, Dob, Address, 1, IdIslandAndAtoll, IdCountry, Gender),
+                                         Fields:="([Idindividual],[NidCardNumber],[dob],[Address],[IsAlive],[IdIsland],[IdCountry],[IdGender])")
+            If RowsInsertedIndividual = 1 Then
+
+                TotalRowsInsertedForNewPTEntry += RowsInsertedIndividual
+            Else
+                'VARIABLE RowsInsertedIndividual SHOULD BE 1 IF THERE IS NO ERROR.
+                '1) CHECK FOR CONNECTION WITH SERVER. IF NOT CONNECTED, DISPLAY AN ERROR MESSAGE SAYING, SERVER CONNECTION FAILED, RETRY NEW PATIENT ENTRY.
+
+            End If
+            ExpectedNoRowInsertForNewPTEntry = 1
+
             PatientEntryStep = 1
 
             'INSERTING DATA INTO DBO.NAMEHANDLER
@@ -587,7 +630,9 @@ Public Class frmAddPatient
             PatientEntryStep = 2
 
             'ii)EXECUTE INSERT STATEMENT
-            RowsInsertedNameHandler = MsSQLComHandler.NonQueryINSERT("[dbo].[NameHandler]", NameHandlerInsertStatement, String.Format("({0}, {1}, {2})", "[IdIndividual]", "[SortOrder]", "[IdIndividualName]"))
+            RowsInsertedNameHandler = MsSQLComHandler.NonQueryINSERT(Table:="[dbo].[NameHandler]",
+                                          InsertValues:=NameHandlerInsertStatement,
+                                          Fields:=String.Format("({0}, {1}, {2})", "[IdIndividual]", "[SortOrder]", "[IdIndividualName]"))
             PatientEntryStep = 3
 
             'SAVING CONTACT DETAILS TO SERVER
