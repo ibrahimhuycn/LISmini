@@ -5,6 +5,8 @@ Imports DevExpress.XtraEditors.Controls
 Public Class frmAddPatient
     'TODO: IMPLEMENT A WAY TO ENTER PASSPORT NUMBER FOR FORIGNERS.
     'MOVE SERVER CONNECTION STATUS CHECKING FUNCTION TO MAIN FORM.
+    Dim WithEvents CnxMonitor As New Timers.Timer
+    Dim IsServerConnectionAvailable As Boolean
 
     'Variables to move the form by grabbing GroupControl "gcAnalysisRequest"
     Dim DRAG_ANALYSIS_REQUEST As Boolean
@@ -13,10 +15,6 @@ Public Class frmAddPatient
 
     'SERVER OBJECT INITIALISATION FOR EXECUTING QUERIES
     ReadOnly MsSQLComHandler As New ServerCommunications()
-
-
-    'TIMER TO INITIATE PERIODIC CHECKS TO SEE WHETHER CONNECTION TO SERVER IS AVAILABLE
-    Dim WithEvents CnxMonitor As New Timers.Timer
 
     'VARIABLE TO STORE NUMBER OF INDIVIDUAL NAMES IN THE FULL NAME. THIS SERVES AS NUMBER OF ITEMS IN THE STRING ARRAY PatientName
     Public NumberIndividualNames As Integer
@@ -57,15 +55,30 @@ Public Class frmAddPatient
         ' This call is required by the designer.
         InitializeComponent()
 
-        ' Add any initialization after the InitializeComponent() call.
         'INITIALIZING A TO MONITOR CONNECTION STATUS BY CALLING COM HANDLERS' ISCNXALIVE FUNCTION
-
-        CnxMonitor.Interval = 5000
+        CnxMonitor.Interval = 1000
         CnxMonitor.Enabled = True
 
-        'SETTING GEMERIC LIST AS A DATASOURCE FOR GRIDCONTROLADDCONTACT
+        'SETTING GENERIC LIST AS A DATASOURCE FOR GRIDCONTROLADDCONTACT
         GridControlAddContact.DataSource = PatientContacts
 
+
+    End Sub
+    Private Sub CnXMonitor_Tick(sender As Object, e As EventArgs) Handles CnxMonitor.Elapsed
+        IsServerConnectionAvailable = Nothing
+
+        Try
+            If MsSQLComHandler.IsServerAccessAvailable() = True Then
+                IsServerConnectionAvailable = True
+
+
+            Else
+                IsServerConnectionAvailable = False
+
+            End If
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
 
     End Sub
     Private Sub frmAddPatient_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -360,15 +373,6 @@ Public Class frmAddPatient
     Private Sub UpdateSummaryDisplay()
         lblSummary.Text = String.Format("#{0}, {1}, {2}/{3}", NextHospitalNumber, FinalPatientName, patientAge, PatientGender)
     End Sub
-    Private Sub CnXMonitor_Tick(sender As Object, e As EventArgs) Handles CnxMonitor.Elapsed
-        Try
-
-            MsSQLComHandler.IsServerAccessAvailable()
-        Catch ex As Exception
-            MsgBox(ex.Message)
-        End Try
-
-    End Sub
 
     Private Sub txtAddress_LostFocus(sender As Object, e As EventArgs) Handles txtAddress.LostFocus
         If Not txtAddress.Text = "" Then
@@ -584,6 +588,7 @@ Public Class frmAddPatient
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
 
+        Dim Notify As New frmNotification
         Dim RowsInsertedIndividual As Integer = Nothing
         Dim RowsInsertedNameHandler As Integer = Nothing
         Dim IdIndividualNameArrayLength As Integer
@@ -611,6 +616,17 @@ Public Class frmAddPatient
             Else
                 'VARIABLE RowsInsertedIndividual SHOULD BE 1 IF THERE IS NO ERROR.
                 '1) CHECK FOR CONNECTION WITH SERVER. IF NOT CONNECTED, DISPLAY AN ERROR MESSAGE SAYING, SERVER CONNECTION FAILED, RETRY NEW PATIENT ENTRY.
+                If IsServerConnectionAvailable = False Then
+
+                    'INITIALISING AN INSTANCE OF THE NOTIFICATION FORM TO PROVIDE NOTOFICATIONS.
+
+
+                    'SHOWING A POP UP NOTIFICATION
+                    Notify.ShowNotification(NotificationMessage:="Server connection could not be established.",
+                        NotificationTitle:="Server Communications",
+                        NotficationPNG_IconName:="DaatabaseDisconnected",
+                        Heading:="Connection Failure!")
+                End If
 
             End If
             ExpectedNoRowInsertForNewPTEntry = 1

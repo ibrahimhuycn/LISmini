@@ -7,6 +7,10 @@
     Dim IS_PASSWORD_ENTERED As Boolean
     Dim IS_USER_AUTHENTICATED As Boolean
 
+
+    'SERVER OBJECT INITIALISATION FOR EXECUTING QUERIES
+    ReadOnly MsSQLComHandler As New ServerCommunications()
+
     Private Sub frmAuthenticate_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         'CENTER LOGIN FORM ONTO THE PARENT FORM, frmLisMini
         ParentCenter()
@@ -69,6 +73,7 @@
     End Sub
 
     Private Sub btnLogIn_Click(sender As Object, e As EventArgs) Handles btnLogIn.Click
+
         AuthenticateUser()
         If IS_USER_AUTHENTICATED = True Then
             'Enabling Parent ribbon

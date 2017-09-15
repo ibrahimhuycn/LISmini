@@ -6,8 +6,18 @@ Partial Class frmNotification
     <System.Diagnostics.DebuggerNonUserCode()> _
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
-            If disposing AndAlso components IsNot Nothing Then
-                components.Dispose()
+            If disposing Then
+                If components IsNot Nothing Then
+                    components.Dispose()
+                End If
+                If AnimationControl IsNot Nothing Then
+                    AnimationControl.Dispose()
+                    AnimationControl = Nothing
+                End If
+                If LifeTime IsNot Nothing Then
+                    LifeTime.Dispose()
+                    LifeTime = Nothing
+                End If
             End If
         Finally
             MyBase.Dispose(disposing)

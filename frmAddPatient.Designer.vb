@@ -88,7 +88,7 @@ Partial Class frmAddPatient
         '
         'btnBack
         '
-        Me.btnBack.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnBack.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnBack.Appearance.Options.UseFont = True
         Me.btnBack.Location = New System.Drawing.Point(272, 119)
         Me.btnBack.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
@@ -99,18 +99,18 @@ Partial Class frmAddPatient
         '
         'lblAddress
         '
-        Me.lblAddress.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAddress.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAddress.Appearance.Options.UseFont = True
-        Me.lblAddress.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAddress.AppearanceDisabled.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAddress.AppearanceDisabled.Options.UseFont = True
-        Me.lblAddress.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAddress.AppearanceHovered.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAddress.AppearanceHovered.Options.UseFont = True
-        Me.lblAddress.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAddress.AppearancePressed.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAddress.AppearancePressed.Options.UseFont = True
         Me.lblAddress.Location = New System.Drawing.Point(16, 15)
         Me.lblAddress.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblAddress.Name = "lblAddress"
-        Me.lblAddress.Size = New System.Drawing.Size(41, 16)
+        Me.lblAddress.Size = New System.Drawing.Size(45, 13)
         Me.lblAddress.TabIndex = 6
         Me.lblAddress.Text = "Address"
         '
@@ -127,18 +127,18 @@ Partial Class frmAddPatient
         Me.xTabPageContactInfo.Controls.Add(Me.lblContactType)
         Me.xTabPageContactInfo.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.xTabPageContactInfo.Name = "xTabPageContactInfo"
-        Me.xTabPageContactInfo.Size = New System.Drawing.Size(470, 154)
+        Me.xTabPageContactInfo.Size = New System.Drawing.Size(470, 157)
         Me.xTabPageContactInfo.Text = "CONTACT INFO"
         '
         'btnRemove
         '
-        Me.btnRemove.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.btnRemove.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.btnRemove.Appearance.Options.UseFont = True
-        Me.btnRemove.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.btnRemove.AppearanceDisabled.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.btnRemove.AppearanceDisabled.Options.UseFont = True
-        Me.btnRemove.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.btnRemove.AppearanceHovered.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.btnRemove.AppearanceHovered.Options.UseFont = True
-        Me.btnRemove.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.btnRemove.AppearancePressed.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.btnRemove.AppearancePressed.Options.UseFont = True
         Me.btnRemove.Location = New System.Drawing.Point(386, 46)
         Me.btnRemove.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
@@ -150,7 +150,7 @@ Partial Class frmAddPatient
         'GridControlAddContact
         '
         Me.GridControlAddContact.EmbeddedNavigator.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.GridControlAddContact.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridControlAddContact.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GridControlAddContact.Location = New System.Drawing.Point(8, 56)
         Me.GridControlAddContact.MainView = Me.GridViewAddContact
         Me.GridControlAddContact.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
@@ -161,78 +161,78 @@ Partial Class frmAddPatient
         '
         'GridViewAddContact
         '
-        Me.GridViewAddContact.Appearance.ColumnFilterButton.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridViewAddContact.Appearance.ColumnFilterButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GridViewAddContact.Appearance.ColumnFilterButton.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.ColumnFilterButtonActive.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridViewAddContact.Appearance.ColumnFilterButtonActive.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GridViewAddContact.Appearance.ColumnFilterButtonActive.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.CustomizationFormHint.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridViewAddContact.Appearance.CustomizationFormHint.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GridViewAddContact.Appearance.CustomizationFormHint.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.DetailTip.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridViewAddContact.Appearance.DetailTip.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GridViewAddContact.Appearance.DetailTip.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.Empty.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridViewAddContact.Appearance.Empty.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GridViewAddContact.Appearance.Empty.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.EvenRow.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridViewAddContact.Appearance.EvenRow.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GridViewAddContact.Appearance.EvenRow.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.FilterCloseButton.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridViewAddContact.Appearance.FilterCloseButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GridViewAddContact.Appearance.FilterCloseButton.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.FilterPanel.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GridViewAddContact.Appearance.FilterPanel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GridViewAddContact.Appearance.FilterPanel.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.FixedLine.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.FixedLine.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.FixedLine.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.FocusedCell.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.FocusedCell.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.FocusedCell.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.FocusedRow.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.FocusedRow.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.FocusedRow.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.FooterPanel.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.FooterPanel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.FooterPanel.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.GroupButton.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.GroupButton.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.GroupButton.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.GroupFooter.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.GroupFooter.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.GroupFooter.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.GroupPanel.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.GroupPanel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.GroupPanel.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.GroupRow.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.GroupRow.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.GroupRow.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.HeaderPanel.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.HeaderPanel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.HeaderPanel.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.HideSelectionRow.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.HideSelectionRow.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.HideSelectionRow.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.HorzLine.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.HorzLine.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.HorzLine.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.OddRow.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.OddRow.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.OddRow.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.Preview.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.Preview.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.Preview.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.Row.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.Row.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.Row.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.RowSeparator.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.RowSeparator.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.RowSeparator.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.SelectedRow.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.SelectedRow.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.SelectedRow.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.TopNewRow.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.TopNewRow.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.TopNewRow.Options.UseFont = True
-        Me.GridViewAddContact.Appearance.VertLine.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.Appearance.VertLine.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.Appearance.VertLine.Options.UseFont = True
-        Me.GridViewAddContact.AppearancePrint.EvenRow.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.AppearancePrint.EvenRow.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.AppearancePrint.EvenRow.Options.UseFont = True
-        Me.GridViewAddContact.AppearancePrint.FilterPanel.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.AppearancePrint.FilterPanel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.AppearancePrint.FilterPanel.Options.UseFont = True
-        Me.GridViewAddContact.AppearancePrint.FooterPanel.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.AppearancePrint.FooterPanel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.AppearancePrint.FooterPanel.Options.UseFont = True
-        Me.GridViewAddContact.AppearancePrint.GroupFooter.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.AppearancePrint.GroupFooter.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.AppearancePrint.GroupFooter.Options.UseFont = True
-        Me.GridViewAddContact.AppearancePrint.GroupRow.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.AppearancePrint.GroupRow.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.AppearancePrint.GroupRow.Options.UseFont = True
-        Me.GridViewAddContact.AppearancePrint.HeaderPanel.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.AppearancePrint.HeaderPanel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.AppearancePrint.HeaderPanel.Options.UseFont = True
-        Me.GridViewAddContact.AppearancePrint.Lines.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.AppearancePrint.Lines.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.AppearancePrint.Lines.Options.UseFont = True
-        Me.GridViewAddContact.AppearancePrint.OddRow.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.AppearancePrint.OddRow.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.AppearancePrint.OddRow.Options.UseFont = True
-        Me.GridViewAddContact.AppearancePrint.Preview.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Strikeout)
+        Me.GridViewAddContact.AppearancePrint.Preview.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Strikeout)
         Me.GridViewAddContact.AppearancePrint.Preview.FontStyleDelta = System.Drawing.FontStyle.Strikeout
         Me.GridViewAddContact.AppearancePrint.Preview.Options.UseFont = True
-        Me.GridViewAddContact.AppearancePrint.Row.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.GridViewAddContact.AppearancePrint.Row.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.GridViewAddContact.AppearancePrint.Row.Options.UseFont = True
         Me.GridViewAddContact.GridControl = Me.GridControlAddContact
         Me.GridViewAddContact.Name = "GridViewAddContact"
@@ -241,13 +241,13 @@ Partial Class frmAddPatient
         '
         'btnAdd
         '
-        Me.btnAdd.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.btnAdd.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.btnAdd.Appearance.Options.UseFont = True
-        Me.btnAdd.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.btnAdd.AppearanceDisabled.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.btnAdd.AppearanceDisabled.Options.UseFont = True
-        Me.btnAdd.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.btnAdd.AppearanceHovered.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.btnAdd.AppearanceHovered.Options.UseFont = True
-        Me.btnAdd.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.btnAdd.AppearancePressed.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.btnAdd.AppearancePressed.Options.UseFont = True
         Me.btnAdd.Location = New System.Drawing.Point(386, 12)
         Me.btnAdd.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
@@ -263,20 +263,20 @@ Partial Class frmAddPatient
         Me.txtContactDetail.Location = New System.Drawing.Point(8, 28)
         Me.txtContactDetail.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.txtContactDetail.Name = "txtContactDetail"
-        Me.txtContactDetail.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.txtContactDetail.Properties.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.txtContactDetail.Properties.Appearance.Options.UseFont = True
-        Me.txtContactDetail.Size = New System.Drawing.Size(218, 22)
+        Me.txtContactDetail.Size = New System.Drawing.Size(218, 20)
         Me.txtContactDetail.TabIndex = 13
         '
         'btnSave
         '
-        Me.btnSave.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.btnSave.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.btnSave.Appearance.Options.UseFont = True
-        Me.btnSave.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.btnSave.AppearanceDisabled.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.btnSave.AppearanceDisabled.Options.UseFont = True
-        Me.btnSave.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.btnSave.AppearanceHovered.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.btnSave.AppearanceHovered.Options.UseFont = True
-        Me.btnSave.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.btnSave.AppearancePressed.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.btnSave.AppearancePressed.Options.UseFont = True
         Me.btnSave.Location = New System.Drawing.Point(388, 121)
         Me.btnSave.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
@@ -287,31 +287,31 @@ Partial Class frmAddPatient
         '
         'lblContactDetail
         '
-        Me.lblContactDetail.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblContactDetail.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblContactDetail.Appearance.Options.UseFont = True
-        Me.lblContactDetail.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblContactDetail.AppearanceDisabled.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.lblContactDetail.AppearanceDisabled.Options.UseFont = True
-        Me.lblContactDetail.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblContactDetail.AppearanceHovered.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.lblContactDetail.AppearanceHovered.Options.UseFont = True
-        Me.lblContactDetail.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblContactDetail.AppearancePressed.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.lblContactDetail.AppearancePressed.Options.UseFont = True
         Me.lblContactDetail.Cursor = System.Windows.Forms.Cursors.Default
         Me.lblContactDetail.Location = New System.Drawing.Point(11, 9)
         Me.lblContactDetail.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblContactDetail.Name = "lblContactDetail"
-        Me.lblContactDetail.Size = New System.Drawing.Size(75, 16)
+        Me.lblContactDetail.Size = New System.Drawing.Size(81, 13)
         Me.lblContactDetail.TabIndex = 6
         Me.lblContactDetail.Text = "Contact Detail"
         '
         'lblBackContactInfo
         '
-        Me.lblBackContactInfo.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblBackContactInfo.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.lblBackContactInfo.Appearance.Options.UseFont = True
-        Me.lblBackContactInfo.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblBackContactInfo.AppearanceDisabled.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.lblBackContactInfo.AppearanceDisabled.Options.UseFont = True
-        Me.lblBackContactInfo.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblBackContactInfo.AppearanceHovered.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.lblBackContactInfo.AppearanceHovered.Options.UseFont = True
-        Me.lblBackContactInfo.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblBackContactInfo.AppearancePressed.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.lblBackContactInfo.AppearancePressed.Options.UseFont = True
         Me.lblBackContactInfo.Location = New System.Drawing.Point(388, 86)
         Me.lblBackContactInfo.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
@@ -326,36 +326,36 @@ Partial Class frmAddPatient
         Me.cboContactType.Location = New System.Drawing.Point(232, 28)
         Me.cboContactType.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.cboContactType.Name = "cboContactType"
-        Me.cboContactType.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.cboContactType.Properties.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.cboContactType.Properties.Appearance.Options.UseFont = True
         Me.cboContactType.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
         Me.cboContactType.Properties.Items.AddRange(New Object() {"Mobile", "Office", "Home", "Email"})
         Me.cboContactType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor
-        Me.cboContactType.Size = New System.Drawing.Size(148, 22)
+        Me.cboContactType.Size = New System.Drawing.Size(148, 20)
         Me.cboContactType.TabIndex = 14
         '
         'lblContactType
         '
-        Me.lblContactType.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblContactType.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblContactType.Appearance.Options.UseFont = True
-        Me.lblContactType.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblContactType.AppearanceDisabled.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.lblContactType.AppearanceDisabled.Options.UseFont = True
-        Me.lblContactType.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblContactType.AppearanceHovered.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.lblContactType.AppearanceHovered.Options.UseFont = True
-        Me.lblContactType.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.lblContactType.AppearancePressed.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.lblContactType.AppearancePressed.Options.UseFont = True
         Me.lblContactType.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder
         Me.lblContactType.Cursor = System.Windows.Forms.Cursors.Default
         Me.lblContactType.Location = New System.Drawing.Point(235, 10)
         Me.lblContactType.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblContactType.Name = "lblContactType"
-        Me.lblContactType.Size = New System.Drawing.Size(68, 16)
+        Me.lblContactType.Size = New System.Drawing.Size(76, 13)
         Me.lblContactType.TabIndex = 11
         Me.lblContactType.Text = "Contact Type"
         '
         'btnAddressNext
         '
-        Me.btnAddressNext.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddressNext.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddressNext.Appearance.Options.UseFont = True
         Me.btnAddressNext.Location = New System.Drawing.Point(352, 119)
         Me.btnAddressNext.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
@@ -366,7 +366,7 @@ Partial Class frmAddPatient
         '
         'xTabAddPatientRecords
         '
-        Me.xTabAddPatientRecords.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.xTabAddPatientRecords.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.xTabAddPatientRecords.Appearance.Options.UseFont = True
         Me.xTabAddPatientRecords.Location = New System.Drawing.Point(2, 27)
         Me.xTabAddPatientRecords.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
@@ -378,15 +378,15 @@ Partial Class frmAddPatient
         '
         'xTabPagePersonalInfo
         '
-        Me.xTabPagePersonalInfo.Appearance.Header.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.xTabPagePersonalInfo.Appearance.Header.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.xTabPagePersonalInfo.Appearance.Header.Options.UseFont = True
-        Me.xTabPagePersonalInfo.Appearance.HeaderActive.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.xTabPagePersonalInfo.Appearance.HeaderActive.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.xTabPagePersonalInfo.Appearance.HeaderActive.Options.UseFont = True
-        Me.xTabPagePersonalInfo.Appearance.HeaderDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.xTabPagePersonalInfo.Appearance.HeaderDisabled.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.xTabPagePersonalInfo.Appearance.HeaderDisabled.Options.UseFont = True
-        Me.xTabPagePersonalInfo.Appearance.HeaderHotTracked.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.xTabPagePersonalInfo.Appearance.HeaderHotTracked.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.xTabPagePersonalInfo.Appearance.HeaderHotTracked.Options.UseFont = True
-        Me.xTabPagePersonalInfo.Appearance.PageClient.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.xTabPagePersonalInfo.Appearance.PageClient.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.xTabPagePersonalInfo.Appearance.PageClient.Options.UseFont = True
         Me.xTabPagePersonalInfo.Controls.Add(Me.txtEditDateOfBirth)
         Me.xTabPagePersonalInfo.Controls.Add(Me.lblHospitalNumber)
@@ -401,7 +401,7 @@ Partial Class frmAddPatient
         Me.xTabPagePersonalInfo.Controls.Add(Me.lblGender)
         Me.xTabPagePersonalInfo.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.xTabPagePersonalInfo.Name = "xTabPagePersonalInfo"
-        Me.xTabPagePersonalInfo.Size = New System.Drawing.Size(470, 154)
+        Me.xTabPagePersonalInfo.Size = New System.Drawing.Size(470, 157)
         Me.xTabPagePersonalInfo.Text = "PERSONAL INFO"
         '
         'txtEditDateOfBirth
@@ -411,7 +411,7 @@ Partial Class frmAddPatient
         Me.txtEditDateOfBirth.EditValue = ""
         Me.txtEditDateOfBirth.Location = New System.Drawing.Point(191, 79)
         Me.txtEditDateOfBirth.Name = "txtEditDateOfBirth"
-        Me.txtEditDateOfBirth.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtEditDateOfBirth.Properties.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtEditDateOfBirth.Properties.Appearance.Options.UseFont = True
         Me.txtEditDateOfBirth.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
         Me.txtEditDateOfBirth.Properties.CalendarTimeProperties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
@@ -421,22 +421,22 @@ Partial Class frmAddPatient
         Me.txtEditDateOfBirth.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime
         Me.txtEditDateOfBirth.Properties.Mask.BeepOnError = True
         Me.txtEditDateOfBirth.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.None
-        Me.txtEditDateOfBirth.Size = New System.Drawing.Size(138, 22)
+        Me.txtEditDateOfBirth.Size = New System.Drawing.Size(138, 20)
         Me.txtEditDateOfBirth.TabIndex = 4
         '
         'lblHospitalNumber
         '
-        Me.lblHospitalNumber.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblHospitalNumber.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblHospitalNumber.Appearance.Options.UseFont = True
-        Me.lblHospitalNumber.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.lblHospitalNumber.AppearanceDisabled.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblHospitalNumber.AppearanceDisabled.Options.UseFont = True
-        Me.lblHospitalNumber.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.lblHospitalNumber.AppearanceHovered.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblHospitalNumber.AppearanceHovered.Options.UseFont = True
-        Me.lblHospitalNumber.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.lblHospitalNumber.AppearancePressed.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblHospitalNumber.AppearancePressed.Options.UseFont = True
         Me.lblHospitalNumber.Location = New System.Drawing.Point(17, 14)
         Me.lblHospitalNumber.Name = "lblHospitalNumber"
-        Me.lblHospitalNumber.Size = New System.Drawing.Size(84, 16)
+        Me.lblHospitalNumber.Size = New System.Drawing.Size(94, 13)
         Me.lblHospitalNumber.TabIndex = 26
         Me.lblHospitalNumber.Text = "Hospital Number"
         '
@@ -448,9 +448,9 @@ Partial Class frmAddPatient
         Me.txtEditHospitalNumber.EditValue = ""
         Me.txtEditHospitalNumber.Location = New System.Drawing.Point(14, 32)
         Me.txtEditHospitalNumber.Name = "txtEditHospitalNumber"
-        Me.txtEditHospitalNumber.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtEditHospitalNumber.Properties.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtEditHospitalNumber.Properties.Appearance.Options.UseFont = True
-        Me.txtEditHospitalNumber.Size = New System.Drawing.Size(157, 22)
+        Me.txtEditHospitalNumber.Size = New System.Drawing.Size(157, 20)
         Me.txtEditHospitalNumber.TabIndex = 1
         '
         'btnPersonalInfoNext
@@ -464,12 +464,12 @@ Partial Class frmAddPatient
         '
         'lblNid
         '
-        Me.lblNid.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblNid.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblNid.Appearance.Options.UseFont = True
         Me.lblNid.Location = New System.Drawing.Point(17, 61)
         Me.lblNid.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblNid.Name = "lblNid"
-        Me.lblNid.Size = New System.Drawing.Size(126, 16)
+        Me.lblNid.Size = New System.Drawing.Size(142, 13)
         Me.lblNid.TabIndex = 11
         Me.lblNid.Text = "National ID Card Number"
         '
@@ -481,20 +481,20 @@ Partial Class frmAddPatient
         Me.txtNid.Location = New System.Drawing.Point(14, 79)
         Me.txtNid.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.txtNid.Name = "txtNid"
-        Me.txtNid.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.txtNid.Properties.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.txtNid.Properties.Appearance.Options.UseFont = True
         Me.txtNid.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtNid.Size = New System.Drawing.Size(157, 22)
+        Me.txtNid.Size = New System.Drawing.Size(157, 20)
         Me.txtNid.TabIndex = 3
         '
         'lblPatientName
         '
-        Me.lblPatientName.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPatientName.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPatientName.Appearance.Options.UseFont = True
         Me.lblPatientName.Location = New System.Drawing.Point(195, 14)
         Me.lblPatientName.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblPatientName.Name = "lblPatientName"
-        Me.lblPatientName.Size = New System.Drawing.Size(69, 16)
+        Me.lblPatientName.Size = New System.Drawing.Size(76, 13)
         Me.lblPatientName.TabIndex = 14
         Me.lblPatientName.Text = "Patient Name"
         '
@@ -505,13 +505,13 @@ Partial Class frmAddPatient
         Me.cboGender.Location = New System.Drawing.Point(359, 79)
         Me.cboGender.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.cboGender.Name = "cboGender"
-        Me.cboGender.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.cboGender.Properties.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.cboGender.Properties.Appearance.Options.UseFont = True
         Me.cboGender.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
         Me.cboGender.Properties.Items.AddRange(New Object() {"Male", "Female", "Other", "Unknown", " "})
         Me.cboGender.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor
         Me.cboGender.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.cboGender.Size = New System.Drawing.Size(96, 22)
+        Me.cboGender.Size = New System.Drawing.Size(96, 20)
         Me.cboGender.TabIndex = 5
         '
         'txtPatientName
@@ -521,46 +521,46 @@ Partial Class frmAddPatient
         Me.txtPatientName.Location = New System.Drawing.Point(191, 32)
         Me.txtPatientName.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.txtPatientName.Name = "txtPatientName"
-        Me.txtPatientName.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!)
+        Me.txtPatientName.Properties.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
         Me.txtPatientName.Properties.Appearance.Options.UseFont = True
         Me.txtPatientName.Properties.Mask.BeepOnError = True
         Me.txtPatientName.Properties.Mask.EditMask = "[a-zA-Z -]+"
         Me.txtPatientName.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx
         Me.txtPatientName.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.txtPatientName.Size = New System.Drawing.Size(264, 22)
+        Me.txtPatientName.Size = New System.Drawing.Size(264, 20)
         Me.txtPatientName.TabIndex = 2
         '
         'lblDob
         '
-        Me.lblDob.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDob.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDob.Appearance.Options.UseFont = True
         Me.lblDob.Location = New System.Drawing.Point(195, 61)
         Me.lblDob.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblDob.Name = "lblDob"
-        Me.lblDob.Size = New System.Drawing.Size(68, 16)
+        Me.lblDob.Size = New System.Drawing.Size(72, 13)
         Me.lblDob.TabIndex = 6
         Me.lblDob.Text = "Date of Birth"
         '
         'lblGender
         '
-        Me.lblGender.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblGender.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblGender.Appearance.Options.UseFont = True
         Me.lblGender.Location = New System.Drawing.Point(359, 61)
         Me.lblGender.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblGender.Name = "lblGender"
-        Me.lblGender.Size = New System.Drawing.Size(36, 16)
+        Me.lblGender.Size = New System.Drawing.Size(42, 13)
         Me.lblGender.TabIndex = 11
         Me.lblGender.Text = "Gender"
         '
         'xTabPageAddress
         '
-        Me.xTabPageAddress.Appearance.Header.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.xTabPageAddress.Appearance.Header.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.xTabPageAddress.Appearance.Header.Options.UseFont = True
-        Me.xTabPageAddress.Appearance.HeaderActive.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.xTabPageAddress.Appearance.HeaderActive.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.xTabPageAddress.Appearance.HeaderActive.Options.UseFont = True
-        Me.xTabPageAddress.Appearance.HeaderDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.xTabPageAddress.Appearance.HeaderDisabled.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.xTabPageAddress.Appearance.HeaderDisabled.Options.UseFont = True
-        Me.xTabPageAddress.Appearance.HeaderHotTracked.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.xTabPageAddress.Appearance.HeaderHotTracked.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.xTabPageAddress.Appearance.HeaderHotTracked.Options.UseFont = True
         Me.xTabPageAddress.Controls.Add(Me.btnBack)
         Me.xTabPageAddress.Controls.Add(Me.btnAddressNext)
@@ -574,23 +574,23 @@ Partial Class frmAddPatient
         Me.xTabPageAddress.Controls.Add(Me.cboCountry)
         Me.xTabPageAddress.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.xTabPageAddress.Name = "xTabPageAddress"
-        Me.xTabPageAddress.Size = New System.Drawing.Size(470, 154)
+        Me.xTabPageAddress.Size = New System.Drawing.Size(470, 157)
         Me.xTabPageAddress.Text = "ADDRESS"
         '
         'lblCountry
         '
-        Me.lblCountry.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCountry.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCountry.Appearance.Options.UseFont = True
-        Me.lblCountry.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCountry.AppearanceDisabled.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCountry.AppearanceDisabled.Options.UseFont = True
-        Me.lblCountry.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCountry.AppearanceHovered.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCountry.AppearanceHovered.Options.UseFont = True
-        Me.lblCountry.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCountry.AppearancePressed.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCountry.AppearancePressed.Options.UseFont = True
         Me.lblCountry.Location = New System.Drawing.Point(274, 56)
         Me.lblCountry.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblCountry.Name = "lblCountry"
-        Me.lblCountry.Size = New System.Drawing.Size(41, 16)
+        Me.lblCountry.Size = New System.Drawing.Size(43, 13)
         Me.lblCountry.TabIndex = 17
         Me.lblCountry.Text = "Country"
         '
@@ -600,9 +600,9 @@ Partial Class frmAddPatient
         Me.txtAddress.Location = New System.Drawing.Point(14, 33)
         Me.txtAddress.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.txtAddress.Name = "txtAddress"
-        Me.txtAddress.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAddress.Properties.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtAddress.Properties.Appearance.Options.UseFont = True
-        Me.txtAddress.Size = New System.Drawing.Size(414, 22)
+        Me.txtAddress.Size = New System.Drawing.Size(414, 20)
         Me.txtAddress.TabIndex = 7
         '
         'cboAtoll
@@ -611,26 +611,26 @@ Partial Class frmAddPatient
         Me.cboAtoll.Location = New System.Drawing.Point(14, 74)
         Me.cboAtoll.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.cboAtoll.Name = "cboAtoll"
-        Me.cboAtoll.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboAtoll.Properties.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboAtoll.Properties.Appearance.Options.UseFont = True
         Me.cboAtoll.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
-        Me.cboAtoll.Size = New System.Drawing.Size(65, 22)
+        Me.cboAtoll.Size = New System.Drawing.Size(65, 20)
         Me.cboAtoll.TabIndex = 8
         '
         'lblAtoll
         '
-        Me.lblAtoll.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAtoll.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAtoll.Appearance.Options.UseFont = True
-        Me.lblAtoll.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAtoll.AppearanceDisabled.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAtoll.AppearanceDisabled.Options.UseFont = True
-        Me.lblAtoll.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAtoll.AppearanceHovered.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAtoll.AppearanceHovered.Options.UseFont = True
-        Me.lblAtoll.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAtoll.AppearancePressed.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAtoll.AppearancePressed.Options.UseFont = True
         Me.lblAtoll.Location = New System.Drawing.Point(17, 56)
         Me.lblAtoll.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblAtoll.Name = "lblAtoll"
-        Me.lblAtoll.Size = New System.Drawing.Size(27, 16)
+        Me.lblAtoll.Size = New System.Drawing.Size(25, 13)
         Me.lblAtoll.TabIndex = 14
         Me.lblAtoll.Text = "Atoll"
         '
@@ -640,26 +640,26 @@ Partial Class frmAddPatient
         Me.cboIsland.Location = New System.Drawing.Point(83, 74)
         Me.cboIsland.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.cboIsland.Name = "cboIsland"
-        Me.cboIsland.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboIsland.Properties.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboIsland.Properties.Appearance.Options.UseFont = True
         Me.cboIsland.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
-        Me.cboIsland.Size = New System.Drawing.Size(183, 22)
+        Me.cboIsland.Size = New System.Drawing.Size(183, 20)
         Me.cboIsland.TabIndex = 9
         '
         'lblIsland
         '
-        Me.lblIsland.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIsland.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblIsland.Appearance.Options.UseFont = True
-        Me.lblIsland.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIsland.AppearanceDisabled.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblIsland.AppearanceDisabled.Options.UseFont = True
-        Me.lblIsland.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIsland.AppearanceHovered.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblIsland.AppearanceHovered.Options.UseFont = True
-        Me.lblIsland.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblIsland.AppearancePressed.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblIsland.AppearancePressed.Options.UseFont = True
         Me.lblIsland.Location = New System.Drawing.Point(85, 56)
         Me.lblIsland.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblIsland.Name = "lblIsland"
-        Me.lblIsland.Size = New System.Drawing.Size(30, 16)
+        Me.lblIsland.Size = New System.Drawing.Size(34, 13)
         Me.lblIsland.TabIndex = 11
         Me.lblIsland.Text = "Island"
         '
@@ -670,16 +670,16 @@ Partial Class frmAddPatient
         Me.cboCountry.Location = New System.Drawing.Point(272, 74)
         Me.cboCountry.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.cboCountry.Name = "cboCountry"
-        Me.cboCountry.Properties.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboCountry.Properties.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboCountry.Properties.Appearance.Options.UseFont = True
         Me.cboCountry.Properties.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)})
         Me.cboCountry.Properties.Items.AddRange(New Object() {"Maldives"})
-        Me.cboCountry.Size = New System.Drawing.Size(156, 22)
+        Me.cboCountry.Size = New System.Drawing.Size(156, 20)
         Me.cboCountry.TabIndex = 10
         '
         'GrpPatientDetails
         '
-        Me.GrpPatientDetails.AppearanceCaption.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GrpPatientDetails.AppearanceCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GrpPatientDetails.AppearanceCaption.Options.UseFont = True
         Me.GrpPatientDetails.Controls.Add(Me.lblClose)
         Me.GrpPatientDetails.Controls.Add(Me.GrpControlSummary)
@@ -693,18 +693,18 @@ Partial Class frmAddPatient
         '
         'lblClose
         '
-        Me.lblClose.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblClose.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblClose.Appearance.Options.UseFont = True
         Me.lblClose.Location = New System.Drawing.Point(459, 3)
         Me.lblClose.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblClose.Name = "lblClose"
-        Me.lblClose.Size = New System.Drawing.Size(14, 16)
+        Me.lblClose.Size = New System.Drawing.Size(16, 13)
         Me.lblClose.TabIndex = 23
         Me.lblClose.Text = " X "
         '
         'GrpControlSummary
         '
-        Me.GrpControlSummary.AppearanceCaption.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GrpControlSummary.AppearanceCaption.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GrpControlSummary.AppearanceCaption.Options.UseFont = True
         Me.GrpControlSummary.Controls.Add(Me.lblSummary)
         Me.GrpControlSummary.Location = New System.Drawing.Point(3, 214)
@@ -716,24 +716,24 @@ Partial Class frmAddPatient
         '
         'lblSummary
         '
-        Me.lblSummary.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSummary.Appearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblSummary.Appearance.Options.UseFont = True
         Me.lblSummary.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.Vertical
         Me.lblSummary.Location = New System.Drawing.Point(14, 27)
         Me.lblSummary.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.lblSummary.Name = "lblSummary"
-        Me.lblSummary.Size = New System.Drawing.Size(420, 16)
+        Me.lblSummary.Size = New System.Drawing.Size(420, 13)
         Me.lblSummary.TabIndex = 34
         Me.lblSummary.Text = "# HospitalNumber:PatientName"
         '
         'frmAddPatient
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(481, 287)
         Me.ControlBox = False
         Me.Controls.Add(Me.GrpPatientDetails)
-        Me.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.MaximizeBox = False

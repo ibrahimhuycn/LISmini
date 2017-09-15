@@ -10,7 +10,7 @@
     Dim TicksCount As Integer = 0
 
     Private AlreadyActiveNotificationsNO As Integer = 1 'THIS VARIABLE DETERMINES WHETHER THERE ARE ANY PREVIOUS NOTIFICATIONS
-    Private Const NotificationRelocationFactor As Integer = 96 'VERTICAL DISPLACEMENT OF THE NOTIFICATION OF THE NOTIFICATION POPUP IN THE PRESENCE OF 
+    Private Const NotificationWindowRelocationFactor As Integer = 96 'VERTICAL DISPLACEMENT OF THE NOTIFICATION OF THE NOTIFICATION POPUP IN THE PRESENCE OF 
     'ANOTHER POPUP TO AVOID OVERLAP OF NOTIFICATION POPUP WINDOWS.
 
     Private Const LifeTimeInMilliseconds As Integer = 1  'THIS IS THE INTERVAL OF THE TIMER WHICH COUNTS DOWN TO CLOSE THE NOTIFICATION.
@@ -35,7 +35,6 @@
         Close()
     End Sub
     Public Sub ShowNotification(ByVal NotificationMessage As String, ByVal NotificationTitle As String, ByVal NotficationPNG_IconName As String, Optional ByVal Heading As String = "")
-        On Error Resume Next
         RegisterNotification(True)
 
         ScreenDiametions(POINT_X, POINT_Y)
@@ -88,7 +87,7 @@
 
         ScreenDiametions(POINT_X, POINT_Y)
         NotificationLocation.X = POINT_X - 450
-        Do Until i = (200 + (AlreadyActiveNotificationsNO * NotificationRelocationFactor))
+        Do Until i = (200 + (AlreadyActiveNotificationsNO * NotificationWindowRelocationFactor))
             NotificationLocation.Y = POINT_Y - i
             Location = NotificationLocation
             i = i + 1
