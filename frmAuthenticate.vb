@@ -2,11 +2,9 @@
     'PENDING TASKS.
     'Use swatinccrypto to check whether user provided password and Hash retrived from server match.
 
-
     Dim IS_USERNAME_ENTERED As Boolean
     Dim IS_PASSWORD_ENTERED As Boolean
     Dim IS_USER_AUTHENTICATED As Boolean
-
 
     'SERVER OBJECT INITIALISATION FOR EXECUTING QUERIES
     ReadOnly MsSQLComHandler As New ServerCommunications()
@@ -25,8 +23,6 @@
         End If
 
     End Sub
-
-
 
     Private Sub txtPassword_GotFocus(ByVal sender As Object, ByVal e As EventArgs) Handles txtPassword.GotFocus
         'Clearing password field of default text
@@ -59,6 +55,7 @@
         SetBounds(ParentWidth, ParentHeight, Width, Height)
         MdiParent = frmLisMini
     End Sub
+
     Function AuthenticateUser()
 
         'After authentication
@@ -102,4 +99,5 @@
             IS_USERNAME_ENTERED = True
         End If
     End Sub
+
 End Class

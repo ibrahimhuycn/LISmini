@@ -15,7 +15,7 @@
 
     Private Const LifeTimeInMilliseconds As Integer = 1  'THIS IS THE INTERVAL OF THE TIMER WHICH COUNTS DOWN TO CLOSE THE NOTIFICATION.
 
-    Dim IsLocationDefault As Boolean = False 'IF THIS IS TRUE THE NOTIFICATION POPUP WINDOW WILL SET frmLisMini.IsRelocateNofitication to FALSE WHILE UNLOADING THE NOTIFICATION
+    Dim IsLocationDefault As Boolean = False 'IF THIS IS TRUE THE NOTIFICATION POPUP WINDOW WILL SET frmLisMini.IsRelocateNotification to FALSE WHILE UNLOADING THE NOTIFICATION
     'THE CURRENT NOTIFICATION POPPED UP. THIS ALLOWS ADJUSTING THE LOCATION OF THE NOTIFICATION WNINDOW SO THAT BOTH THE
     'NOTIFICATIONS CAN BE SEEN ON SCREEN.
 
@@ -25,8 +25,8 @@
     Dim POINT_X As Integer
     Dim POINT_Y As Integer
 
-    'INITIALISATIONS FOR TRACKING AND LOGGING APPLICATION EVENTS, QUERIES, EXCEPTIONS ETC...
-    Dim InitiateErrorProcessing As New SwatInc.ApplicationTracking.LogProcessing
+    'INITIALISATIONS FOR TRACKING AND LOGGING APPLICATION EVENTS, QUERIES, EXCEPTIONS ETC..
+    Private Shared ReadOnly InitiateLogging As log4net.ILog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
 
     Private Shared Sub ScreenDiametions(ByRef POINT_X As Integer, ByRef POINT_Y As Integer)
 
@@ -118,8 +118,8 @@
         Try
 
             If IsLoading = True Then    'WHEN LOADING A NOTIFICATION
-                If frmLisMini.IsRelocateNofitication = False Then 'THIS VARIABLE BEING FALSE MEANS THAT THERE IS NO WINDOW AT DEFAULT POSITION
-                    frmLisMini.IsRelocateNofitication = True
+                If frmLisMini.IsRelocateNotification = False Then 'THIS VARIABLE BEING FALSE MEANS THAT THERE IS NO WINDOW AT DEFAULT POSITION
+                    frmLisMini.IsRelocateNotification = True
                     IsLocationDefault = True
                 Else
                     frmLisMini.AlreadyActiveNotificationsMonitor += 1
@@ -128,7 +128,7 @@
             ElseIf IsLoading = False Then   'WHEN UNLOADING A NOTIFICATION
 
                 If IsLocationDefault = True Then        'IF THE NOTIFICATION AT THE DEFAULT LOCATION IS UNLOADING, NEXT NOTIFICATION WILL NOT BE RELOCATED.
-                    frmLisMini.IsRelocateNofitication = False
+                    frmLisMini.IsRelocateNotification = False
                     frmLisMini.AlreadyActiveNotificationsMonitor = 0 'IF NOTIFICATION AT DEFAULT LOCATION HAS UNLOADED, THEN NEXT NOTIFICATION SHOULD APPEAR AT DEFAULT LOCATION AND HENCE THIS VARIABLE
                     'SHOULD RESET.
                 Else
@@ -141,7 +141,7 @@
 
             End If
         Catch ex As Exception
-            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+            InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(String.Format("{0}{1}Error setting notification location.", ex.Message, vbCrLf))
             ErrorCount = 1
         Finally

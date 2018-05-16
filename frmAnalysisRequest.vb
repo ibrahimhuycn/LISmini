@@ -1,11 +1,14 @@
 ﻿Public Class frmAnalysisRequest
+
     'Variables to move the form by grabbing GroupControl "gcAnalysisRequest"
     Dim DRAG_ANALYSIS_REQUEST As Boolean
+
     Dim MOUSE_POSITION_X As Integer
     Dim MOUSE_POSITION_Y As Integer
 
     'INITIALISING TEMP ANALYTE LIST, SAMPLE LIST ITEMS WILL BE ADDED ON FORM PUBLIC SUB NEW
     ReadOnly TempListAnalytes As New List(Of AnalytesRequested)
+
     Public Sub New()
 
         ' This call is required by the designer.
@@ -34,19 +37,17 @@
         TempListAnalytes.Add(New AnalytesRequested(1721, "Blood Grouping & Rh Typing"))
         TempListAnalytes.Add(New AnalytesRequested(1722, "Direct Coombs Test"))
 
-
     End Sub
+
     Private Sub gcAnalysisRequest_MouseDown(sender As Object, e As MouseEventArgs) Handles gcAnalysisRequest.MouseDown
 
-        'DRAG_ANALYSIS_REQUEST handles an IF CONDITION at mouse move event. If DRAG_ANALYSIS_REQUEST is true, 
+        'DRAG_ANALYSIS_REQUEST handles an IF CONDITION at mouse move event. If DRAG_ANALYSIS_REQUEST is true,
         ' and if mouse button.left is down, form is moved with cursor
         If e.Button = MouseButtons.Left Then
             DRAG_ANALYSIS_REQUEST = True
             MOUSE_POSITION_X = Cursor.Position.X - Me.Left
             MOUSE_POSITION_Y = Cursor.Position.Y - Me.Top
         End If
-
-
 
     End Sub
 
@@ -80,4 +81,5 @@
     Private Sub lblClose_Click(sender As Object, e As EventArgs) Handles lblClose.Click
         Close()
     End Sub
+
 End Class

@@ -6,8 +6,8 @@
 Public Class ServerCommunications
     Implements IDisposable
 
-    'INITIALISATIONS FOR TRACKING AND LOGGING APPLICATION EVENTS, QUERIES, EXCEPTIONS ETC...
-    Dim InitiateErrorProcessing As New SwatInc.ApplicationTracking.LogProcessing
+    'INITIALISATIONS FOR TRACKING AND LOGGING APPLICATION EVENTS, QUERIES, EXCEPTIONS ETC..
+    Private Shared ReadOnly InitiateLogging As log4net.ILog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
 
     'INITIALIZING OBJECTS AND VARIALBLES REQUIRED TO EXECUTE QUERIES.
     ReadOnly MsSQLCnx As New SqlConnection
@@ -106,7 +106,7 @@ Public Class ServerCommunications
                 scalarValueField = MsSQLCmd.ExecuteScalar() 'IT HAS TO BE ASSIGNED TO AN OBJECT SINCE RESULT IS RETURNED AS A COLUMN
                 MsSQLCnx.Close()
             Catch ex As Exception
-                InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+                InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
                 MsgBox(String.Format("{0}  Error Code: {1}", ex.Message, ex.HResult), MsgBoxStyle.Critical, "Server Connection Failed")
             Finally
                 MsSQLCnx.Close()
@@ -163,7 +163,7 @@ Public Class ServerCommunications
                 IsLimsCnXAvailable = True   'SET CONNECTION ALIVE STATUS
             End If
         Catch ex As Exception
-            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+            InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
             IsLimsCnXAvailable = False  'SET CONNECTION ALIVE STATUS
         End Try
         Return IsLimsCnXAvailable
@@ -233,7 +233,7 @@ Public Class ServerCommunications
 
             End Using
         Catch ex As Exception
-            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+            InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         Finally
 
@@ -264,11 +264,11 @@ Public Class ServerCommunications
         'WITH COMMAS AND BREAKETS AS FOLLOWS       *********************
 
         'INSERT INTO table
-        '(field1, field2, ... )
+        '(field1, field2, .. )
         'VALUES
-        '(InsertValue1, InsertValue2, ... ),
-        '(InsertValue1, InsertValue2, ... ),
-        '...;
+        '(InsertValue1, InsertValue2, .. ),
+        '(InsertValue1, InsertValue2, .. ),
+        '..;
 
         If Not Fields = Nothing Then
             MsSqlCmdStatement = String.Format("INSERT INTO {0} {1} VALUES {2}", Table, Fields, InsertValues)
@@ -300,14 +300,14 @@ Public Class ServerCommunications
                 'ATTEMPT TO COMMIT THE TRANSECTION
                 Transection.Commit()
             Catch ex As Exception
-                InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+                InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
                 MsgBox(String.Format("Commit exception type: {0}" & vbCrLf & "Message {1}", ex.GetType, ex.Message), vbInformation, "Transections")
 
                 'ATTEMPT TO ROLL BACK THE TRANSECTION
                 Try
                     Transection.Rollback()
                 Catch exRollingBack As Exception
-                    InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+                    InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
                     MsgBox(String.Format("Rollback exception type: {0}" & vbCrLf & "Message: {1}", exRollingBack.GetType, exRollingBack.Message), vbCritical, "Transections")
                 End Try
             Finally

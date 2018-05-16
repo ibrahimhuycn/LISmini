@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class frmAddPatient
+Partial Class AddPatient
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -726,7 +726,7 @@ Partial Class frmAddPatient
         Me.lblSummary.TabIndex = 34
         Me.lblSummary.Text = "# HospitalNumber:PatientName"
         '
-        'frmAddPatient
+        'AddPatient
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -738,7 +738,7 @@ Partial Class frmAddPatient
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
-        Me.Name = "frmAddPatient"
+        Me.Name = "AddPatient"
         Me.Text = " New Patient"
         Me.TransparencyKey = System.Drawing.SystemColors.Control
         Me.xTabPageContactInfo.ResumeLayout(False)

@@ -73,7 +73,7 @@ Partial Class frmAuthenticate
         '
         'PictureBox1
         '
-        Me.PictureBox1.Image = Global.LISmini.My.Resources.Resources.Authenticate1
+        Me.PictureBox1.Image = Global.LISmini.My.Resources.Resources.Authenticate
         Me.PictureBox1.Location = New System.Drawing.Point(8, 25)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(47, 53)

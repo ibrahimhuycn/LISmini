@@ -2,7 +2,7 @@
 Imports System.Text.RegularExpressions
 Imports DevExpress.XtraEditors.Controls
 
-Public Class frmAddPatient
+Public Class AddPatient
 
     'TODO: IMPLEMENT A WAY TO ENTER PASSPORT NUMBER FOR FORIGNERS.
     'MOVE SERVER CONNECTION STATUS CHECKING FUNCTION TO MAIN FORM.
@@ -56,8 +56,8 @@ Public Class frmAddPatient
     'VARIABLES AND INITIALISATIONS FOR CONTACT DETAILS PAGE
     ReadOnly PatientContacts As New List(Of Contacts)()
 
-    'INITIALISATIONS FOR TRACKING AND LOGGING APPLICATION EVENTS, QUERIES, EXCEPTIONS ETC...
-    Dim InitiateErrorProcessing As New SwatInc.ApplicationTracking.LogProcessing
+    'INITIALISATIONS FOR TRACKING AND LOGGING APPLICATION EVENTS, QUERIES, EXCEPTIONS ETC..
+    Private Shared ReadOnly InitiateLogging As log4net.ILog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
 
     Public Sub New()
 
@@ -84,13 +84,13 @@ Public Class frmAddPatient
 
             End If
         Catch ex As Exception
-            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+            InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
             'MsgBox(ex.Message)
         End Try
 
     End Sub
 
-    Private Sub frmAddPatient_Load(sender As Object, e As EventArgs) Handles Me.Load
+    Private Sub AddPatient_Load(sender As Object, e As EventArgs) Handles Me.Load
 
         'DISABLING CONTROLS TO ENFORCE STANDARDISED WORKFLOW.
         'CONTROLS ARE ENABLED ON REQUIRMENT.
@@ -127,7 +127,7 @@ Public Class frmAddPatient
 
     End Sub
 
-    Private Sub btnPesonalInfoNextEnabledStatusHandler()
+    Private Sub PesonalInfoNextEnabledStatusHandler()
         If txtNid.Text = "" Or txtPatientName.Text = "" Or cboGender.Text = "" Or txtEditDateOfBirth.Text = "" Or txtEditHospitalNumber.Text = "" _
            Or IsNidValid = False Or IsHospitalNumberValid = False Then
             'btnPersonalInfoNext STAYS DISABLED AS LONG AS ANY OF THE FIELDS ARE EMPTY. ALL FIELDS ARE REQUIRED.
@@ -149,7 +149,7 @@ Public Class frmAddPatient
             txtNid.DoValidate()
 
             'CHECKING TO SEE WHETHER ALL FIELDS ARE COMPLETE
-            btnPesonalInfoNextEnabledStatusHandler()
+            PesonalInfoNextEnabledStatusHandler()
 
         End If
     End Sub
@@ -174,7 +174,7 @@ Public Class frmAddPatient
                     End If
                 Next
             Catch ex As Exception
-                InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+                InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
                 MsgBox(ex.Message)
             End Try
 
@@ -199,7 +199,7 @@ Public Class frmAddPatient
             UpdateSummaryDisplay()
 
             'CHECKING TO SEE WHETHER ALL FIELDS ARE COMPLETE
-            btnPesonalInfoNextEnabledStatusHandler()
+            PesonalInfoNextEnabledStatusHandler()
 
         End If
 
@@ -207,7 +207,7 @@ Public Class frmAddPatient
 
     Private Sub cboGender_LostFocus(sender As Object, e As EventArgs) Handles cboGender.LostFocus
         'CHECKING TO SEE WHETHER ALL FIELDS ARE COMPLETE
-        btnPesonalInfoNextEnabledStatusHandler()
+        PesonalInfoNextEnabledStatusHandler()
 
         'UPDATING PATIENT DETAILS DISPLAY LABEL
         'COMBOBOX INDEXES 0 = MALE 1 = FEMALE 2 = OTHER  3 = UNKNOWN
@@ -236,7 +236,7 @@ Public Class frmAddPatient
         End If
 
         'CHECKING TO SEE WHETHER ALL FIELDS ARE COMPLETE
-        btnPesonalInfoNextEnabledStatusHandler()
+        PesonalInfoNextEnabledStatusHandler()
     End Sub
 
     Private Sub xTabAddPatientRecords_SelectedPageChanged(sender As Object, e As DevExpress.XtraTab.TabPageChangedEventArgs) Handles xTabAddPatientRecords.SelectedPageChanged
@@ -282,7 +282,7 @@ Public Class frmAddPatient
             xTabPagePersonalInfo.PageEnabled = False
             xTabPageContactInfo.PageEnabled = False
         Catch ex As Exception
-            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+            InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         End Try
 
@@ -380,7 +380,7 @@ Public Class frmAddPatient
             'UPDATING PATIENT DETAILS DISPLAY LABEL
             UpdateSummaryDisplay()
         Catch ex As Exception
-            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+            InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         End Try
 
@@ -467,7 +467,7 @@ Public Class frmAddPatient
         Try
             GridViewAddContact.DeleteSelectedRows()
         Catch ex As Exception
-            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+            InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         End Try
 
@@ -502,7 +502,7 @@ Public Class frmAddPatient
 
     Private Sub txtEditHospitalNumber_LostFocus(sender As Object, e As EventArgs) Handles txtEditHospitalNumber.LostFocus
         txtEditHospitalNumber.DoValidate()
-        btnPesonalInfoNextEnabledStatusHandler()
+        PesonalInfoNextEnabledStatusHandler()
     End Sub
 
     Private Sub txtEditHospitalNumber_Validating(sender As Object, e As CancelEventArgs) Handles txtEditHospitalNumber.Validating
@@ -513,7 +513,7 @@ Public Class frmAddPatient
             'HOSPITAL NUMBER CANNOT BE A NEGATIVE INTEGER.
             IsHospitalNumberValid = Regex.IsMatch(txtEditHospitalNumber.Text, "^(?:214748364[0-7]|21474836[0-3][0-9]|2147483[0-5][0-9]{2}|214748[0-2][0-9]{3}|21474[0-7][0-9]{4}|2147[0-3][0-9]{5}|214[0-6][0-9]{6}|21[0-3][0-9]{7}|20[0-9]{8}|1[0-9]{9}|[1-9][0-9]{1,8}|[1-9])$", RegexOptions.Multiline)
         Catch ex As ArgumentException
-            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+            InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         Finally
             If IsHospitalNumberValid = False Then
@@ -578,8 +578,8 @@ Public Class frmAddPatient
                 txtContactDetail.ToolTip = "Enter an email or a phone number."
             End If
         Catch ex As Exception
-            'DSPLAYING ERRORS.., IF ANY
-            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+            'DSPLAYING ERRORS., IF ANY
+            InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         Finally
             If e.Cancel = False Then
@@ -670,7 +670,7 @@ Public Class frmAddPatient
             'SAVING CONTACT DETAILS TO SERVER
             ParseAndInsertContactDetails()
         Catch ex As Exception
-            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+            InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(String.Format("{0}{1}", ex.Message, vbCrLf))
         End Try
     End Sub
@@ -747,7 +747,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
 
             IdCountry = CountryID(0)    'ONLY ONE VALUE WILL BE RETUNED BY MSSQL READER IN THIS CASE AND THEREFORE, ASSIGNING ONLY INDEX 0 IS SUFFICIENT.
         Catch ex As Exception
-            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+            InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(String.Format("An error occured while looking up the Country ID for the patient." & vbCrLf & "Error Message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType), vbExclamation,
                    "Patient Registration")
         End Try
@@ -806,7 +806,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
                     RowsInserted = MsSQLComHandler.NonQueryINSERT("[dbo].[Contacts]", ContactsInsertStatement)
                 Catch ex As Exception
 
-                    InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+                    InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
                     MsgBox(String.Format("An error adding patient contact details to server. Error message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType.ToString), vbInformation, "Patient Registration")
                 End Try
 

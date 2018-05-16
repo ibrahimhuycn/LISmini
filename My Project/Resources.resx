@@ -118,29 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="surgeon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\surgeon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="LanTech" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LanTech.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="bkgd_pattern" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bkgd_pattern.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Authenticate1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Authenticate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SignIn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SignIn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Authenticate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Authenticate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="6668" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\6668.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ballsandlinesblackshape" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ballsandlinesblackshape.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="bkgd_pattern" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bkgd_pattern.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="carnet" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\carnet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -148,11 +133,17 @@
   <data name="centrifugetube" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\centrifugetube.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="DaatabaseDisconnected" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DaatabaseDisconnected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="dailycalendarpageinday1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\dailycalendarpageinday1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="dropsofmedicine" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\dropsofmedicine.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GreenTick" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GreenTick.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="groupofpeople" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\groupofpeople.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -169,6 +160,9 @@
   <data name="house" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\house.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="LanTech" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LanTech.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="personbusinesscard" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\personbusinesscard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -178,6 +172,15 @@
   <data name="pngIcons" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pngIcons.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="SignIn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SignIn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="surgeon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\surgeon.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="surgeon1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\surgeon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="tag" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tag.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -186,5 +189,11 @@
   </data>
   <data name="writing" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\writing.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_6668" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\6668.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_6668_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\6668_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
