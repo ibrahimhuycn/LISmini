@@ -8,10 +8,10 @@
     'FOR THE ANALYTE TABLE LIST ON SERVER BEFORE IMPLEMENTING THAT
     Public Sub New(AnalyteCode As Integer, AnalyteName As String)
         'THIS LIST WILL BE POPULATED WITH A SAMPLE LIST OF TEST AND THEIR CORRESPONDING CODES FOR TESTING.
-        Analyte_Code = AnalyteCode
-        Analyte_Name = AnalyteName
+        Me.analyteCode = AnalyteCode
+        Me.analyteName = AnalyteName
     End Sub
 
-    Private Property Analyte_Code As Integer
-    Private Property Analyte_Name As String
+    Private Property analyteCode As Integer
+    Private Property analyteName As String
 End Class

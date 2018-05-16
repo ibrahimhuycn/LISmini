@@ -72,7 +72,7 @@ Partial Class frmNotification
         Me.lblClose.AppearancePressed.Options.UseFont = True
         Me.lblClose.Location = New System.Drawing.Point(386, 2)
         Me.lblClose.Name = "lblClose"
-        Me.lblClose.Size = New System.Drawing.Size(19, 16)
+        Me.lblClose.Size = New System.Drawing.Size(19, 17)
         Me.lblClose.TabIndex = 3
         Me.lblClose.Text = "  X  "
         '
@@ -100,7 +100,6 @@ Partial Class frmNotification
         Me.NotificationIcon.Name = "NotificationIcon"
         Me.NotificationIcon.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.[Auto]
         Me.NotificationIcon.Properties.SizeMode = DevExpress.XtraEditors.Controls.PictureSizeMode.Stretch
-        Me.NotificationIcon.Properties.ZoomAccelerationFactor = 1.0R
         Me.NotificationIcon.Size = New System.Drawing.Size(64, 64)
         Me.NotificationIcon.TabIndex = 1
         '
@@ -129,11 +128,15 @@ Partial Class frmNotification
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(408, 95)
+        Me.ControlBox = False
         Me.Controls.Add(Me.NotificationUI)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "frmNotification"
+        Me.ShowIcon = False
+        Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "frmNotification"
+        Me.TopMost = True
         Me.TransparencyKey = System.Drawing.SystemColors.Control
         CType(Me.NotificationUI, System.ComponentModel.ISupportInitialize).EndInit()
         Me.NotificationUI.ResumeLayout(False)

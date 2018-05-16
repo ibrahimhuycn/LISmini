@@ -55,14 +55,14 @@
     Public Sub LoadLoginScreen()
 
         'Opens Login Screen
-        Dim Authenticate As New frmAuthenticate() With {.MdiParent = Me}
+        Dim Authenticate As New FormAuthenticate() With {.MdiParent = Me}
         Authenticate.Show()
     End Sub
 
     Public Sub AddNewPatient()
 
         'Opens form for new Patient Data Entry
-        Dim NewPatient As New AddPatient() With {.MdiParent = Me}
+        Dim NewPatient As New FormAddPatient() With {.MdiParent = Me}
         NewPatient.Show()
     End Sub
 

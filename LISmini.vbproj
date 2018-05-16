@@ -126,10 +126,10 @@
   <ItemGroup>
     <Compile Include="AnalytesRequested.vb" />
     <Compile Include="Contacts.vb" />
-    <Compile Include="frmAddPatient.Designer.vb">
-      <DependentUpon>frmAddPatient.vb</DependentUpon>
+    <Compile Include="FormAddPatient.Designer.vb">
+      <DependentUpon>FormAddPatient.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmAddPatient.vb">
+    <Compile Include="FormAddPatient.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmAnalysisRequest.Designer.vb">
@@ -138,10 +138,10 @@
     <Compile Include="frmAnalysisRequest.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAuthenticate.Designer.vb">
-      <DependentUpon>frmAuthenticate.vb</DependentUpon>
+    <Compile Include="FormAuthenticate.Designer.vb">
+      <DependentUpon>FormAuthenticate.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmAuthenticate.vb">
+    <Compile Include="FormAuthenticate.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmLisMini.vb">
@@ -180,14 +180,14 @@
     <Compile Include="ServerCommunications.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="frmAddPatient.resx">
-      <DependentUpon>frmAddPatient.vb</DependentUpon>
+    <EmbeddedResource Include="FormAddPatient.resx">
+      <DependentUpon>FormAddPatient.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmAnalysisRequest.resx">
       <DependentUpon>frmAnalysisRequest.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAuthenticate.resx">
-      <DependentUpon>frmAuthenticate.vb</DependentUpon>
+    <EmbeddedResource Include="FormAuthenticate.resx">
+      <DependentUpon>FormAuthenticate.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLisMini.resx">
       <DependentUpon>frmLisMini.vb</DependentUpon>
@@ -204,9 +204,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\CodeMap 16062017.dgml">
-      <Link>CodeMap 16062017.dgml</Link>
-    </None>
     <None Include="lisminiDataSet.xsc">
       <DependentUpon>lisminiDataSet.xsd</DependentUpon>
     </None>
