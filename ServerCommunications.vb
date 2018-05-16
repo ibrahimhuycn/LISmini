@@ -60,7 +60,7 @@ Public Class ServerCommunications
 
         'EXECUTE A SCALAR QUERY TO DETERMINE A COUNT OF ROWS IN THE TABLE PATIENT DATA.
         'EXECUTION OF THIS STATEMENT WILL RETURN A COUNT OF TOTAL ROWS AS THE FIELD TotalRows
-        MsSQLStatement = "SELECT count(*) as TotalRows FROM Individuals"    'dbo.Individuals.Idindividual is used as Hospital Number
+        MsSQLStatement = "SELECT count(*) as TotalRows FROM Individuals"    'dbo.Individuals.IdIndividual is used as Hospital Number
         Dim PatientDataRowCount As Object = ExecuteScalarQuery()
 
         'SINCE PatientDataRowCount IS RETURNED AS A ROW(OBJECT), THE VALUE NEEDS TO BE CONVERTED TO AN INTEGER BEFORE IT CAN BE USED.
@@ -301,14 +301,14 @@ Public Class ServerCommunications
                 Transection.Commit()
             Catch ex As Exception
                 InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
-                MsgBox(String.Format("Commit exception type: {0}" & vbCrLf & "Message {1}", ex.GetType, ex.Message), vbInformation, "Transections")
+                MsgBox(String.Format("Commit exception type: {0}" & vbCrLf & "Message {1}", ex.GetType, ex.Message), vbInformation, "Transactions")
 
                 'ATTEMPT TO ROLL BACK THE TRANSECTION
                 Try
                     Transection.Rollback()
                 Catch exRollingBack As Exception
                     InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
-                    MsgBox(String.Format("Rollback exception type: {0}" & vbCrLf & "Message: {1}", exRollingBack.GetType, exRollingBack.Message), vbCritical, "Transections")
+                    MsgBox(String.Format("Rollback exception type: {0}" & vbCrLf & "Message: {1}", exRollingBack.GetType, exRollingBack.Message), vbCritical, "Transactions")
                 End Try
             Finally
                 MsSQLCnx.Close()

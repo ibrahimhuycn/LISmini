@@ -107,69 +107,71 @@ Partial Class frmLisMini
         'btnLogOut
         '
         Me.btnLogOut.Caption = "Log Out"
-        Me.btnLogOut.Glyph = CType(resources.GetObject("btnLogOut.Glyph"), System.Drawing.Image)
         Me.btnLogOut.Id = 1
+        Me.btnLogOut.ImageOptions.Image = CType(resources.GetObject("btnLogOut.ImageOptions.Image"), System.Drawing.Image)
         Me.btnLogOut.Name = "btnLogOut"
         '
         'btnExit
         '
         Me.btnExit.Caption = "Exit"
-        Me.btnExit.Glyph = CType(resources.GetObject("btnExit.Glyph"), System.Drawing.Image)
         Me.btnExit.Id = 2
+        Me.btnExit.ImageOptions.Image = CType(resources.GetObject("btnExit.ImageOptions.Image"), System.Drawing.Image)
         Me.btnExit.Name = "btnExit"
         '
         'btnNewAr
         '
         Me.btnNewAr.Caption = "New AR"
-        Me.btnNewAr.Glyph = CType(resources.GetObject("btnNewAr.Glyph"), System.Drawing.Image)
         Me.btnNewAr.Id = 10
-        Me.btnNewAr.LargeGlyph = CType(resources.GetObject("btnNewAr.LargeGlyph"), System.Drawing.Image)
+        Me.btnNewAr.ImageOptions.Image = CType(resources.GetObject("btnNewAr.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnNewAr.ImageOptions.LargeImage = CType(resources.GetObject("btnNewAr.ImageOptions.LargeImage"), System.Drawing.Image)
         Me.btnNewAr.Name = "btnNewAr"
         Me.btnNewAr.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large
         '
         'btnEditAr
         '
         Me.btnEditAr.Caption = "Edit AR"
-        Me.btnEditAr.Glyph = CType(resources.GetObject("btnEditAr.Glyph"), System.Drawing.Image)
         Me.btnEditAr.Id = 11
-        Me.btnEditAr.LargeGlyph = CType(resources.GetObject("btnEditAr.LargeGlyph"), System.Drawing.Image)
+        Me.btnEditAr.ImageOptions.Image = CType(resources.GetObject("btnEditAr.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnEditAr.ImageOptions.LargeImage = CType(resources.GetObject("btnEditAr.ImageOptions.LargeImage"), System.Drawing.Image)
         Me.btnEditAr.Name = "btnEditAr"
         Me.btnEditAr.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large
         '
         'btnDeleteAr
         '
         Me.btnDeleteAr.Caption = "Delete AR"
-        Me.btnDeleteAr.Glyph = CType(resources.GetObject("btnDeleteAr.Glyph"), System.Drawing.Image)
         Me.btnDeleteAr.Id = 12
-        Me.btnDeleteAr.LargeGlyph = CType(resources.GetObject("btnDeleteAr.LargeGlyph"), System.Drawing.Image)
+        Me.btnDeleteAr.ImageOptions.Image = CType(resources.GetObject("btnDeleteAr.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnDeleteAr.ImageOptions.LargeImage = CType(resources.GetObject("btnDeleteAr.ImageOptions.LargeImage"), System.Drawing.Image)
         Me.btnDeleteAr.Name = "btnDeleteAr"
         '
         'btnNewPatient
         '
         Me.btnNewPatient.Caption = "New Patient"
-        Me.btnNewPatient.Glyph = CType(resources.GetObject("btnNewPatient.Glyph"), System.Drawing.Image)
         Me.btnNewPatient.Id = 13
-        Me.btnNewPatient.LargeGlyph = CType(resources.GetObject("btnNewPatient.LargeGlyph"), System.Drawing.Image)
+        Me.btnNewPatient.ImageOptions.Image = CType(resources.GetObject("btnNewPatient.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnNewPatient.ImageOptions.LargeImage = CType(resources.GetObject("btnNewPatient.ImageOptions.LargeImage"), System.Drawing.Image)
         Me.btnNewPatient.Name = "btnNewPatient"
         '
         'btnEditPatient
         '
         Me.btnEditPatient.Caption = "Edit Patient"
-        Me.btnEditPatient.Glyph = CType(resources.GetObject("btnEditPatient.Glyph"), System.Drawing.Image)
         Me.btnEditPatient.Id = 14
+        Me.btnEditPatient.ImageOptions.Image = CType(resources.GetObject("btnEditPatient.ImageOptions.Image"), System.Drawing.Image)
         Me.btnEditPatient.Name = "btnEditPatient"
         Me.btnEditPatient.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large
         '
         'btnAnalyteList
         '
         Me.btnAnalyteList.Caption = "Analyte List"
-        Me.btnAnalyteList.Glyph = CType(resources.GetObject("btnAnalyteList.Glyph"), System.Drawing.Image)
         Me.btnAnalyteList.Id = 16
+        Me.btnAnalyteList.ImageOptions.Image = CType(resources.GetObject("btnAnalyteList.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnAnalyteList.ItemInMenuAppearance.Disabled.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
+        Me.btnAnalyteList.ItemInMenuAppearance.Disabled.Options.UseFont = True
         Me.btnAnalyteList.Name = "btnAnalyteList"
         Me.btnAnalyteList.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large
         ToolTipTitleItem1.Appearance.Image = CType(resources.GetObject("resource.Image"), System.Drawing.Image)
         ToolTipTitleItem1.Appearance.Options.UseImage = True
-        ToolTipTitleItem1.Image = CType(resources.GetObject("ToolTipTitleItem1.Image"), System.Drawing.Image)
+        ToolTipTitleItem1.ImageOptions.Image = CType(resources.GetObject("resource.Image1"), System.Drawing.Image)
         ToolTipTitleItem1.Text = "Analyte List"
         ToolTipItem1.LeftIndent = 6
         ToolTipItem1.Text = "Please fill in the list of analytes performed by your laboratory. You can also im" &
@@ -185,13 +187,13 @@ Partial Class frmLisMini
         'btnAnalyteGroups
         '
         Me.btnAnalyteGroups.Caption = "Analyte Groups"
-        Me.btnAnalyteGroups.Glyph = CType(resources.GetObject("btnAnalyteGroups.Glyph"), System.Drawing.Image)
         Me.btnAnalyteGroups.Id = 18
+        Me.btnAnalyteGroups.ImageOptions.Image = CType(resources.GetObject("btnAnalyteGroups.ImageOptions.Image"), System.Drawing.Image)
         Me.btnAnalyteGroups.Name = "btnAnalyteGroups"
         Me.btnAnalyteGroups.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large
-        ToolTipTitleItem3.Appearance.Image = CType(resources.GetObject("resource.Image1"), System.Drawing.Image)
+        ToolTipTitleItem3.Appearance.Image = CType(resources.GetObject("resource.Image2"), System.Drawing.Image)
         ToolTipTitleItem3.Appearance.Options.UseImage = True
-        ToolTipTitleItem3.Image = CType(resources.GetObject("ToolTipTitleItem3.Image"), System.Drawing.Image)
+        ToolTipTitleItem3.ImageOptions.Image = CType(resources.GetObject("resource.Image3"), System.Drawing.Image)
         ToolTipTitleItem3.Text = "Analyte groups"
         ToolTipItem2.LeftIndent = 6
         ToolTipItem2.Text = "It contains groups of laboratory tests . When filling out this guide you will be " &
@@ -207,13 +209,13 @@ Partial Class frmLisMini
         'btnComplexAnalytes
         '
         Me.btnComplexAnalytes.Caption = "Complex Analytes"
-        Me.btnComplexAnalytes.Glyph = CType(resources.GetObject("btnComplexAnalytes.Glyph"), System.Drawing.Image)
         Me.btnComplexAnalytes.Id = 19
+        Me.btnComplexAnalytes.ImageOptions.Image = CType(resources.GetObject("btnComplexAnalytes.ImageOptions.Image"), System.Drawing.Image)
         Me.btnComplexAnalytes.Name = "btnComplexAnalytes"
         Me.btnComplexAnalytes.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large
-        ToolTipTitleItem5.Appearance.Image = CType(resources.GetObject("resource.Image2"), System.Drawing.Image)
+        ToolTipTitleItem5.Appearance.Image = CType(resources.GetObject("resource.Image4"), System.Drawing.Image)
         ToolTipTitleItem5.Appearance.Options.UseImage = True
-        ToolTipTitleItem5.Image = CType(resources.GetObject("ToolTipTitleItem5.Image"), System.Drawing.Image)
+        ToolTipTitleItem5.ImageOptions.Image = CType(resources.GetObject("resource.Image5"), System.Drawing.Image)
         ToolTipTitleItem5.Text = "Complex Analytes"
         ToolTipItem3.LeftIndent = 6
         ToolTipItem3.Text = "Enter complex tests, if any. Complex studies should consist of existing analytes." &
@@ -229,14 +231,14 @@ Partial Class frmLisMini
         'btnPlacesOfCollection
         '
         Me.btnPlacesOfCollection.Caption = "Places Of Collection"
-        Me.btnPlacesOfCollection.Glyph = CType(resources.GetObject("btnPlacesOfCollection.Glyph"), System.Drawing.Image)
         Me.btnPlacesOfCollection.Id = 20
-        Me.btnPlacesOfCollection.LargeGlyph = CType(resources.GetObject("btnPlacesOfCollection.LargeGlyph"), System.Drawing.Image)
+        Me.btnPlacesOfCollection.ImageOptions.Image = CType(resources.GetObject("btnPlacesOfCollection.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnPlacesOfCollection.ImageOptions.LargeImage = CType(resources.GetObject("btnPlacesOfCollection.ImageOptions.LargeImage"), System.Drawing.Image)
         Me.btnPlacesOfCollection.Name = "btnPlacesOfCollection"
         Me.btnPlacesOfCollection.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large
-        ToolTipTitleItem7.Appearance.Image = CType(resources.GetObject("resource.Image3"), System.Drawing.Image)
+        ToolTipTitleItem7.Appearance.Image = CType(resources.GetObject("resource.Image6"), System.Drawing.Image)
         ToolTipTitleItem7.Appearance.Options.UseImage = True
-        ToolTipTitleItem7.Image = CType(resources.GetObject("ToolTipTitleItem7.Image"), System.Drawing.Image)
+        ToolTipTitleItem7.ImageOptions.Image = CType(resources.GetObject("resource.Image7"), System.Drawing.Image)
         ToolTipTitleItem7.Text = "Location"
         ToolTipItem4.LeftIndent = 6
         ToolTipItem4.Text = "Places for sample collection, in the case of receiving the materials from several" &
@@ -253,18 +255,18 @@ Partial Class frmLisMini
         'btnSampleTypes
         '
         Me.btnSampleTypes.Caption = "Sample Types"
-        Me.btnSampleTypes.Glyph = CType(resources.GetObject("btnSampleTypes.Glyph"), System.Drawing.Image)
         Me.btnSampleTypes.Id = 21
-        Me.btnSampleTypes.LargeGlyph = Global.LISmini.My.Resources.Resources._6668
+        Me.btnSampleTypes.ImageOptions.Image = CType(resources.GetObject("btnSampleTypes.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnSampleTypes.ImageOptions.LargeImage = CType(resources.GetObject("btnSampleTypes.ImageOptions.LargeImage"), System.Drawing.Image)
         Me.btnSampleTypes.Name = "btnSampleTypes"
         Me.btnSampleTypes.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large
         '
         'btnNewEmployee
         '
         Me.btnNewEmployee.Caption = "New Employee"
-        Me.btnNewEmployee.Glyph = CType(resources.GetObject("btnNewEmployee.Glyph"), System.Drawing.Image)
         Me.btnNewEmployee.Id = 22
-        Me.btnNewEmployee.LargeGlyph = CType(resources.GetObject("btnNewEmployee.LargeGlyph"), System.Drawing.Image)
+        Me.btnNewEmployee.ImageOptions.Image = CType(resources.GetObject("btnNewEmployee.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnNewEmployee.ImageOptions.LargeImage = CType(resources.GetObject("btnNewEmployee.ImageOptions.LargeImage"), System.Drawing.Image)
         Me.btnNewEmployee.Name = "btnNewEmployee"
         Me.btnNewEmployee.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large
         ToolTipTitleItem9.Text = "New Employees"
@@ -281,26 +283,26 @@ Partial Class frmLisMini
         'BtnEditEmployee
         '
         Me.BtnEditEmployee.Caption = "Edit Employee"
-        Me.BtnEditEmployee.Glyph = CType(resources.GetObject("BtnEditEmployee.Glyph"), System.Drawing.Image)
         Me.BtnEditEmployee.Id = 23
-        Me.BtnEditEmployee.LargeGlyph = CType(resources.GetObject("BtnEditEmployee.LargeGlyph"), System.Drawing.Image)
+        Me.BtnEditEmployee.ImageOptions.Image = CType(resources.GetObject("BtnEditEmployee.ImageOptions.Image"), System.Drawing.Image)
+        Me.BtnEditEmployee.ImageOptions.LargeImage = CType(resources.GetObject("BtnEditEmployee.ImageOptions.LargeImage"), System.Drawing.Image)
         Me.BtnEditEmployee.Name = "BtnEditEmployee"
         Me.BtnEditEmployee.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large
         '
         'btnChangePassword
         '
         Me.btnChangePassword.Caption = "Change Password"
-        Me.btnChangePassword.Glyph = CType(resources.GetObject("btnChangePassword.Glyph"), System.Drawing.Image)
         Me.btnChangePassword.Id = 24
-        Me.btnChangePassword.LargeGlyph = CType(resources.GetObject("btnChangePassword.LargeGlyph"), System.Drawing.Image)
+        Me.btnChangePassword.ImageOptions.Image = CType(resources.GetObject("btnChangePassword.ImageOptions.Image"), System.Drawing.Image)
+        Me.btnChangePassword.ImageOptions.LargeImage = CType(resources.GetObject("btnChangePassword.ImageOptions.LargeImage"), System.Drawing.Image)
         Me.btnChangePassword.Name = "btnChangePassword"
         Me.btnChangePassword.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large
         '
         'btnRestPassword
         '
         Me.btnRestPassword.Caption = "Reset Password"
-        Me.btnRestPassword.Glyph = CType(resources.GetObject("btnRestPassword.Glyph"), System.Drawing.Image)
         Me.btnRestPassword.Id = 25
+        Me.btnRestPassword.ImageOptions.Image = CType(resources.GetObject("btnRestPassword.ImageOptions.Image"), System.Drawing.Image)
         Me.btnRestPassword.Name = "btnRestPassword"
         Me.btnRestPassword.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large
         '
@@ -381,9 +383,9 @@ Partial Class frmLisMini
         'BarButtonItem9
         '
         Me.BarButtonItem9.Caption = "Manage"
-        Me.BarButtonItem9.Glyph = CType(resources.GetObject("BarButtonItem9.Glyph"), System.Drawing.Image)
         Me.BarButtonItem9.Id = 15
-        Me.BarButtonItem9.LargeGlyph = CType(resources.GetObject("BarButtonItem9.LargeGlyph"), System.Drawing.Image)
+        Me.BarButtonItem9.ImageOptions.Image = CType(resources.GetObject("BarButtonItem9.ImageOptions.Image"), System.Drawing.Image)
+        Me.BarButtonItem9.ImageOptions.LargeImage = CType(resources.GetObject("BarButtonItem9.ImageOptions.LargeImage"), System.Drawing.Image)
         Me.BarButtonItem9.Name = "BarButtonItem9"
         Me.BarButtonItem9.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonItemStyles.Large
         '
@@ -391,15 +393,15 @@ Partial Class frmLisMini
         '
         Me.AllowFormGlass = DevExpress.Utils.DefaultBoolean.[True]
         Me.Appearance.Options.UseFont = True
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackgroundImageLayoutStore = System.Windows.Forms.ImageLayout.Tile
-        Me.BackgroundImageStore = Global.LISmini.My.Resources.Resources.bkgd_pattern
+        Me.BackgroundImageStore = CType(resources.GetObject("$this.BackgroundImageStore"), System.Drawing.Image)
         Me.ClientSize = New System.Drawing.Size(931, 526)
         Me.ControlBox = False
         Me.Controls.Add(Me.RibbonStatusBar1)
         Me.Controls.Add(Me.RibbonControlLisMini)
-        Me.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.IsMdiContainer = True
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Name = "frmLisMini"

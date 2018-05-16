@@ -327,7 +327,7 @@ Public Class AddPatient
                 txtNid.Text = ""
                 txtNid.Focus()
             ElseIf IsNidRegistered > 1 Then
-                MsgBox("Dublicate records exist for this patient! Please contact systems administrator immediately.", vbCritical, "Warning")
+                MsgBox("Duplicate records exist for this patient! Please contact systems administrator immediately.", vbCritical, "Warning")
             End If
         Else
             e.Cancel = True
@@ -717,7 +717,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
                     MsgBox(String.Format("Error inserting patient name to server.{0}Number of Rows Inserted: {1}", vbCrLf, RowsInserted), vbInformation, "Patient Registration")
                 End If
             Else
-                MsgBox("An Error occured while checking for the presence of IndividualNames on server!", vbCritical,)
+                MsgBox("An Error occurred while checking for the presence of IndividualNames on server!", vbCritical,)
             End If
         Next
         Return RetrievedIdIndividualName
@@ -748,7 +748,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
             IdCountry = CountryID(0)    'ONLY ONE VALUE WILL BE RETUNED BY MSSQL READER IN THIS CASE AND THEREFORE, ASSIGNING ONLY INDEX 0 IS SUFFICIENT.
         Catch ex As Exception
             InitiateLogging.Error(ex)  'LOGGING ERROR TO DISK
-            MsgBox(String.Format("An error occured while looking up the Country ID for the patient." & vbCrLf & "Error Message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType), vbExclamation,
+            MsgBox(String.Format("An error occurred while looking up the Country ID for the patient." & vbCrLf & "Error Message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType), vbExclamation,
                    "Patient Registration")
         End Try
 
