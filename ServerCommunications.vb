@@ -5,8 +5,13 @@
 'SWAT INC
 Public Class ServerCommunications
     Implements IDisposable
+
+    'INITIALISATIONS FOR TRACKING AND LOGGING APPLICATION EVENTS, QUERIES, EXCEPTIONS ETC...
+    Dim InitiateErrorProcessing As New SwatInc.ApplicationTracking.LogProcessing
+
     'INITIALIZING OBJECTS AND VARIALBLES REQUIRED TO EXECUTE QUERIES.
     ReadOnly MsSQLCnx As New SqlConnection
+
     ReadOnly MsSQLCnxCheck As New SqlConnection
 
     Dim MsSQLStatement As String 'FOR TEXT SQL QUERY
@@ -18,7 +23,8 @@ Public Class ServerCommunications
 
     'CONNECTIONSTRING OPTIONAL VARIABLES
 
-    Const MsSQLAttachDbFileName As String = "C:\Users\ibrah\OneDrive\Documents\Visual Studio 2015\Projects\LISmini\LISmini\Database\lismini.mdf"  'CAN BE CHANGED IF AND WHEN DATABASE FILE LOCATION IS CHANGED.
+    Const MsSQLAttachDbFileName As String = "E:\Ibrahim\OneDrive\Documents\Visual Studio 2015\Projects\LISmini\LISmini\Database\lismini.mdf"  'CAN BE CHANGED IF AND WHEN DATABASE FILE LOCATION IS CHANGED.
+
     Public Sub Dispose() Implements IDisposable.Dispose
         If MsSQLCnx IsNot Nothing Then
             MsSQLCnx.Dispose()
@@ -44,6 +50,7 @@ Public Class ServerCommunications
         'THIS METHOD WILL BE CALLED TO SET THE CONNECTION STRING EACH TIME A QUERY IS EXECUTED.
         MsSQLCnx.ConnectionString = "Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" & MsSQLAttachDbFileName & ";Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=True"
     End Sub
+
     Public Function GetNextHNo()
         'GETTING LAST HOSPITAL NUMBER TO DETERMINE NEXT HOSPITAL NUMBER FOR NEW PATIENT REGISTRATION.
         Dim NextHNo As Integer
@@ -66,7 +73,7 @@ Public Class ServerCommunications
         If PatientRowCount = 0 Then
             NextHNo = 0
         Else
-            'RUN A SCALAR QUERY TO GET LAST HOSPITAL NUMBER+1 WHICH WILL BE THE NEXT HOSP NUMBER. THIS IS ACHIEVED BY A OFFSET, FETCH NEXT CLAUSE AS BELOW. 
+            'RUN A SCALAR QUERY TO GET LAST HOSPITAL NUMBER+1 WHICH WILL BE THE NEXT HOSP NUMBER. THIS IS ACHIEVED BY A OFFSET, FETCH NEXT CLAUSE AS BELOW.
             Dim sqlQueryGetNextHno As String = String.Format("SELECT (dbo.Individuals.IdIndividual + 1) as NextHNo" +
                                                         " From dbo.Individuals" +
                                                         " ORDER BY dbo.Individuals.IdIndividual" +
@@ -83,9 +90,9 @@ Public Class ServerCommunications
             End If
         End If
 
-
         Return NextHNo
     End Function
+
     Public Function ExecuteScalarQuery()
         Dim scalarValueField As Object = Nothing
 
@@ -95,13 +102,12 @@ Public Class ServerCommunications
         Using MsSQLCmd As New SqlCommand(MsSQLStatement, MsSQLCnx)       'SETTING UP QUERY WITH THE CONNECTION
             Try
                 MsSQLCnx.Open()     'OPENING CONNECTION
-                'RUNNING THE QUERY AS SCALAR AND ASSIGNING THE RESULT TO OBJECT scalarValueField. 
+                'RUNNING THE QUERY AS SCALAR AND ASSIGNING THE RESULT TO OBJECT scalarValueField.
                 scalarValueField = MsSQLCmd.ExecuteScalar() 'IT HAS TO BE ASSIGNED TO AN OBJECT SINCE RESULT IS RETURNED AS A COLUMN
                 MsSQLCnx.Close()
-
             Catch ex As Exception
+                InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
                 MsgBox(String.Format("{0}  Error Code: {1}", ex.Message, ex.HResult), MsgBoxStyle.Critical, "Server Connection Failed")
-
             Finally
                 MsSQLCnx.Close()
                 MsSQLCnx.Dispose()
@@ -111,6 +117,7 @@ Public Class ServerCommunications
         Return scalarValueField
 
     End Function
+
     Public Function IsFieldValuePresent(DataTable As String, FieldName As String, ExpectedValue As String)
 
         'THIS FUNCTION QUERIES FOR THE A PARTICULAR STRING TO CHECK WHETHER A RECORD WITH THE EXPECTED VALUE IS PRESENT BY USING
@@ -135,6 +142,7 @@ Public Class ServerCommunications
         Return ValueIncidence
 
     End Function
+
     Public Function IsServerAccessAvailable()
         'A SEPARATE INSTANCE OF CONNECTION STRING USED TO CHECK WHETHER DATABASE IS AVALIABLE
         MsSQLCnxCheck.ConnectionString = "Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" & MsSQLAttachDbFileName & ";Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=True"
@@ -151,17 +159,17 @@ Public Class ServerCommunications
                 MsSQLCnxCheck.Close()     'CLOSE CONNECTION
                 MsSQLCnxCheck.Dispose()      'DISPOSING CONNECTION
                 IsLimsCnXAvailable = True   'SET CONNECTION ALIVE STATUS
-
             Else
                 IsLimsCnXAvailable = True   'SET CONNECTION ALIVE STATUS
             End If
-
         Catch ex As Exception
+            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
             IsLimsCnXAvailable = False  'SET CONNECTION ALIVE STATUS
         End Try
         Return IsLimsCnXAvailable
 
     End Function
+
     Public Function ExecuteMsSQLReader(Field As String, DataTable As String, IsWhereClause As Boolean, WhereCondition As String, IsDistinct As Boolean, IsOrderBy As Boolean, OrderByField As String, IsASC As Boolean, Optional RenamedField As String = Nothing)
         'LOTS OF IMPROVEMENT IS REQUIRED FOR THIS FUNCTION TO BE TRUELY DYNAMIC
 
@@ -171,7 +179,6 @@ Public Class ServerCommunications
         Dim ReadData() As String = Nothing
         ' Dim TempReadDataHold(QueryRowCount) As String   'Declare this after getting a count of total number of rows The query returns. Use ExecuteScalarQuery Function to get the RowCount.
         Dim Counter As Integer = 0
-
 
         'PARSING SQL READER STATEMENT
         Dim MsSQlReaderQueryStatement As String
@@ -226,6 +233,7 @@ Public Class ServerCommunications
 
             End Using
         Catch ex As Exception
+            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         Finally
 
@@ -245,6 +253,7 @@ Public Class ServerCommunications
         End Try
         Return ReadData
     End Function
+
     Public Function NonQueryINSERT(Table As String, InsertValues As String, Optional Fields As String = Nothing)
         'INITIALISATIONS
         RowsEffected = Nothing
@@ -266,7 +275,6 @@ Public Class ServerCommunications
         ElseIf Fields = Nothing Then
             MsSqlCmdStatement = String.Format("INSERT INTO {0} VALUES {1}", Table, InsertValues)
         End If
-
 
         Using MsSQLCnx
 
@@ -292,26 +300,26 @@ Public Class ServerCommunications
                 'ATTEMPT TO COMMIT THE TRANSECTION
                 Transection.Commit()
             Catch ex As Exception
+                InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
                 MsgBox(String.Format("Commit exception type: {0}" & vbCrLf & "Message {1}", ex.GetType, ex.Message), vbInformation, "Transections")
 
                 'ATTEMPT TO ROLL BACK THE TRANSECTION
                 Try
                     Transection.Rollback()
                 Catch exRollingBack As Exception
+                    InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
                     MsgBox(String.Format("Rollback exception type: {0}" & vbCrLf & "Message: {1}", exRollingBack.GetType, exRollingBack.Message), vbCritical, "Transections")
                 End Try
-
             Finally
                 MsSQLCnx.Close()
             End Try
 
         End Using
 
-
-
         'EXECUTING UPDATE STATEMENTS
 
         'EXECUTING DELETE STATEMENTS
         Return RowsEffected
     End Function
+
 End Class

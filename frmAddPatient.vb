@@ -3,13 +3,16 @@ Imports System.Text.RegularExpressions
 Imports DevExpress.XtraEditors.Controls
 
 Public Class frmAddPatient
+
     'TODO: IMPLEMENT A WAY TO ENTER PASSPORT NUMBER FOR FORIGNERS.
     'MOVE SERVER CONNECTION STATUS CHECKING FUNCTION TO MAIN FORM.
     Dim WithEvents CnxMonitor As New Timers.Timer
+
     Dim IsServerConnectionAvailable As Boolean
 
     'Variables to move the form by grabbing GroupControl "gcAnalysisRequest"
     Dim DRAG_ANALYSIS_REQUEST As Boolean
+
     Dim MOUSE_POSITION_X As Integer
     Dim MOUSE_POSITION_Y As Integer
 
@@ -21,6 +24,7 @@ Public Class frmAddPatient
 
     'VARIABLES FOR TEMPORARY STORAGE OF PERSONAL DATA FOR ADDING NEW PATIENTS.
     Dim Nid As String
+
     Dim HospitalNumber As Integer
     Dim IndividualNameCollection() As String
     Dim Gender As Integer   '0 = MALE, 1 = FEMALE, 3 = OTHER, 4 = UNKNOWN
@@ -32,55 +36,60 @@ Public Class frmAddPatient
     'QUERIES SERVER FOR PRESENCE OF THE ID AT TXTNID LOST FOCUS EVENT.
     Dim IsNidRegistered As Integer   '0 = NOT PRESENT  1=PRESENT (REGISTERED)
 
-
-    'DELIMITER FOR SEPARATING INDIVIDUAL NAMES 
+    'DELIMITER FOR SEPARATING INDIVIDUAL NAMES
     Const Delimiter As String = " "
 
     'VARIALBLES TO UPDATE LBLSUMMARY DISPLAY
     Dim NextHospitalNumber As Integer
+
     Dim FinalPatientName As String
     Dim patientAge As String
     Dim PatientGender As String
 
     'VARIABLES FOR ADDING PATIENT ADDRESS
     Dim Address As String
+
     Dim Island As String
     Dim Atoll As String
     Dim Country As String
 
     'VARIABLES AND INITIALISATIONS FOR CONTACT DETAILS PAGE
     ReadOnly PatientContacts As New List(Of Contacts)()
+
+    'INITIALISATIONS FOR TRACKING AND LOGGING APPLICATION EVENTS, QUERIES, EXCEPTIONS ETC...
+    Dim InitiateErrorProcessing As New SwatInc.ApplicationTracking.LogProcessing
+
     Public Sub New()
 
         ' This call is required by the designer.
         InitializeComponent()
 
         'INITIALIZING A TO MONITOR CONNECTION STATUS BY CALLING COM HANDLERS' ISCNXALIVE FUNCTION
-        CnxMonitor.Interval = 1000
+        CnxMonitor.Interval = 1
         CnxMonitor.Enabled = True
 
         'SETTING GENERIC LIST AS A DATASOURCE FOR GRIDCONTROLADDCONTACT
         GridControlAddContact.DataSource = PatientContacts
 
-
     End Sub
+
     Private Sub CnXMonitor_Tick(sender As Object, e As EventArgs) Handles CnxMonitor.Elapsed
         IsServerConnectionAvailable = Nothing
 
         Try
             If MsSQLComHandler.IsServerAccessAvailable() = True Then
                 IsServerConnectionAvailable = True
-
-
             Else
                 IsServerConnectionAvailable = False
 
             End If
         Catch ex As Exception
-            MsgBox(ex.Message)
+            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
+            'MsgBox(ex.Message)
         End Try
 
     End Sub
+
     Private Sub frmAddPatient_Load(sender As Object, e As EventArgs) Handles Me.Load
 
         'DISABLING CONTROLS TO ENFORCE STANDARDISED WORKFLOW.
@@ -96,7 +105,7 @@ Public Class frmAddPatient
         'SO, "CAUSE VALIDATION" IS DISABLED. VALIDATING EVENT IS RAISED MANUALLY BY CALLING txtNidDoValidate()
         txtNid.CausesValidation = False
 
-        'RENAMING GrpPatientDetails.Text AS 
+        'RENAMING GrpPatientDetails.Text AS
         ' 'ADD NEW PATIENT: PERSONAL INFORMATION'        SINCE THE TABPAGE SELECTED AS DEFAULT IS THE PERSONAL INFO ENTRY PAGE.
         If xTabAddPatientRecords.SelectedTabPage.Text = xTabPagePersonalInfo.Text Then
             GrpPatientDetails.Text = "ADD NEW PATIENT: PERSONAL INFORMATION"
@@ -109,6 +118,7 @@ Public Class frmAddPatient
         'SETTING FOCUS TO TEXT BOX TXTNID
         txtNid.Focus()
     End Sub
+
     Private Sub txtPatientName_EditValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles txtPatientName.EditValueChanged
 
         'INDIVIDUAL NAMES ARE REQUIRED TO BE ALL CAPITALS. THIS WOULD AVOID DUBLICATE INDIVIDUAL NAMES IN BIG AND LITTLE LETTERS.
@@ -116,6 +126,7 @@ Public Class frmAddPatient
         txtPatientName.Text = txtPatientName.Text.ToUpper
 
     End Sub
+
     Private Sub btnPesonalInfoNextEnabledStatusHandler()
         If txtNid.Text = "" Or txtPatientName.Text = "" Or cboGender.Text = "" Or txtEditDateOfBirth.Text = "" Or txtEditHospitalNumber.Text = "" _
            Or IsNidValid = False Or IsHospitalNumberValid = False Then
@@ -126,6 +137,7 @@ Public Class frmAddPatient
         End If
 
     End Sub
+
     Private Sub txtNid_LostFocus(sender As Object, e As EventArgs) Handles txtNid.LostFocus
 
         If Not txtNid.Text = "" Then
@@ -141,6 +153,7 @@ Public Class frmAddPatient
 
         End If
     End Sub
+
     Private Sub txtPatientName_LostFocus(ByVal sender As Object, ByVal e As EventArgs) Handles txtPatientName.LostFocus
 
         Dim IndividualNameCollection_Temp() As String
@@ -161,6 +174,7 @@ Public Class frmAddPatient
                     End If
                 Next
             Catch ex As Exception
+                InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
                 MsgBox(ex.Message)
             End Try
 
@@ -180,7 +194,6 @@ Public Class frmAddPatient
 
             Next
 
-
             'UPDATING PATIENT DETAILS SUMMARY LABEL WITH NAME
             FinalPatientName = txtPatientName.Text
             UpdateSummaryDisplay()
@@ -191,6 +204,7 @@ Public Class frmAddPatient
         End If
 
     End Sub
+
     Private Sub cboGender_LostFocus(sender As Object, e As EventArgs) Handles cboGender.LostFocus
         'CHECKING TO SEE WHETHER ALL FIELDS ARE COMPLETE
         btnPesonalInfoNextEnabledStatusHandler()
@@ -210,9 +224,9 @@ Public Class frmAddPatient
         UpdateSummaryDisplay()
 
     End Sub
+
     Private Sub txtEditDateOfBirth_LostFocus(sender As Object, e As EventArgs) Handles txtEditDateOfBirth.LostFocus
         'CALCULATING AGE TO BE DISPLAYED AS A VERIFICATION THAT CORRECT DOB WAS ENTERED
-
 
         If txtEditDateOfBirth.Text = "" Or txtEditDateOfBirth.Text = Nothing Then
             'IGNORE
@@ -221,11 +235,10 @@ Public Class frmAddPatient
             CalculateAge(Dob)
         End If
 
-
-
         'CHECKING TO SEE WHETHER ALL FIELDS ARE COMPLETE
         btnPesonalInfoNextEnabledStatusHandler()
     End Sub
+
     Private Sub xTabAddPatientRecords_SelectedPageChanged(sender As Object, e As DevExpress.XtraTab.TabPageChangedEventArgs) Handles xTabAddPatientRecords.SelectedPageChanged
         'RENAMING GrpPatientDetails.Text ACCORING TO THE XTABPAGE SELECTED.
         '       "ADD NEW PATIENT: PERSONAL INFORMATION"
@@ -241,6 +254,7 @@ Public Class frmAddPatient
 
         End If
     End Sub
+
     Private Sub btnPersonalInfoNext_Click(sender As Object, e As EventArgs) Handles btnPersonalInfoNext.Click
 
         Try
@@ -255,7 +269,7 @@ Public Class frmAddPatient
             'VALIDATE(PREFERRABLY VALIDATE INDIVIDUAL FIELDS ON THEIR RESPECTIVE LOSTFOCUS EVENTS) AND ASSIGN TO VARIABLES DECLARED AT THE BEGINNING.
             Nid = txtNid.Text
             HospitalNumber = txtEditHospitalNumber.Text
-            'VALUES FOR THE ARRAY IndividualNameCollection IS ASSIGNED ON LOST FOCUS EVENT OF THE TXTPATENTNAME OBJECT. 
+            'VALUES FOR THE ARRAY IndividualNameCollection IS ASSIGNED ON LOST FOCUS EVENT OF THE TXTPATENTNAME OBJECT.
             Gender = cboGender.SelectedIndex
 
             Dob = txtEditDateOfBirth.Text
@@ -267,8 +281,8 @@ Public Class frmAddPatient
             txtAddress.Focus()
             xTabPagePersonalInfo.PageEnabled = False
             xTabPageContactInfo.PageEnabled = False
-
         Catch ex As Exception
+            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         End Try
 
@@ -280,6 +294,7 @@ Public Class frmAddPatient
             cboAtoll.Properties.Items.Add(Atoll)
         Next
     End Sub
+
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
 
         'ASSUMING THAT USER HAS TO EDIT SOME DATA AT PERSONAL INFORMATION XTAB
@@ -289,6 +304,7 @@ Public Class frmAddPatient
         xTabPageContactInfo.PageEnabled = False
 
     End Sub
+
     Private Sub txtNid_Validating(sender As Object, e As CancelEventArgs) Handles txtNid.Validating
 
         'USING REGEX.ISMATCH (LIKE AN INPUT MASK) TO CHECK WHETHER THE TXTINPUT AT TXTNID MATCHES THE FORMATS
@@ -299,7 +315,7 @@ Public Class frmAddPatient
         'USING REGEX REQUIRES Imports System.Text.RegularExpressions. REGEX STANDS FOR REGULAR EXPRESSIONS.
         IsNidValid = Regex.IsMatch(txtNid.Text, "^A[0-9]\d{5}$") Or Regex.IsMatch(txtNid.Text, "^BO[0-9]\d{7}$")
 
-        'USER FEEDBACK FOR INVALID IDCARD NUMBER ENTRIES IS GIVEN BY DISPLAYING A RED CROSS ICON WITH TOOLTIP 
+        'USER FEEDBACK FOR INVALID IDCARD NUMBER ENTRIES IS GIVEN BY DISPLAYING A RED CROSS ICON WITH TOOLTIP
         If IsNidValid = True Then
             txtNid.ShowToolTips = False
             'CHECKING SERVER FOR THE PRESENCE OF THE ID CARD NUMBER WHICH WOULD INDICATE THAT THE PATIENT IS ALREADY REGISTERED.
@@ -322,9 +338,9 @@ Public Class frmAddPatient
         End If
 
     End Sub
+
     Private Sub txtNid_InvalidValue(sender As Object, e As InvalidValueExceptionEventArgs) Handles txtNid.InvalidValue
         e.ErrorText = "Invalid ID Card Number" & vbCrLf & "Format: A012345 or BO01012345"
-
 
         'INITIALISING AN INSTANCE OF THE NOTIFICATION FORM TO PROVIDE NOTOFICATIONS.
         Dim Notify As New frmNotification
@@ -335,6 +351,7 @@ Public Class frmAddPatient
             NotficationPNG_IconName:="LanTech",
             Heading:="Invalid ID !")
     End Sub
+
     Private Sub CalculateAge(dob As Date)
 
         Dim AgeYears As Integer
@@ -343,13 +360,11 @@ Public Class frmAddPatient
 
         Try
 
-            'A NEONATES' AGE HAS TO BE REPORTED IN MONTHS OR EVEN DAYS. 
+            'A NEONATES' AGE HAS TO BE REPORTED IN MONTHS OR EVEN DAYS.
 
             AgeYears = Math.Floor(DateDiff(DateInterval.Day, DateValue(dob), Now()) / 365.25)
             AgeMonths = Math.Floor(DateDiff(DateInterval.Day, DateValue(dob), Now()) / 30.4375)
             AgeDays = Math.Floor(DateDiff(DateInterval.Day, DateValue(dob), Now()))
-
-
 
             If AgeYears = 0 And AgeMonths = 0 Then
                 patientAge = AgeDays & " D"
@@ -364,12 +379,13 @@ Public Class frmAddPatient
 
             'UPDATING PATIENT DETAILS DISPLAY LABEL
             UpdateSummaryDisplay()
-
         Catch ex As Exception
+            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         End Try
 
     End Sub
+
     Private Sub UpdateSummaryDisplay()
         lblSummary.Text = String.Format("#{0}, {1}, {2}/{3}", NextHospitalNumber, FinalPatientName, patientAge, PatientGender)
     End Sub
@@ -405,6 +421,7 @@ Public Class frmAddPatient
     Private Sub cboCountry_LostFocus(sender As Object, e As EventArgs) Handles cboCountry.LostFocus
         If Not cboCountry.Text = "" Then ActivateAddressNext()
     End Sub
+
     Private Sub ActivateAddressNext()
         If txtAddress.Text = "" Or cboIsland.Text = "" Or cboAtoll.Text = "" Or cboCountry.Text = "" Then
             'IGNORE
@@ -425,7 +442,6 @@ Public Class frmAddPatient
     End Sub
 
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
-
 
         'GRIDVIEW REQUIRES TO BE BOUND TO SOME SORTA DATA SOURCE FOR IT TO HAVE EVEN THE MOST BASIC FUNCTION
         'MAKE A WRAPPER TO WRAP A STRING ARRAY TO STORE CONTACT AND CORRESPONG CONTACT DETAIL UNTIL THEY ARE WRITTEN TO SERVER.
@@ -451,13 +467,14 @@ Public Class frmAddPatient
         Try
             GridViewAddContact.DeleteSelectedRows()
         Catch ex As Exception
+            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         End Try
 
     End Sub
 
     Private Sub GrpPatientDetails_MouseDown(sender As Object, e As MouseEventArgs) Handles GrpPatientDetails.MouseDown
-        'DRAG_ANALYSIS_REQUEST handles an IF CONDITION at mouse move event. If DRAG_ANALYSIS_REQUEST is true, 
+        'DRAG_ANALYSIS_REQUEST handles an IF CONDITION at mouse move event. If DRAG_ANALYSIS_REQUEST is true,
         ' and if mouse button.left is down, form is moved with cursor
         If e.Button = MouseButtons.Left Then
             DRAG_ANALYSIS_REQUEST = True
@@ -496,6 +513,7 @@ Public Class frmAddPatient
             'HOSPITAL NUMBER CANNOT BE A NEGATIVE INTEGER.
             IsHospitalNumberValid = Regex.IsMatch(txtEditHospitalNumber.Text, "^(?:214748364[0-7]|21474836[0-3][0-9]|2147483[0-5][0-9]{2}|214748[0-2][0-9]{3}|21474[0-7][0-9]{4}|2147[0-3][0-9]{5}|214[0-6][0-9]{6}|21[0-3][0-9]{7}|20[0-9]{8}|1[0-9]{9}|[1-9][0-9]{1,8}|[1-9])$", RegexOptions.Multiline)
         Catch ex As ArgumentException
+            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         Finally
             If IsHospitalNumberValid = False Then
@@ -516,15 +534,15 @@ Public Class frmAddPatient
             End If
         End Try
 
-
     End Sub
+
     Private Sub txtEditHospitalNumber_InvalidValue(sender As Object, e As InvalidValueExceptionEventArgs) Handles txtEditHospitalNumber.InvalidValue
         'DISPLAYING A TOOLTIP ON THE CROSS ICON TO HELP CORRECT THE ERROR
         e.ErrorText = "Invalid Hospital Number" & vbCrLf & "Valid between 1 and 2147483648"
     End Sub
 
     Private Sub txtContactDetail_LostFocus(sender As Object, e As EventArgs) Handles txtContactDetail.LostFocus
-        'INITAILIZING VALIDATION. THIS WOULD RAISE THE EVENT "VALIDATING" WHICH WOULD HAVE THE CODE TO VALIDATE THE 
+        'INITAILIZING VALIDATION. THIS WOULD RAISE THE EVENT "VALIDATING" WHICH WOULD HAVE THE CODE TO VALIDATE THE
         'USER ENTRY
         txtContactDetail.DoValidate()
     End Sub
@@ -536,7 +554,7 @@ Public Class frmAddPatient
         'INITIALISING VARIABLES
 
         'VALIDATING DATA ENTRY TO THE TEXTBOX "txtContactDetail"
-        'IN ADDITION TO VALIDATION, THIS CODE SEGMENT WILL ALSO BE USED TO AUTO DETECT MOBILE NUMBER AND EMAIL ADDRESS AND SELECT THE 
+        'IN ADDITION TO VALIDATION, THIS CODE SEGMENT WILL ALSO BE USED TO AUTO DETECT MOBILE NUMBER AND EMAIL ADDRESS AND SELECT THE
         'APPROPRIATE INDEX FOR THE COMBOBOX "cboContactType"
         'REGEX INTERNATIONAL MOBILE NUMBERS: ^\+?(d+[- ])?\d{10}$ OR ^(d+[- ])?\d{7}$
         'REGEX EMAIL ADDRESS: \b[!#$%&'*+./0-9=?_`a-z{|}~^-]+@[.0-9a-z-]+\.[a-z]{2,6}\b
@@ -559,10 +577,9 @@ Public Class frmAddPatient
                 txtContactDetail.ToolTipTitle = "Contact Detail"
                 txtContactDetail.ToolTip = "Enter an email or a phone number."
             End If
-
-
         Catch ex As Exception
             'DSPLAYING ERRORS.., IF ANY
+            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         Finally
             If e.Cancel = False Then
@@ -620,11 +637,10 @@ Public Class frmAddPatient
 
                     'INITIALISING AN INSTANCE OF THE NOTIFICATION FORM TO PROVIDE NOTOFICATIONS.
 
-
                     'SHOWING A POP UP NOTIFICATION
                     Notify.ShowNotification(NotificationMessage:="Server connection could not be established.",
                         NotificationTitle:="Server Communications",
-                        NotficationPNG_IconName:="DaatabaseDisconnected",
+                        NotficationPNG_IconName:="DatabaseDisconnected",
                         Heading:="Connection Failure!")
                 End If
 
@@ -654,9 +670,11 @@ Public Class frmAddPatient
             'SAVING CONTACT DETAILS TO SERVER
             ParseAndInsertContactDetails()
         Catch ex As Exception
+            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
             MsgBox(String.Format("{0}{1}", ex.Message, vbCrLf))
         End Try
     End Sub
+
     Private Function FetchIndividualNameIDs()
         'TASK OF THIS FUNCTION: CHECK SERVER FOR THE PRESENCE OF INDIVIDUAL NAMES. IF PRESENT, GET THEIR IDs ELSE EXECUTE AN INSERT QUERY TO ADD THE NON-EXISTANT NAMES
         'AND EXECUTE ANOTHER QUERY TO GET THE IDs.
@@ -683,8 +701,8 @@ Public Class frmAddPatient
 RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVER.
 
             IsNamePresentOnServer = MsSQLComHandler.IsFieldValuePresent("[dbo].[IndividualNames]", "Individual", Individual)
-            'IF FIELD IS PRESENT, GET THE IdIndividualName and store it in the an array " Dim IdIndividualNameStore(ArrayLength -1) As Integer". 
-            'The length of the array would be The number of individual names in the Patient name MINUS ONE 
+            'IF FIELD IS PRESENT, GET THE IdIndividualName and store it in the an array " Dim IdIndividualNameStore(ArrayLength -1) As Integer".
+            'The length of the array would be The number of individual names in the Patient name MINUS ONE
 
             If IsNamePresentOnServer = 1 Then
                 'ONLY THE ID IdIndividual IS RETURNED AND THEREFORE ONLY ONE FIELD WILL BE PRESENT IN THE ARRAY "RetrievedID()". TAKE THE VALUE AT INDEX 0 AND ASSIGN IT TO "RetrievedIdIndividualName"
@@ -698,13 +716,13 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
                 ElseIf Not RowsInserted = 1 Then
                     MsgBox(String.Format("Error inserting patient name to server.{0}Number of Rows Inserted: {1}", vbCrLf, RowsInserted), vbInformation, "Patient Registration")
                 End If
-
             Else
                 MsgBox("An Error occured while checking for the presence of IndividualNames on server!", vbCritical,)
             End If
         Next
         Return RetrievedIdIndividualName
     End Function
+
     Private Function FetchIdIslandList()
         'TASK OF THE FUNCTION: GET THE ATOLL AND ISLAND(ATOLL AND ISLAND ID IS JUST ONE VALUE. IdIslandList) ID OF THE PATIENTS ADDRESS AND RETURN IT.
 
@@ -716,6 +734,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
         IdIslandAndAtoll = IdIslandAndAtollArray(0)
         Return IdIslandAndAtoll
     End Function
+
     Private Function FetchCountryID()
 
         'TASK FOR THIS FUNCTION: FETCH THE COUNTRY ID FOR THE PATIENTS' COUNTRY.
@@ -728,6 +747,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
 
             IdCountry = CountryID(0)    'ONLY ONE VALUE WILL BE RETUNED BY MSSQL READER IN THIS CASE AND THEREFORE, ASSIGNING ONLY INDEX 0 IS SUFFICIENT.
         Catch ex As Exception
+            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
             MsgBox(String.Format("An error occured while looking up the Country ID for the patient." & vbCrLf & "Error Message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType), vbExclamation,
                    "Patient Registration")
         End Try
@@ -767,7 +787,6 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
                 MsgBox("Invalid Contact Type selected.", vbExclamation, "Patient Registration")
             End If
 
-
             '2) PARSING CONTACT DETAILS AS PART OF AN INSERT STATEMENT.
             If ii = 0 Then
                 ContactsInsertStatement = String.Format("({0}, {1}, '{2}')", HospitalNumber, IdContactType, Contact)
@@ -779,7 +798,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
             If ii = ListLength - 1 Then
 
                 Try
-                    'CHECK WHETHER CONTACT TYPE IS A VALID TYPE BY CHECKING WHETHER THE TYPE EXISTS ON SERVER AND FETCH IdContactType TO BE INSERTED INTO CONTACTS TABLE . THIS IS NOT DONE FOR NOW. 
+                    'CHECK WHETHER CONTACT TYPE IS A VALID TYPE BY CHECKING WHETHER THE TYPE EXISTS ON SERVER AND FETCH IdContactType TO BE INSERTED INTO CONTACTS TABLE . THIS IS NOT DONE FOR NOW.
                     'THIS PART WILL BE HARDCODED IN SOFTWARE AS FOLLOWS.
                     '1= Mobile 2= Office 3= Home 4 = Email
 
@@ -787,6 +806,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
                     RowsInserted = MsSQLComHandler.NonQueryINSERT("[dbo].[Contacts]", ContactsInsertStatement)
                 Catch ex As Exception
 
+                    InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
                     MsgBox(String.Format("An error adding patient contact details to server. Error message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType.ToString), vbInformation, "Patient Registration")
                 End Try
 
@@ -796,6 +816,5 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
         'this return statement has to be changed to a meaningful one
         Return 0
     End Function
-
 
 End Class

@@ -6,23 +6,28 @@
 
     Dim WithEvents AnimationControl As New Timer   'TO CONTROL THE WAY NOTIFICATION SHOWS UP.
     Dim i As Integer = 0                            'COUNTER FOR LOOP USED FOR NOTIFICATION SHOW UP ANIMATION.
-    Dim WithEvents LifeTime As New Timer           'TIMER WHICH HANDLES AUTOMATIC CLOSING OF NOTIFICATION. 
+    Dim WithEvents LifeTime As New Timer           'TIMER WHICH HANDLES AUTOMATIC CLOSING OF NOTIFICATION.
     Dim TicksCount As Integer = 0
 
     Private AlreadyActiveNotificationsNO As Integer = 1 'THIS VARIABLE DETERMINES WHETHER THERE ARE ANY PREVIOUS NOTIFICATIONS
-    Private Const NotificationWindowRelocationFactor As Integer = 96 'VERTICAL DISPLACEMENT OF THE NOTIFICATION OF THE NOTIFICATION POPUP IN THE PRESENCE OF 
+    Private Const NotificationWindowRelocationFactor As Integer = 96 'VERTICAL DISPLACEMENT OF THE NOTIFICATION OF THE NOTIFICATION POPUP IN THE PRESENCE OF
     'ANOTHER POPUP TO AVOID OVERLAP OF NOTIFICATION POPUP WINDOWS.
 
     Private Const LifeTimeInMilliseconds As Integer = 1  'THIS IS THE INTERVAL OF THE TIMER WHICH COUNTS DOWN TO CLOSE THE NOTIFICATION.
 
     Dim IsLocationDefault As Boolean = False 'IF THIS IS TRUE THE NOTIFICATION POPUP WINDOW WILL SET frmLisMini.IsRelocateNofitication to FALSE WHILE UNLOADING THE NOTIFICATION
-    'THE CURRENT NOTIFICATION POPPED UP. THIS ALLOWS ADJUSTING THE LOCATION OF THE NOTIFICATION WNINDOW SO THAT BOTH THE 
+    'THE CURRENT NOTIFICATION POPPED UP. THIS ALLOWS ADJUSTING THE LOCATION OF THE NOTIFICATION WNINDOW SO THAT BOTH THE
     'NOTIFICATIONS CAN BE SEEN ON SCREEN.
 
     'VARIABLES TO STORE SCREEN DIAMENTIONS
     Dim NotificationLocation As New Point
+
     Dim POINT_X As Integer
     Dim POINT_Y As Integer
+
+    'INITIALISATIONS FOR TRACKING AND LOGGING APPLICATION EVENTS, QUERIES, EXCEPTIONS ETC...
+    Dim InitiateErrorProcessing As New SwatInc.ApplicationTracking.LogProcessing
+
     Private Shared Sub ScreenDiametions(ByRef POINT_X As Integer, ByRef POINT_Y As Integer)
 
         'GETTING SCREEN WIDTH AND HEIGHT TO DETERMINE THE LOCATION FOR NOTIFICATION.
@@ -30,10 +35,12 @@
         POINT_Y = Screen.PrimaryScreen.Bounds.Height
 
     End Sub
+
     Private Sub lblClose_Click(sender As Object, e As EventArgs) Handles lblClose.Click
         RegisterNotification(False)
         Close()
     End Sub
+
     Public Sub ShowNotification(ByVal NotificationMessage As String, ByVal NotificationTitle As String, ByVal NotficationPNG_IconName As String, Optional ByVal Heading As String = "")
         RegisterNotification(True)
 
@@ -43,13 +50,11 @@
         NotificationLocation.X = POINT_X - 500
         NotificationLocation.Y = POINT_Y
 
-
         NotificationUI.Text = NotificationTitle
         lblNotificationMessage.Text = NotificationMessage
         lblHeading.Text = Heading
 
         NotificationIcon.Image = Image.FromFile(GetImagePath(NotficationPNG_IconName))
-
 
         Location = NotificationLocation     'SETTING INITIAL LOCATION OF NOTIFICATION FORM.
         AnimationControl.Interval = 100     'SETTING INTERVAL FOR ANMATION.
@@ -76,7 +81,6 @@
                 LifeTime.Enabled = False
                 Close()
             End If
-
         Else
             TicksCount += 1
         End If
@@ -105,6 +109,7 @@
             NotficationPNG_IconName:="LanTech",
             Heading:="Testing")
     End Sub
+
     Sub RegisterNotification(ByVal IsLoading As Boolean)
 
         'THIS SUB STILL HAVE SOME BUGS TO FIX. ADD COMMENTS
@@ -124,9 +129,8 @@
 
                 If IsLocationDefault = True Then        'IF THE NOTIFICATION AT THE DEFAULT LOCATION IS UNLOADING, NEXT NOTIFICATION WILL NOT BE RELOCATED.
                     frmLisMini.IsRelocateNofitication = False
-                    frmLisMini.AlreadyActiveNotificationsMonitor = 0 'IF NOTIFICATION AT DEFAULT LOCATION HAS UNLOADED, THEN NEXT NOTIFICATION SHOULD APPEAR AT DEFAULT LOCATION AND HENCE THIS VARIABLE 
+                    frmLisMini.AlreadyActiveNotificationsMonitor = 0 'IF NOTIFICATION AT DEFAULT LOCATION HAS UNLOADED, THEN NEXT NOTIFICATION SHOULD APPEAR AT DEFAULT LOCATION AND HENCE THIS VARIABLE
                     'SHOULD RESET.
-
                 Else
                     If frmLisMini.AlreadyActiveNotificationsMonitor >= 1 Then
                         frmLisMini.AlreadyActiveNotificationsMonitor -= 1
@@ -136,9 +140,8 @@
                 End If
 
             End If
-
-
         Catch ex As Exception
+            InitiateErrorProcessing.LogManager(ex)  'LOGGING ERROR TO DISK
             MsgBox(String.Format("{0}{1}Error setting notification location.", ex.Message, vbCrLf))
             ErrorCount = 1
         Finally
@@ -149,6 +152,7 @@
             End If
         End Try
     End Sub
+
     Function DetermineFeasibleAmountNotifications()
         'THIS IS NOT IMPLEMENTED YET.
         'PURPOSE: THIS FUNCTION DETERMINES THE NUMBER OF WINDOWS THAT CAN BE DISPLAYED VERTICALLY ON THE OUTPUT SCREEN WITHOUT THEM OVERLAPPING
@@ -157,14 +161,16 @@
 
         Return FeasibleAmount
     End Function
+
     Function GetImagePath(ImageName As String)
-        'PURPOSE: PROVIDE COMPLETE PATH FOR A PNG TO BE DISPLAYED AS NOTIFICATION ICON WHEN THIS FUNCTION IS PROVIDED WITH THE IMAGE NAME. THIS AVOIDS HAVING TO CHANGE IMAGE PATH FROM EVERY SINGLE 
+        'PURPOSE: PROVIDE COMPLETE PATH FOR A PNG TO BE DISPLAYED AS NOTIFICATION ICON WHEN THIS FUNCTION IS PROVIDED WITH THE IMAGE NAME. THIS AVOIDS HAVING TO CHANGE IMAGE PATH FROM EVERY SINGLE
         'REFERENCE POINT INCASE THE PATH CHANGES.
         'ALL IMAGES ARE STORED IN A SINGLE DIRECTORY REFFERED TO AS "ImagerRootDir". THE PROVIDED "ImageName As String" IS CONCENCATED AS "ImagePath As String" AND RETURNED.
 
-        Const ImagerRootDir As String = "C:\Users\ibrah\OneDrive\Documents\Visual Studio 2015\Projects\LISmini\LISmini\Resources\"
+        Const ImagerRootDir As String = "E:\Ibrahim\OneDrive\Documents\Visual Studio 2015\Projects\LISmini\LISmini\Resources\"
         Dim ImagePath As String = String.Format("{0}{1}.PNG", ImagerRootDir, ImageName)
 
         Return ImagePath
     End Function
+
 End Class
