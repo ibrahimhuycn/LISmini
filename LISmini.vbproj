@@ -11,7 +11,7 @@
     <AssemblyName>LISmini</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>G:\Project\</PublishUrl>
@@ -29,6 +29,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -177,7 +178,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ServerCommunications.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormAddPatient.resx">
@@ -964,6 +964,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SwatInc\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ServerCommunications\ServerCommunications.vbproj">
+      <Project>{1e951924-eefb-4f74-8df0-10b1141c91c8}</Project>
+      <Name>ServerCommunications</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

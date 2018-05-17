@@ -1,5 +1,8 @@
 ﻿Public Class frmLisMini
 
+    'INITIALISATIONS FOR TRACKING AND LOGGING APPLICATION EVENTS, QUERIES, EXCEPTIONS ETC..
+    Private Shared ReadOnly InitiateLogging As log4net.ILog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
+
     Public AlreadyActiveNotificationsMonitor As Integer = 0 'VARIABLE FOR DETERMING NUMBER OF ACTIVE NOFIFICATION WINDOWS ON
 
     'SCREEN. THIS IS TO ADJUST VERTICAL POSITION OF THE NOTIFICATIONS SO THAT ALL CAN BE SEEN ON SCREEN.
@@ -72,6 +75,7 @@
     End Sub
 
     Private Sub btnNewPatient_ItemClick(sender As Object, e As DevExpress.XtraBars.ItemClickEventArgs) Handles btnNewPatient.ItemClick
+        InitiateLogging.Info("Showing new patient entry form...")
         AddNewPatient()
     End Sub
 

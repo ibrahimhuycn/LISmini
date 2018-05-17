@@ -1,6 +1,7 @@
 ﻿Imports System.ComponentModel
 Imports System.Text.RegularExpressions
 Imports DevExpress.XtraEditors.Controls
+Imports ServerCommunications
 
 Public Class FormAddPatient
 
@@ -17,7 +18,12 @@ Public Class FormAddPatient
     Dim mousePositionY As Integer
 
     'SERVER OBJECT INITIALISATION FOR EXECUTING QUERIES
-    ReadOnly MsSQLComHandler As New ServerCommunications()
+    ReadOnly lisConnectionCheck As New MsSqlConnectionStatus
+
+    ReadOnly getNextHospitalNumber As New GetNextHospitalNumber
+    ReadOnly readDatabase As New ExecuteReads
+    ReadOnly checkValuePresence As New FieldPopulation
+    ReadOnly insertValues As New ExecuteInserts
 
     'VARIABLE TO STORE NUMBER OF INDIVIDUAL NAMES IN THE FULL NAME. THIS SERVES AS NUMBER OF ITEMS IN THE STRING ARRAY PatientName
     Public numberIndividualNames As Integer
@@ -57,7 +63,7 @@ Public Class FormAddPatient
     ReadOnly patientContacts As New List(Of Contacts)()
 
     'INITIALISATIONS FOR TRACKING AND LOGGING APPLICATION EVENTS, QUERIES, EXCEPTIONS ETC..
-    Private Shared ReadOnly initiateLogging As log4net.ILog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
+    Private Shared ReadOnly initiateLogging As log4net.ILog = log4net.LogManager.GetLogger(Reflection.MethodBase.GetCurrentMethod().DeclaringType)
 
     Public Sub New()
 
@@ -73,11 +79,11 @@ Public Class FormAddPatient
 
     End Sub
 
-    Private Sub CnXMonitor_Tick(sender As Object, e As EventArgs) Handles connectionMonitor.Elapsed
+    Private Sub connectionMonitor_Tick(sender As Object, e As EventArgs) Handles connectionMonitor.Elapsed
         isServerConnectionAvailable = Nothing
 
         Try
-            If MsSQLComHandler.IsServerAccessAvailable() = True Then
+            If lisConnectionCheck.IsServerAccessAvailable() = True Then
                 isServerConnectionAvailable = True
             Else
                 isServerConnectionAvailable = False
@@ -112,7 +118,7 @@ Public Class FormAddPatient
         End If
 
         'QUERYING FOR HOSPITAL NUMBER TO BE GIVEN TO NEXT PATIENT & UPDATING PATIENT DETAILS DISPLAY LABEL
-        nextHospitalNumber = MsSQLComHandler.GetNextHNo()        'QUERYING
+        nextHospitalNumber = getNextHospitalNumber.GetNextHNo()        'QUERYING
         UpdateSummaryDisplay()                       'UPDATING THE LABEL
 
         'SETTING FOCUS TO TEXT BOX TXTNID
@@ -288,7 +294,7 @@ Public Class FormAddPatient
 
         'FETCH ATOLL DATA FROM SERVER BY EXECUTING A DATAREADER FOR THE ADDRESS TAB
         ComboBoxEditAtoll.Properties.Items.Clear()
-        Dim AtollList() As String = MsSQLComHandler.ExecuteMsSQLReader("AtollAbbrv", "islandlist", False, "", True, True, "AtollAbbrv", True)
+        Dim AtollList() As String = readDatabase.ExecuteMsSQLReader("AtollAbbrv", "islandlist", False, "", True, True, "AtollAbbrv", True)
 
         For Each atoll In AtollList         'ADDING ATOLL LIST TO COMBOBOX LIST ITEM
             ComboBoxEditAtoll.Properties.Items.Add(atoll)
@@ -319,7 +325,7 @@ Public Class FormAddPatient
         If isNationalIdValid = True Then
             TextEditNid.ShowToolTips = False
             'CHECKING SERVER FOR THE PRESENCE OF THE ID CARD NUMBER WHICH WOULD INDICATE THAT THE PATIENT IS ALREADY REGISTERED.
-            isNidRegistered = MsSQLComHandler.IsFieldValuePresent("Individuals", "NidCardNumber", TextEditNid.Text)
+            isNidRegistered = checkValuePresence.IsFieldValuePresent("Individuals", "NidCardNumber", TextEditNid.Text)
             If isNidRegistered = 0 Then
                 'IGNORE
             ElseIf isNidRegistered = 1 Then
@@ -410,7 +416,7 @@ Public Class FormAddPatient
         ComboBoxIsland.Properties.Items.Clear()
 
         If Not ComboBoxEditAtoll.Text = "" Then
-            Dim IslandList() As String = MsSQLComHandler.ExecuteMsSQLReader("island", "islandlist", True, String.Format("AtollAbbrv = '{0}'", ComboBoxEditAtoll.Text), True, True, "island", True)
+            Dim IslandList() As String = readDatabase.ExecuteMsSQLReader("island", "islandlist", True, String.Format("AtollAbbrv = '{0}'", ComboBoxEditAtoll.Text), True, True, "island", True)
             For Each Island In IslandList
                 ComboBoxIsland.Properties.Items.Add(Island)
             Next
@@ -624,7 +630,7 @@ Public Class FormAddPatient
         Try
             'INSERTING DATA INTO DBO.INDIVIDUALS
             PatientEntryStep = 0
-            RowsInsertedIndividual = MsSQLComHandler.NonQueryINSERT(Table:="[dbo].[Individuals]",
+            RowsInsertedIndividual = insertValues.NonQueryINSERT(Table:="[dbo].[Individuals]",
                                          InsertValues:=String.Format("('{0}',N'{1}',N'{2}','{3}','{4}','{5}','{6}','{7}')", hospitalNumber, nationalId, dob, address, 1, IdIslandAndAtoll, IdCountry, gender),
                                          Fields:="([Idindividual],[NidCardNumber],[dob],[Address],[IsAlive],[IdIsland],[IdCountry],[IdGender])")
             If RowsInsertedIndividual = 1 Then
@@ -662,7 +668,7 @@ Public Class FormAddPatient
             PatientEntryStep = 2
 
             'ii)EXECUTE INSERT STATEMENT
-            RowsInsertedNameHandler = MsSQLComHandler.NonQueryINSERT(Table:="[dbo].[NameHandler]",
+            RowsInsertedNameHandler = insertValues.NonQueryINSERT(Table:="[dbo].[NameHandler]",
                                           InsertValues:=NameHandlerInsertStatement,
                                           Fields:=String.Format("({0}, {1}, {2})", "[IdIndividual]", "[SortOrder]", "[IdIndividualName]"))
             PatientEntryStep = 3
@@ -700,17 +706,17 @@ Public Class FormAddPatient
 
 RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVER.
 
-            IsNamePresentOnServer = MsSQLComHandler.IsFieldValuePresent("[dbo].[IndividualNames]", "Individual", Individual)
+            IsNamePresentOnServer = checkValuePresence.IsFieldValuePresent("[dbo].[IndividualNames]", "Individual", Individual)
             'IF FIELD IS PRESENT, GET THE IdIndividualName and store it in the an array " Dim IdIndividualNameStore(ArrayLength -1) As Integer".
             'The length of the array would be The number of individual names in the Patient name MINUS ONE
 
             If IsNamePresentOnServer = 1 Then
                 'ONLY THE ID IdIndividual IS RETURNED AND THEREFORE ONLY ONE FIELD WILL BE PRESENT IN THE ARRAY "RetrievedID()". TAKE THE VALUE AT INDEX 0 AND ASSIGN IT TO "RetrievedIdIndividualName"
-                Dim RetrievedID() As String = MsSQLComHandler.ExecuteMsSQLReader("[IdindividualName] AS IName", "[dbo].[IndividualNames]", True, String.Format("[Individual] = '{0}'", Individual), False, False, "", False, "IName")
+                Dim RetrievedID() As String = readDatabase.ExecuteMsSQLReader("[IdindividualName] AS IName", "[dbo].[IndividualNames]", True, String.Format("[Individual] = '{0}'", Individual), False, False, "", False, "IName")
                 RetrievedIdIndividualName(i) = RetrievedID(0)
             ElseIf IsNamePresentOnServer = 0 Then
                 'EXECUTING ExecuteNonQuery TO ADD THE NAME TO SERVER
-                RowsInserted = MsSQLComHandler.NonQueryINSERT("[dbo].[IndividualNames]", String.Format("(N'{0}')", Individual), "([Individual])")
+                RowsInserted = insertValues.NonQueryINSERT("[dbo].[IndividualNames]", String.Format("(N'{0}')", Individual), "([Individual])")
                 If RowsInserted = 1 Then
                     GoTo RetryForID
                 ElseIf Not RowsInserted = 1 Then
@@ -727,7 +733,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
         'TASK OF THE FUNCTION: GET THE ATOLL AND ISLAND(ATOLL AND ISLAND ID IS JUST ONE VALUE. IdIslandList) ID OF THE PATIENTS ADDRESS AND RETURN IT.
 
         Dim IdIslandAndAtoll As Integer
-        Dim IdIslandAndAtollArray As String() = MsSQLComHandler.ExecuteMsSQLReader("[IdIslandList] AS IdIslandAndAtoll", "[dbo].[IslandList]", True, String.Format("[Island]='{0}' AND [AtollAbbrv]='{1}'", island, atoll), False, False, "", False, "IdIslandAndAtoll")
+        Dim IdIslandAndAtollArray As String() = readDatabase.ExecuteMsSQLReader("[IdIslandList] AS IdIslandAndAtoll", "[dbo].[IslandList]", True, String.Format("[Island]='{0}' AND [AtollAbbrv]='{1}'", island, atoll), False, False, "", False, "IdIslandAndAtoll")
 
         'THE ARRAY RETURNED WILL HAVE ONLY ONE VALUE AND HENCE THERE IS NO NEED TO ITERATE THROUGH THE ARRAY.
         'GETTING THE 0 INDEX OF THE ARRAY TO AN INTEGER AND RETURNING THE VALUE SHOULD DO THE JOB.
@@ -742,7 +748,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
         Dim CountryID() As String = Nothing
         Dim IdCountry As Integer
         Try
-            CountryID = MsSQLComHandler.ExecuteMsSQLReader("[IdCountry] as CountryID", "[dbo].[Countries]", True, String.Format("[Countries].[Country] = '{0}'", country),
+            CountryID = readDatabase.ExecuteMsSQLReader("[IdCountry] as CountryID", "[dbo].[Countries]", True, String.Format("[Countries].[Country] = '{0}'", country),
                                                            False, False, False, False, "CountryID")
 
             IdCountry = CountryID(0)    'ONLY ONE VALUE WILL BE RETUNED BY MSSQL READER IN THIS CASE AND THEREFORE, ASSIGNING ONLY INDEX 0 IS SUFFICIENT.
@@ -803,7 +809,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
                     '1= Mobile 2= Office 3= Home 4 = Email
 
                     'EXECUTE COMMAND.EXECUTENONQUERY TO INSERY THE CONTACTS.
-                    RowsInserted = MsSQLComHandler.NonQueryINSERT("[dbo].[Contacts]", ContactsInsertStatement)
+                    RowsInserted = insertValues.NonQueryINSERT("[dbo].[Contacts]", ContactsInsertStatement)
                 Catch ex As Exception
 
                     initiateLogging.Error(ex)  'LOGGING ERROR TO DISK
