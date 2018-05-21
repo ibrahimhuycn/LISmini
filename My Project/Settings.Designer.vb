@@ -54,17 +54,6 @@ Namespace My
             End Get
         End Property
         
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\lismini.mdf;I"& _ 
-            "ntegrated Security=True;Connect Timeout=30")>  _
-        Public ReadOnly Property lisminiConnectionString() As String
-            Get
-                Return CType(Me("lisminiConnectionString"),String)
-            End Get
-        End Property
-        
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0")>  _

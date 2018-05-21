@@ -127,6 +127,7 @@
   <ItemGroup>
     <Compile Include="AnalytesRequested.vb" />
     <Compile Include="Contacts.vb" />
+    <Compile Include="ErrorCodes.vb" />
     <Compile Include="FormAddPatient.Designer.vb">
       <DependentUpon>FormAddPatient.vb</DependentUpon>
     </Compile>
@@ -151,11 +152,6 @@
     <Compile Include="frmLisMini.Designer.vb">
       <DependentUpon>frmLisMini.vb</DependentUpon>
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="lisminiDataSet.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>lisminiDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -195,17 +191,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="lisminiDataSet.xsc">
-      <DependentUpon>lisminiDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="lisminiDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>lisminiDataSet.Designer.vb</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="lisminiDataSet.xss">
-      <DependentUpon>lisminiDataSet.xsd</DependentUpon>
-    </None>
     <None Include="LISmini_TemporaryKey.pfx" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
@@ -294,6 +279,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>lismini.mdf</DependentUpon>
     </Content>
+    <None Include="Resources\PatientRegistration.png" />
+    <None Include="Resources\NewPatientRegistered.bmp" />
     <None Include="Resources\DaatabaseDisconnected.png" />
     <None Include="Resources\6668_2.png" />
     <None Include="Resources\GreenTick.png" />

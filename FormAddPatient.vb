@@ -3,12 +3,15 @@ Imports System.Text.RegularExpressions
 Imports DevExpress.XtraEditors.Controls
 Imports ServerCommunications
 Imports SwatIncNotifications
+Imports LISmini.ErrorCodes.MeaningfulErrorCodes
 
 Public Class FormAddPatient
 
     'TODO: IMPLEMENT A WAY TO ENTER PASSPORT NUMBER FOR FORIGNERS.
     'MOVE SERVER CONNECTION STATUS CHECKING FUNCTION TO MAIN FORM.
     Dim WithEvents connectionMonitor As New Timers.Timer
+
+    Const connectionMonitorInterval As Integer = 3000
 
     Dim isServerConnectionAvailable As Boolean
 
@@ -64,7 +67,7 @@ Public Class FormAddPatient
     ReadOnly patientContacts As New List(Of Contacts)()
 
     'INITIALISATIONS FOR TRACKING AND LOGGING APPLICATION EVENTS, QUERIES, EXCEPTIONS ETC..
-    Private Shared ReadOnly initiateLogging As log4net.ILog = log4net.LogManager.GetLogger(Reflection.MethodBase.GetCurrentMethod().DeclaringType)
+    Private Shared ReadOnly log As log4net.ILog = log4net.LogManager.GetLogger(Reflection.MethodBase.GetCurrentMethod().DeclaringType)
 
     Public Sub New()
 
@@ -72,7 +75,7 @@ Public Class FormAddPatient
         InitializeComponent()
 
         'INITIALIZING A TO MONITOR CONNECTION STATUS BY CALLING COM HANDLERS' ISCNXALIVE FUNCTION
-        connectionMonitor.Interval = 1
+        connectionMonitor.Interval = connectionMonitorInterval
         connectionMonitor.Enabled = True
 
         'SETTING GENERIC LIST AS A DATASOURCE FOR GRIDCONTROLADDCONTACT
@@ -90,7 +93,7 @@ Public Class FormAddPatient
 
             End If
         Catch ex As Exception
-            initiateLogging.Error(ex)  'LOGGING ERROR TO DISK
+            log.Error(ex)  'LOGGING ERROR TO DISK
             'MsgBox(ex.Message)
         End Try
 
@@ -180,7 +183,7 @@ Public Class FormAddPatient
                     End If
                 Next
             Catch ex As Exception
-                initiateLogging.Error(ex)  'LOGGING ERROR TO DISK
+                log.Error(ex)  'LOGGING ERROR TO DISK
                 MsgBox(ex.Message)
             End Try
 
@@ -288,7 +291,7 @@ Public Class FormAddPatient
             xTabPagePersonalInfo.PageEnabled = False
             xTabPageContactInfo.PageEnabled = False
         Catch ex As Exception
-            initiateLogging.Error(ex)  'LOGGING ERROR TO DISK
+            log.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         End Try
 
@@ -386,7 +389,7 @@ Public Class FormAddPatient
             'UPDATING PATIENT DETAILS DISPLAY LABEL
             UpdateSummaryDisplay()
         Catch ex As Exception
-            initiateLogging.Error(ex)  'LOGGING ERROR TO DISK
+            log.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         End Try
 
@@ -473,7 +476,7 @@ Public Class FormAddPatient
         Try
             GridViewAddContact.DeleteSelectedRows()
         Catch ex As Exception
-            initiateLogging.Error(ex)  'LOGGING ERROR TO DISK
+            log.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         End Try
 
@@ -519,7 +522,7 @@ Public Class FormAddPatient
             'HOSPITAL NUMBER CANNOT BE A NEGATIVE INTEGER.
             isHospitalNumberValid = Regex.IsMatch(TextEditHospitalNumber.Text, "^(?:214748364[0-7]|21474836[0-3][0-9]|2147483[0-5][0-9]{2}|214748[0-2][0-9]{3}|21474[0-7][0-9]{4}|2147[0-3][0-9]{5}|214[0-6][0-9]{6}|21[0-3][0-9]{7}|20[0-9]{8}|1[0-9]{9}|[1-9][0-9]{1,8}|[1-9])$", RegexOptions.Multiline)
         Catch ex As ArgumentException
-            initiateLogging.Error(ex)  'LOGGING ERROR TO DISK
+            log.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         Finally
             If isHospitalNumberValid = False Then
@@ -585,7 +588,7 @@ Public Class FormAddPatient
             End If
         Catch ex As Exception
             'DSPLAYING ERRORS., IF ANY
-            initiateLogging.Error(ex)  'LOGGING ERROR TO DISK
+            log.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
         Finally
             If e.Cancel = False Then
@@ -673,10 +676,18 @@ Public Class FormAddPatient
                                           Fields:=String.Format("({0}, {1}, {2})", "[IdIndividual]", "[SortOrder]", "[IdIndividualName]"))
             PatientEntryStep = 3
 
-            'SAVING CONTACT DETAILS TO SERVER
-            ParseAndInsertContactDetails()
+            'SAVING CONTACT DETAILS TO SERVER | SKIPPING THIS STEP IF NO CONTACT DETAILS ARE ENTERED.
+            Dim statusContactDetailsEntry As Integer = ParseAndInsertContactDetails()
+            If (statusContactDetailsEntry = ValidOperationSkip) Or (statusContactDetailsEntry = OperationCompletedSuccessfully) Then
+            Else
+                log.Error("Cannot save contact details to server.")
+            End If
+            log.Info("Successfully created new patient!")
+            Notify.ShowNotification("Patient registration successful!", "Patient Registration", "PatientRegistration", "Successful Registration")
+            Close()
+            Dispose()
         Catch ex As Exception
-            initiateLogging.Error(ex)  'LOGGING ERROR TO DISK
+            log.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(String.Format("{0}{1}", ex.Message, vbCrLf))
         End Try
     End Sub
@@ -753,7 +764,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
 
             IdCountry = CountryID(0)    'ONLY ONE VALUE WILL BE RETUNED BY MSSQL READER IN THIS CASE AND THEREFORE, ASSIGNING ONLY INDEX 0 IS SUFFICIENT.
         Catch ex As Exception
-            initiateLogging.Error(ex)  'LOGGING ERROR TO DISK
+            log.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(String.Format("An error occurred while looking up the Country ID for the patient." & vbCrLf & "Error Message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType), vbExclamation,
                    "Patient Registration")
         End Try
@@ -766,7 +777,7 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
         '[GETTING CONTACT DETAILS FROM THE CLASS CONTACTS.VB]
 
         ' VARIBLES FETCHING CONTACT DETAILS FROM ARRAY LIST
-        Dim ii As Integer = 0  'COUNTER FOR THE LOOP
+        Dim j As Integer = 0  'COUNTER FOR THE LOOP
         Dim ListLength As Integer = patientContacts.Count
         Dim Contact As String
         Dim IdContactType As Integer = Nothing
@@ -774,53 +785,60 @@ RetryForID: 'FETCHING ID INDIVIDUAL AFTER INSERTING THE INDIVIDUAL NAME TO SERVE
         Dim ContactsInsertStatement As String = Nothing
         Dim RowsInserted As Integer
 
-        '1) FETCH THE DETAILS.
-        For ii = 0 To ListLength - 1
-            Contact = patientContacts.Item(ii).contactDetail.ToString
-            Type = patientContacts.Item(ii).contactType
+        'IF NO CONTACT DETAILS ARE ENTERED, SKIP INSERTING CONTACT DETAILS.
+        If Not ListLength = 0 Then
+            '1) FETCH THE DETAILS.
+            For j = 0 To ListLength - 1
+                Contact = patientContacts.Item(j).contactDetail.ToString
+                Type = patientContacts.Item(j).contactType
 
-            If Type = "Mobile" Then
-                IdContactType = 1
-            ElseIf Type = "Office" Then
-                IdContactType = 2
-            ElseIf Type = "Office" Then
-                IdContactType = 2
-            ElseIf Type = "Home" Then
-                IdContactType = 3
-            ElseIf Type = "Email" Then
-                IdContactType = 4
-            Else
-                MsgBox("Invalid Contact Type selected.", vbExclamation, "Patient Registration")
-            End If
+                If Type = "Mobile" Then
+                    IdContactType = 1
+                ElseIf Type = "Office" Then
+                    IdContactType = 2
+                ElseIf Type = "Office" Then
+                    IdContactType = 2
+                ElseIf Type = "Home" Then
+                    IdContactType = 3
+                ElseIf Type = "Email" Then
+                    IdContactType = 4
+                Else
+                    MsgBox("Invalid Contact Type selected.", vbExclamation, "Patient Registration")
+                End If
 
-            '2) PARSING CONTACT DETAILS AS PART OF AN INSERT STATEMENT.
-            If ii = 0 Then
-                ContactsInsertStatement = String.Format("({0}, {1}, '{2}')", hospitalNumber, IdContactType, Contact)
-            ElseIf ii > 0 Then
-                ContactsInsertStatement += String.Format(", ({0}, {1}, '{2}')", hospitalNumber, IdContactType, Contact)
-            End If
+                '2) PARSING CONTACT DETAILS AS PART OF AN INSERT STATEMENT.
+                If j = 0 Then
+                    ContactsInsertStatement = String.Format("({0}, {1}, '{2}')", hospitalNumber, IdContactType, Contact)
+                ElseIf j > 0 Then
+                    ContactsInsertStatement += String.Format(", ({0}, {1}, '{2}')", hospitalNumber, IdContactType, Contact)
+                End If
 
-            '3) TRY ADDING THE CONTACT DETAILS TO SERVER.
-            If ii = ListLength - 1 Then
+                '3) TRY ADDING THE CONTACT DETAILS TO SERVER.
+                If j = ListLength - 1 Then
 
-                Try
-                    'CHECK WHETHER CONTACT TYPE IS A VALID TYPE BY CHECKING WHETHER THE TYPE EXISTS ON SERVER AND FETCH IdContactType TO BE INSERTED INTO CONTACTS TABLE . THIS IS NOT DONE FOR NOW.
-                    'THIS PART WILL BE HARDCODED IN SOFTWARE AS FOLLOWS.
-                    '1= Mobile 2= Office 3= Home 4 = Email
+                    Try
+                        'CHECK WHETHER CONTACT TYPE IS A VALID TYPE BY CHECKING WHETHER THE TYPE EXISTS ON SERVER AND FETCH IdContactType TO BE INSERTED INTO CONTACTS TABLE . THIS IS NOT DONE FOR NOW.
+                        'THIS PART WILL BE HARDCODED IN SOFTWARE AS FOLLOWS.
+                        '1= Mobile 2= Office 3= Home 4 = Email
 
-                    'EXECUTE COMMAND.EXECUTENONQUERY TO INSERY THE CONTACTS.
-                    RowsInserted = insertValues.NonQueryINSERT("[dbo].[Contacts]", ContactsInsertStatement)
-                Catch ex As Exception
+                        'EXECUTE COMMAND.EXECUTENONQUERY TO INSERY THE CONTACTS.
+                        RowsInserted = insertValues.NonQueryINSERT("[dbo].[Contacts]", ContactsInsertStatement)
+                    Catch ex As Exception
 
-                    initiateLogging.Error(ex)  'LOGGING ERROR TO DISK
-                    MsgBox(String.Format("An error adding patient contact details to server. Error message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType.ToString), vbInformation, "Patient Registration")
-                End Try
+                        log.Error(ex)  'LOGGING ERROR TO DISK
+                        MsgBox(String.Format("An error adding patient contact details to server. Error message: {0}" & vbCrLf & "Error Type: {1}", ex.Message, ex.GetType.ToString), vbInformation, "Patient Registration")
+                    End Try
 
-            End If
-        Next
+                End If
+            Next
 
-        'this return statement has to be changed to a meaningful one
-        Return 0
+            log.Info("Return value from ParseAndInsertContactDetails: " & OperationCompletedSuccessfully.ToString)
+            Return OperationCompletedSuccessfully
+        Else
+            log.Info("Return value from ParseAndInsertContactDetails: " & ValidOperationSkip.ToString)
+            Return ValidOperationSkip
+        End If
+
     End Function
 
 End Class
