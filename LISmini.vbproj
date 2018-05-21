@@ -14,6 +14,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>G:\Project\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -29,7 +30,6 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -152,12 +152,6 @@
       <DependentUpon>frmLisMini.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmNotification.Designer.vb">
-      <DependentUpon>frmNotification.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmNotification.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="lisminiDataSet.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -191,9 +185,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmLisMini.resx">
       <DependentUpon>frmLisMini.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmNotification.resx">
-      <DependentUpon>frmNotification.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -966,10 +957,17 @@
     <Folder Include="SwatInc\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SwatIncNotifications\SwatIncNotifications\SwatIncNotifications.vbproj">
+      <Project>{3b957294-83ef-4970-afb1-83a25ae83ae4}</Project>
+      <Name>SwatIncNotifications</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServerCommunications\ServerCommunications.vbproj">
       <Project>{1e951924-eefb-4f74-8df0-10b1141c91c8}</Project>
       <Name>ServerCommunications</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

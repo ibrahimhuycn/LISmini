@@ -2,6 +2,7 @@
 Imports System.Text.RegularExpressions
 Imports DevExpress.XtraEditors.Controls
 Imports ServerCommunications
+Imports SwatIncNotifications
 
 Public Class FormAddPatient
 
@@ -81,7 +82,6 @@ Public Class FormAddPatient
 
     Private Sub connectionMonitor_Tick(sender As Object, e As EventArgs) Handles connectionMonitor.Elapsed
         isServerConnectionAvailable = Nothing
-
         Try
             If lisConnectionCheck.IsServerAccessAvailable() = True Then
                 isServerConnectionAvailable = True

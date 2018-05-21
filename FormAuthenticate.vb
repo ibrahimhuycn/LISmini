@@ -1,4 +1,6 @@
-﻿Public Class FormAuthenticate
+﻿Imports SwatIncNotifications
+
+Public Class FormAuthenticate
     'PENDING TASKS.
     'Use SwatIncCrypto to check whether user provided password and Hash retrieved from server match.
 
@@ -72,7 +74,8 @@
         If isUserAuthenticated = True Then
             'Enabling Parent ribbon
             frmLisMini.EnableRibbon(True)
-            frmNotification.ShowNotification(NotificationMessage:="User authenticated successfully!",
+            Dim notify As New frmNotification
+            notify.ShowNotification(NotificationMessage:="User authenticated successfully!",
                 NotificationTitle:="Authentication",
                 NotficationPNG_IconName:="GreenTick",
                 Heading:="Welcome USERNAME")

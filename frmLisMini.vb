@@ -1,7 +1,9 @@
-﻿Public Class frmLisMini
+﻿<Assembly: log4net.Config.XmlConfigurator(Watch:=True)>
+
+Public Class frmLisMini
 
     'INITIALISATIONS FOR TRACKING AND LOGGING APPLICATION EVENTS, QUERIES, EXCEPTIONS ETC..
-    Private Shared ReadOnly InitiateLogging As log4net.ILog = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
+    Private Shared ReadOnly log As log4net.ILog = log4net.LogManager.GetLogger(Reflection.MethodBase.GetCurrentMethod().DeclaringType)
 
     Public AlreadyActiveNotificationsMonitor As Integer = 0 'VARIABLE FOR DETERMING NUMBER OF ACTIVE NOFIFICATION WINDOWS ON
 
@@ -13,7 +15,7 @@
         EnableRibbon(False)
 
         LoadLoginScreen()
-
+        log.Info("Form LisMini loaded!")
     End Sub
 
     Private Sub btnExit_ItemClick(sender As Object, e As DevExpress.XtraBars.ItemClickEventArgs) Handles btnExit.ItemClick
@@ -75,7 +77,7 @@
     End Sub
 
     Private Sub btnNewPatient_ItemClick(sender As Object, e As DevExpress.XtraBars.ItemClickEventArgs) Handles btnNewPatient.ItemClick
-        InitiateLogging.Info("Showing new patient entry form...")
+        log.Info("Showing new patient entry form...")
         AddNewPatient()
     End Sub
 

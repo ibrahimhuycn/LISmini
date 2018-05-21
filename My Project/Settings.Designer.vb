@@ -64,6 +64,18 @@ Namespace My
                 Return CType(Me("lisminiConnectionString"),String)
             End Get
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property timerCounter() As Integer
+            Get
+                Return CType(Me("timerCounter"),Integer)
+            End Get
+            Set
+                Me("timerCounter") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
