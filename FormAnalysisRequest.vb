@@ -23,7 +23,7 @@
         TempListAnalytes.Add(New AnalytesRequested(1706, "Total RBC Count"))
         TempListAnalytes.Add(New AnalytesRequested(1707, "Reticulocyte Count"))
         TempListAnalytes.Add(New AnalytesRequested(1709, "Platelet Count"))
-        TempListAnalytes.Add(New AnalytesRequested(1710, "Abcolute Eosinphil Count"))
+        TempListAnalytes.Add(New AnalytesRequested(1710, "Absolute Eosinphil Count"))
         TempListAnalytes.Add(New AnalytesRequested(1711, "Haemoparasites"))
         TempListAnalytes.Add(New AnalytesRequested(1713, "Complete Haemogram"))
         TempListAnalytes.Add(New AnalytesRequested(1712, "Blood Picture"))
