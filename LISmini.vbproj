@@ -171,6 +171,7 @@
     <Compile Include="SwatInc\Mathematics\PreSetCalculations.vb" />
     <Compile Include="SwatInc\Patients\NewPatients.vb" />
     <Compile Include="SwatInc\Patients\NewPatientEventArgs.vb" />
+    <Compile Include="SwatInc\Validations\Validate.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormAddPatient.resx">

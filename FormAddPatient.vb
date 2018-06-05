@@ -1,6 +1,6 @@
 ﻿Imports System.ComponentModel
-Imports System.Text.RegularExpressions
 Imports DevExpress.XtraEditors.Controls
+Imports LISmini.SwatInc.Validations.Validate
 Imports LISmini.ErrorCodes.MeaningfulErrorCodes
 Imports ServerCommunications
 Imports SwatIncNotifications
@@ -316,13 +316,7 @@ Public Class FormAddPatient
 
     Private Sub TextEditNid_Validating(sender As Object, e As CancelEventArgs) Handles TextEditNid.Validating
 
-        'USING REGEX.ISMATCH (LIKE AN INPUT MASK) TO CHECK WHETHER THE TXTINPUT AT TXTNID MATCHES THE FORMATS
-        '1) A309254  NORMAL FORMAT FOR IDCARD.
-        '2) BO01309254 FOR BABY WHOSE ID CARD HAS NOT BEEN MADE YET. "BO" STANDS FOR BABY OF. 01 INDICATES THAT ITS THE FIRST BABY OF THE MOTHER. AND
-        '   309254 IS THE ID CARD NUMBER OF THE MOTHER.
-
-        'USING REGEX REQUIRES Imports System.Text.RegularExpressions. REGEX STANDS FOR REGULAR EXPRESSIONS.
-        isNationalIdValid = Regex.IsMatch(TextEditNid.Text, "^A[0-9]\d{5}$") Or Regex.IsMatch(TextEditNid.Text, "^BO[0-9]\d{7}$")
+        isNationalIdValid = ValidateNationalId(TextEditNid.Text)
 
         'USER FEEDBACK FOR INVALID IDCARD NUMBER ENTRIES IS GIVEN BY DISPLAYING A RED CROSS ICON WITH TOOLTIP
         If isNationalIdValid = True Then
@@ -517,11 +511,8 @@ Public Class FormAddPatient
 
     Private Sub TextEditHospitalNumber_Validating(sender As Object, e As CancelEventArgs) Handles TextEditHospitalNumber.Validating
 
-        'VALIDATING HOSPITAL NUMBER
         Try
-            'SQL SERVER HAS IdIndividual(USED AS HOSPITAL NUMBER) SET AS INT WHICH IS ACCEPTABLE BETWEEN 0 AND 2147483648 EXCLUSIVELY.
-            'HOSPITAL NUMBER CANNOT BE A NEGATIVE INTEGER.
-            isHospitalNumberValid = Regex.IsMatch(TextEditHospitalNumber.Text, "^(?:214748364[0-7]|21474836[0-3][0-9]|2147483[0-5][0-9]{2}|214748[0-2][0-9]{3}|21474[0-7][0-9]{4}|2147[0-3][0-9]{5}|214[0-6][0-9]{6}|21[0-3][0-9]{7}|20[0-9]{8}|1[0-9]{9}|[1-9][0-9]{1,8}|[1-9])$", RegexOptions.Multiline)
+            isHospitalNumberValid = ValidateHospitalNumber(TextEditHospitalNumber.Text)
         Catch ex As ArgumentException
             log.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
@@ -566,27 +557,24 @@ Public Class FormAddPatient
         'VALIDATING DATA ENTRY TO THE TEXTBOX "txtContactDetail"
         'IN ADDITION TO VALIDATION, THIS CODE SEGMENT WILL ALSO BE USED TO AUTO DETECT MOBILE NUMBER AND EMAIL ADDRESS AND SELECT THE
         'APPROPRIATE INDEX FOR THE COMBOBOX "cboContactType"
-        'REGEX INTERNATIONAL MOBILE NUMBERS: ^\+?(d+[- ])?\d{10}$ OR ^(d+[- ])?\d{7}$
-        'REGEX EMAIL ADDRESS: \b[!#$%&'*+./0-9=?_`a-z{|}~^-]+@[.0-9a-z-]+\.[a-z]{2,6}\b
-
-        Dim DetectValidateMobileNumberOptionZero As Boolean = Regex.IsMatch(TextEditContactDetail.Text, "^9|7\+?(d+[- ])?\d{9}$")
-        Dim DetectValidateMobileNumberOptionOne As Boolean = Regex.IsMatch(TextEditContactDetail.Text, "^9|7(d+[- ])?\d{6}$")
-        Dim DetectValidateHomePhone As Boolean = Regex.IsMatch(TextEditContactDetail.Text, "^(301|330|331|332|333|334|335|339|688|689|690|650|652|652|654|656|658|660|662|664|666|668|670|672|674|676|678|680|682|684|686)+[0-9]{4}$")
-        Dim DetectValidateEmail As Boolean = Regex.IsMatch(TextEditContactDetail.Text, "\b[!#$%&'*+./0-9=?_`a-z{|}~^-]+@[.0-9a-z-]+\.[a-z]{2,6}\b", RegexOptions.IgnoreCase)
-
         Try
-            If DetectValidateMobileNumberOptionZero = True Or DetectValidateMobileNumberOptionOne = True Then
-                ComboBoxEditContactType.SelectedIndex = 0
-            ElseIf DetectValidateHomePhone = True Then
-                ComboBoxEditContactType.SelectedIndex = 2
-            ElseIf DetectValidateEmail = True Then
-                ComboBoxEditContactType.SelectedIndex = 3
-            Else
-                'DISPLAYING CROSS ICON TO INDICATE THAT THE ENTRY IS INVALID
-                e.Cancel = True
-                TextEditContactDetail.ToolTipTitle = "Contact Detail"
-                TextEditContactDetail.ToolTip = "Enter an email or a phone number."
-            End If
+            Select Case True
+                Case ValidateLocalMobileNumbers(TextEditContactDetail.Text)
+                    ComboBoxEditContactType.SelectedIndex = 0
+
+                Case ValidateLocalLandLines(TextEditContactDetail.Text)
+                    ComboBoxEditContactType.SelectedIndex = 2
+
+                Case ValidateEmail(TextEditContactDetail.Text)
+                    ComboBoxEditContactType.SelectedIndex = 3
+
+                Case Else
+                    'DISPLAYING CROSS ICON TO INDICATE THAT THE ENTRY IS INVALID
+                    e.Cancel = True
+                    TextEditContactDetail.ToolTipTitle = "Contact Detail"
+                    TextEditContactDetail.ToolTip = "Enter an email or a phone number."
+
+            End Select
         Catch ex As Exception
             'DSPLAYING ERRORS., IF ANY
             log.Error(ex)  'LOGGING ERROR TO DISK
