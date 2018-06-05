@@ -1,5 +1,6 @@
 ﻿Imports System.ComponentModel
 Imports DevExpress.XtraEditors.Controls
+Imports LISmini.SwatInc.Mathematics.PreSetCalculations
 Imports LISmini.SwatInc.Validations.Validate
 Imports LISmini.ErrorCodes.MeaningfulErrorCodes
 Imports ServerCommunications
@@ -241,7 +242,7 @@ Public Class FormAddPatient
             'IGNORE
         Else
             Dim Dob As Date = Convert.ToDateTime(TextEditDateOfBirth.Text)
-            CalculateAge(Dob)
+            GetAgeFromDob(Dob)
         End If
 
         'CHECKING TO SEE WHETHER ALL FIELDS ARE COMPLETE
@@ -356,30 +357,10 @@ Public Class FormAddPatient
         'TextEditNid.SelectAll()
     End Sub
 
-    Private Sub CalculateAge(dob As Date)
-
-        Dim AgeYears As Integer
-        Dim AgeMonths As Integer
-        Dim AgeDays As Integer
+    Private Sub GetAgeFromDob(dob As Date)
 
         Try
-
-            'A NEONATES' AGE HAS TO BE REPORTED IN MONTHS OR EVEN DAYS.
-
-            AgeYears = Math.Floor(DateDiff(DateInterval.Day, DateValue(dob), Now()) / 365.25)
-            AgeMonths = Math.Floor(DateDiff(DateInterval.Day, DateValue(dob), Now()) / 30.4375)
-            AgeDays = Math.Floor(DateDiff(DateInterval.Day, DateValue(dob), Now()))
-
-            If AgeYears = 0 And AgeMonths = 0 Then
-                patientAge = AgeDays & " D"
-            ElseIf AgeYears = 0 And AgeMonths > 0 Then
-
-                Dim RemainingDays As Integer = AgeDays - (AgeMonths * 30.4375)
-                patientAge = String.Format("{0} M {1} D", AgeMonths, RemainingDays)
-            ElseIf AgeYears > 0 Then
-                patientAge = AgeYears & " Y"
-
-            End If
+            patientAge = CalculateAge(dob)
 
             'UPDATING PATIENT DETAILS DISPLAY LABEL
             UpdateSummaryDisplay()
