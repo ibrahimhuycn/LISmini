@@ -134,10 +134,10 @@
     <Compile Include="FormAddPatient.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmAnalysisRequest.Designer.vb">
-      <DependentUpon>frmAnalysisRequest.vb</DependentUpon>
+    <Compile Include="FormAnalysisRequest.Designer.vb">
+      <DependentUpon>FormAnalysisRequest.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmAnalysisRequest.vb">
+    <Compile Include="FormAnalysisRequest.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormAuthenticate.Designer.vb">
@@ -146,11 +146,11 @@
     <Compile Include="FormAuthenticate.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLisMini.vb">
+    <Compile Include="FormLisMini.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLisMini.Designer.vb">
-      <DependentUpon>frmLisMini.vb</DependentUpon>
+    <Compile Include="FormLisMini.Designer.vb">
+      <DependentUpon>FormLisMini.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -168,19 +168,22 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SwatInc\Mathematics\PreSetCalculations.vb" />
+    <Compile Include="SwatInc\Patients\NewPatients.vb" />
+    <Compile Include="SwatInc\Patients\NewPatientEventArgs.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormAddPatient.resx">
       <DependentUpon>FormAddPatient.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmAnalysisRequest.resx">
-      <DependentUpon>frmAnalysisRequest.vb</DependentUpon>
+    <EmbeddedResource Include="FormAnalysisRequest.resx">
+      <DependentUpon>FormAnalysisRequest.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormAuthenticate.resx">
       <DependentUpon>FormAuthenticate.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmLisMini.resx">
-      <DependentUpon>frmLisMini.vb</DependentUpon>
+    <EmbeddedResource Include="FormLisMini.resx">
+      <DependentUpon>FormLisMini.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -940,9 +943,7 @@
       <FileType>Satellite</FileType>
     </PublishFile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SwatInc\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\SwatIncNotifications\SwatIncNotifications\SwatIncNotifications.vbproj">
       <Project>{3b957294-83ef-4970-afb1-83a25ae83ae4}</Project>
@@ -952,9 +953,6 @@
       <Project>{1e951924-eefb-4f74-8df0-10b1141c91c8}</Project>
       <Name>ServerCommunications</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

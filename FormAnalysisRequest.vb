@@ -1,4 +1,4 @@
-﻿Public Class frmAnalysisRequest
+﻿Public Class FormAnalysisRequest
 
     'Variables to move the form by grabbing GroupControl "gcAnalysisRequest"
     Dim DRAG_ANALYSIS_REQUEST As Boolean
@@ -39,7 +39,7 @@
 
     End Sub
 
-    Private Sub gcAnalysisRequest_MouseDown(sender As Object, e As MouseEventArgs) Handles gcAnalysisRequest.MouseDown
+    Private Sub GcAnalysisRequest_MouseDown(sender As Object, e As MouseEventArgs) Handles gcAnalysisRequest.MouseDown
 
         'DRAG_ANALYSIS_REQUEST handles an IF CONDITION at mouse move event. If DRAG_ANALYSIS_REQUEST is true,
         ' and if mouse button.left is down, form is moved with cursor
@@ -51,19 +51,19 @@
 
     End Sub
 
-    Private Sub gcAnalysisRequest_DoubleClick(sender As Object, e As EventArgs) Handles gcAnalysisRequest.DoubleClick
+    Private Sub GcAnalysisRequest_DoubleClick(sender As Object, e As EventArgs) Handles gcAnalysisRequest.DoubleClick
 
         If WindowState = FormWindowState.Normal Then
             WindowState = 2 'Maximaized
-            lblClose.Visible = False
+            LabelClose.Visible = False
         ElseIf WindowState = FormWindowState.Maximized Then
             WindowState = 0
-            lblClose.Visible = True
+            LabelClose.Visible = True
         End If
 
     End Sub
 
-    Private Sub gcAnalysisRequest_MouseMove(sender As Object, e As MouseEventArgs) Handles gcAnalysisRequest.MouseMove
+    Private Sub GcAnalysisRequest_MouseMove(sender As Object, e As MouseEventArgs) Handles gcAnalysisRequest.MouseMove
 
         If DRAG_ANALYSIS_REQUEST = True Then
             Top = Cursor.Position.Y - MOUSE_POSITION_Y
@@ -72,13 +72,13 @@
 
     End Sub
 
-    Private Sub gcAnalysisRequest_MouseUp(sender As Object, e As MouseEventArgs) Handles gcAnalysisRequest.MouseUp
+    Private Sub GcAnalysisRequest_MouseUp(sender As Object, e As MouseEventArgs) Handles gcAnalysisRequest.MouseUp
         'Setting Drag Analysis Request as false on MouseUp event prevents the form being moved when the user is not
         'holding the mouse down.
         DRAG_ANALYSIS_REQUEST = False
     End Sub
 
-    Private Sub lblClose_Click(sender As Object, e As EventArgs) Handles lblClose.Click
+    Private Sub LabelClose_Click(sender As Object, e As EventArgs) Handles LabelClose.Click
         Close()
     End Sub
 

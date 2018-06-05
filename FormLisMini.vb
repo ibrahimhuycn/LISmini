@@ -1,6 +1,6 @@
 ﻿<Assembly: log4net.Config.XmlConfigurator(Watch:=True)>
 
-Public Class frmLisMini
+Public Class FormLisMini
 
     'INITIALISATIONS FOR TRACKING AND LOGGING APPLICATION EVENTS, QUERIES, EXCEPTIONS ETC..
     Private Shared ReadOnly log As log4net.ILog = log4net.LogManager.GetLogger(Reflection.MethodBase.GetCurrentMethod().DeclaringType)
@@ -10,7 +10,7 @@ Public Class frmLisMini
     'SCREEN. THIS IS TO ADJUST VERTICAL POSITION OF THE NOTIFICATIONS SO THAT ALL CAN BE SEEN ON SCREEN.
     Public IsRelocateNotification As Boolean = False 'DETERMINES WHETHER NOTIFICATION NEEDS TO BE RELOCATED FROM DEFAULT POSITION.
 
-    Private Sub frmLisMini_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub FormLisMini_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Disable Ribbon. Will be enabled after Authentication.
         EnableRibbon(False)
 
@@ -18,7 +18,7 @@ Public Class frmLisMini
         log.Info("Form LisMini loaded!")
     End Sub
 
-    Private Sub btnExit_ItemClick(sender As Object, e As DevExpress.XtraBars.ItemClickEventArgs) Handles btnExit.ItemClick
+    Private Sub ButtonExit_ItemClick(sender As Object, e As DevExpress.XtraBars.ItemClickEventArgs) Handles btnExit.ItemClick
         On Error Resume Next
         Application.Exit()
         Environment.Exit(1)
@@ -32,7 +32,7 @@ Public Class frmLisMini
         End If
     End Sub
 
-    Private Sub btnLogOut_ItemClick(sender As Object, e As DevExpress.XtraBars.ItemClickEventArgs) Handles btnLogOut.ItemClick
+    Private Sub ButtonLogOut_ItemClick(sender As Object, e As DevExpress.XtraBars.ItemClickEventArgs) Handles btnLogOut.ItemClick
         'Verify whether user wants to logout
         'Logout User, Close any and all open child forms, Disable ribbon, Display loginScreen
 
@@ -72,16 +72,16 @@ Public Class frmLisMini
     End Sub
 
     Public Sub NewAR()
-        Dim AR As New frmAnalysisRequest() With {.MdiParent = Me}
+        Dim AR As New FormAnalysisRequest() With {.MdiParent = Me}
         AR.Show()
     End Sub
 
-    Private Sub btnNewPatient_ItemClick(sender As Object, e As DevExpress.XtraBars.ItemClickEventArgs) Handles btnNewPatient.ItemClick
+    Private Sub ButtonNewPatient_ItemClick(sender As Object, e As DevExpress.XtraBars.ItemClickEventArgs) Handles btnNewPatient.ItemClick
         log.Info("Showing new patient entry form...")
         AddNewPatient()
     End Sub
 
-    Private Sub btnNewAr_ItemClick(sender As Object, e As DevExpress.XtraBars.ItemClickEventArgs) Handles btnNewAr.ItemClick
+    Private Sub ButtonNewAr_ItemClick(sender As Object, e As DevExpress.XtraBars.ItemClickEventArgs) Handles btnNewAr.ItemClick
         NewAR()
     End Sub
 

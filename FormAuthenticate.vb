@@ -9,7 +9,7 @@ Public Class FormAuthenticate
     Dim isUserAuthenticated As Boolean
 
     Private Sub Authenticate_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
-        'CENTER LOGIN FORM ONTO THE PARENT FORM, frmLisMini
+        'CENTER LOGIN FORM ONTO THE PARENT FORM, FormLisMini
         ParentCenter()
     End Sub
 
@@ -49,10 +49,10 @@ Public Class FormAuthenticate
     End Sub
 
     Public Sub ParentCenter()
-        Dim ParentWidth As Single = (frmLisMini.ClientSize.Width - Width) / 2
-        Dim ParentHeight As Single = ((frmLisMini.ClientSize.Height - Height) / 2) - 100
+        Dim ParentWidth As Single = (FormLisMini.ClientSize.Width - Width) / 2
+        Dim ParentHeight As Single = ((FormLisMini.ClientSize.Height - Height) / 2) - 100
         SetBounds(ParentWidth, ParentHeight, Width, Height)
-        MdiParent = frmLisMini
+        MdiParent = FormLisMini
     End Sub
 
     Function AuthenticateUser()
@@ -73,7 +73,7 @@ Public Class FormAuthenticate
         AuthenticateUser()
         If isUserAuthenticated = True Then
             'Enabling Parent ribbon
-            frmLisMini.EnableRibbon(True)
+            FormLisMini.EnableRibbon(True)
             Dim notify As New frmNotification
             notify.ShowNotification(NotificationMessage:="User authenticated successfully!",
                 NotificationTitle:="Authentication",

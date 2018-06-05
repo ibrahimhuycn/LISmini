@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmAnalysisRequest
+Partial Class FormAnalysisRequest
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,10 +22,14 @@ Partial Class frmAnalysisRequest
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAnalysisRequest))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormAnalysisRequest))
+        Dim EditorButtonImageOptions1 As DevExpress.XtraEditors.Controls.EditorButtonImageOptions = New DevExpress.XtraEditors.Controls.EditorButtonImageOptions()
+        Dim SerializableAppearanceObject1 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         Dim SerializableAppearanceObject2 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject3 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
+        Dim SerializableAppearanceObject4 As DevExpress.Utils.SerializableAppearanceObject = New DevExpress.Utils.SerializableAppearanceObject()
         Me.gcAnalysisRequest = New DevExpress.XtraEditors.GroupControl()
-        Me.lblClose = New DevExpress.XtraEditors.LabelControl()
+        Me.LabelClose = New DevExpress.XtraEditors.LabelControl()
         Me.XtraTabControlPreviewAndPrintAnalysisRequest = New DevExpress.XtraTab.XtraTabControl()
         Me.XtraTabPageEditAnalysisRequest = New DevExpress.XtraTab.XtraTabPage()
         Me.ComboBoxEditQueryAnalytes = New DevExpress.XtraEditors.ComboBoxEdit()
@@ -101,7 +105,7 @@ Partial Class frmAnalysisRequest
         Me.gcAnalysisRequest.Appearance.Options.UseFont = True
         Me.gcAnalysisRequest.AppearanceCaption.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gcAnalysisRequest.AppearanceCaption.Options.UseFont = True
-        Me.gcAnalysisRequest.Controls.Add(Me.lblClose)
+        Me.gcAnalysisRequest.Controls.Add(Me.LabelClose)
         Me.gcAnalysisRequest.Controls.Add(Me.XtraTabControlPreviewAndPrintAnalysisRequest)
         Me.gcAnalysisRequest.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gcAnalysisRequest.Location = New System.Drawing.Point(0, 0)
@@ -111,25 +115,25 @@ Partial Class frmAnalysisRequest
         Me.gcAnalysisRequest.TabIndex = 1
         Me.gcAnalysisRequest.Text = "Analysis Request"
         '
-        'lblClose
+        'LabelClose
         '
-        Me.lblClose.Appearance.BackColor = System.Drawing.Color.Transparent
-        Me.lblClose.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblClose.Appearance.Options.UseBackColor = True
-        Me.lblClose.Appearance.Options.UseFont = True
-        Me.lblClose.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lblClose.AppearanceDisabled.Options.UseFont = True
-        Me.lblClose.AppearanceHovered.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.lblClose.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lblClose.AppearanceHovered.Options.UseBackColor = True
-        Me.lblClose.AppearanceHovered.Options.UseFont = True
-        Me.lblClose.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lblClose.AppearancePressed.Options.UseFont = True
-        Me.lblClose.Location = New System.Drawing.Point(887, 2)
-        Me.lblClose.Name = "lblClose"
-        Me.lblClose.Size = New System.Drawing.Size(20, 16)
-        Me.lblClose.TabIndex = 17
-        Me.lblClose.Text = "  X  "
+        Me.LabelClose.Appearance.BackColor = System.Drawing.Color.Transparent
+        Me.LabelClose.Appearance.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LabelClose.Appearance.Options.UseBackColor = True
+        Me.LabelClose.Appearance.Options.UseFont = True
+        Me.LabelClose.AppearanceDisabled.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.LabelClose.AppearanceDisabled.Options.UseFont = True
+        Me.LabelClose.AppearanceHovered.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.LabelClose.AppearanceHovered.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.LabelClose.AppearanceHovered.Options.UseBackColor = True
+        Me.LabelClose.AppearanceHovered.Options.UseFont = True
+        Me.LabelClose.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.LabelClose.AppearancePressed.Options.UseFont = True
+        Me.LabelClose.Location = New System.Drawing.Point(887, 2)
+        Me.LabelClose.Name = "LabelClose"
+        Me.LabelClose.Size = New System.Drawing.Size(20, 16)
+        Me.LabelClose.TabIndex = 17
+        Me.LabelClose.Text = "  X  "
         '
         'XtraTabControlPreviewAndPrintAnalysisRequest
         '
@@ -222,7 +226,7 @@ Partial Class frmAnalysisRequest
         Me.SimpleButton3.AppearanceHovered.Options.UseFont = True
         Me.SimpleButton3.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.SimpleButton3.AppearancePressed.Options.UseFont = True
-        Me.SimpleButton3.Image = CType(resources.GetObject("SimpleButton3.Image"), System.Drawing.Image)
+        Me.SimpleButton3.ImageOptions.Image = CType(resources.GetObject("SimpleButton3.ImageOptions.Image"), System.Drawing.Image)
         Me.SimpleButton3.Location = New System.Drawing.Point(480, 419)
         Me.SimpleButton3.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.SimpleButton3.Name = "SimpleButton3"
@@ -241,7 +245,7 @@ Partial Class frmAnalysisRequest
         Me.SimpleButton2.AppearanceHovered.Options.UseFont = True
         Me.SimpleButton2.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.SimpleButton2.AppearancePressed.Options.UseFont = True
-        Me.SimpleButton2.Image = CType(resources.GetObject("SimpleButton2.Image"), System.Drawing.Image)
+        Me.SimpleButton2.ImageOptions.Image = CType(resources.GetObject("SimpleButton2.ImageOptions.Image"), System.Drawing.Image)
         Me.SimpleButton2.Location = New System.Drawing.Point(378, 419)
         Me.SimpleButton2.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.SimpleButton2.Name = "SimpleButton2"
@@ -260,7 +264,7 @@ Partial Class frmAnalysisRequest
         Me.SimpleButton1.AppearanceHovered.Options.UseFont = True
         Me.SimpleButton1.AppearancePressed.Font = New System.Drawing.Font("Ubuntu", 8.25!)
         Me.SimpleButton1.AppearancePressed.Options.UseFont = True
-        Me.SimpleButton1.Image = CType(resources.GetObject("SimpleButton1.Image"), System.Drawing.Image)
+        Me.SimpleButton1.ImageOptions.Image = CType(resources.GetObject("SimpleButton1.ImageOptions.Image"), System.Drawing.Image)
         Me.SimpleButton1.Location = New System.Drawing.Point(276, 419)
         Me.SimpleButton1.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.SimpleButton1.Name = "SimpleButton1"
@@ -347,7 +351,7 @@ Partial Class frmAnalysisRequest
         'colAnalysisCode
         '
         Me.colAnalysisCode.Caption = "Analysis Code"
-        Me.colAnalysisCode.ImageAlignment = System.Drawing.StringAlignment.Center
+        Me.colAnalysisCode.ImageOptions.Alignment = System.Drawing.StringAlignment.Center
         Me.colAnalysisCode.Name = "colAnalysisCode"
         Me.colAnalysisCode.Visible = True
         Me.colAnalysisCode.VisibleIndex = 0
@@ -356,7 +360,7 @@ Partial Class frmAnalysisRequest
         'colAnalysisName
         '
         Me.colAnalysisName.Caption = "Analysis Name"
-        Me.colAnalysisName.ImageAlignment = System.Drawing.StringAlignment.Center
+        Me.colAnalysisName.ImageOptions.Alignment = System.Drawing.StringAlignment.Center
         Me.colAnalysisName.Name = "colAnalysisName"
         Me.colAnalysisName.Visible = True
         Me.colAnalysisName.VisibleIndex = 1
@@ -365,7 +369,7 @@ Partial Class frmAnalysisRequest
         'colPrice
         '
         Me.colPrice.Caption = "Price"
-        Me.colPrice.ImageAlignment = System.Drawing.StringAlignment.Center
+        Me.colPrice.ImageOptions.Alignment = System.Drawing.StringAlignment.Center
         Me.colPrice.Name = "colPrice"
         Me.colPrice.Visible = True
         Me.colPrice.VisibleIndex = 2
@@ -375,7 +379,7 @@ Partial Class frmAnalysisRequest
         '
         Me.colActions.Caption = "Actions"
         Me.colActions.ColumnEdit = Me.RepositoryItemButtonEditRemoveEntry
-        Me.colActions.ImageAlignment = System.Drawing.StringAlignment.Center
+        Me.colActions.ImageOptions.Alignment = System.Drawing.StringAlignment.Center
         Me.colActions.Name = "colActions"
         Me.colActions.ShowButtonMode = DevExpress.XtraGrid.Views.Base.ShowButtonModeEnum.ShowAlways
         Me.colActions.Visible = True
@@ -391,7 +395,7 @@ Partial Class frmAnalysisRequest
         Me.RepositoryItemButtonEditRemoveEntry.Appearance.Options.UseImage = True
         Me.RepositoryItemButtonEditRemoveEntry.AutoHeight = False
         Me.RepositoryItemButtonEditRemoveEntry.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Simple
-        Me.RepositoryItemButtonEditRemoveEntry.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Ellipsis, "", 110, True, True, False, DevExpress.XtraEditors.ImageLocation.MiddleCenter, Nothing, New DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), SerializableAppearanceObject2, "", Nothing, Nothing, True)})
+        Me.RepositoryItemButtonEditRemoveEntry.Buttons.AddRange(New DevExpress.XtraEditors.Controls.EditorButton() {New DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Ellipsis, "", 110, True, True, False, EditorButtonImageOptions1, New DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), SerializableAppearanceObject1, SerializableAppearanceObject2, SerializableAppearanceObject3, SerializableAppearanceObject4, "", Nothing, Nothing, DevExpress.Utils.ToolTipAnchor.[Default])})
         Me.RepositoryItemButtonEditRemoveEntry.Name = "RepositoryItemButtonEditRemoveEntry"
         Me.RepositoryItemButtonEditRemoveEntry.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor
         '
@@ -791,7 +795,7 @@ Partial Class frmAnalysisRequest
         Me.GridView1.GridControl = Me.GridControlEnterAssayValues
         Me.GridView1.Name = "GridView1"
         '
-        'frmAnalysisRequest
+        'FormAnalysisRequest
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -802,7 +806,7 @@ Partial Class frmAnalysisRequest
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.MaximizeBox = False
-        Me.Name = "frmAnalysisRequest"
+        Me.Name = "FormAnalysisRequest"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         CType(Me.gcAnalysisRequest, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gcAnalysisRequest.ResumeLayout(False)
@@ -878,5 +882,5 @@ Partial Class frmAnalysisRequest
     Friend WithEvents colActions As DevExpress.XtraGrid.Columns.GridColumn
     Friend WithEvents txtEditPlaceOfCollection As DevExpress.XtraEditors.ComboBoxEdit
     Friend WithEvents ComboBoxEditQueryAnalytes As DevExpress.XtraEditors.ComboBoxEdit
-    Friend WithEvents lblClose As DevExpress.XtraEditors.LabelControl
+    Friend WithEvents LabelClose As DevExpress.XtraEditors.LabelControl
 End Class

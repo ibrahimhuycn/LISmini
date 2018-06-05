@@ -1,15 +1,15 @@
 ﻿Imports System.ComponentModel
 Imports System.Text.RegularExpressions
 Imports DevExpress.XtraEditors.Controls
+Imports LISmini.ErrorCodes.MeaningfulErrorCodes
 Imports ServerCommunications
 Imports SwatIncNotifications
-Imports LISmini.ErrorCodes.MeaningfulErrorCodes
 
 Public Class FormAddPatient
 
     'TODO: IMPLEMENT A WAY TO ENTER PASSPORT NUMBER FOR FORIGNERS.
     'MOVE SERVER CONNECTION STATUS CHECKING FUNCTION TO MAIN FORM.
-    Dim WithEvents connectionMonitor As New Timers.Timer
+    Dim WithEvents ConnectionMonitor As New Timers.Timer
 
     Const connectionMonitorInterval As Integer = 3000
 
@@ -75,15 +75,15 @@ Public Class FormAddPatient
         InitializeComponent()
 
         'INITIALIZING A TO MONITOR CONNECTION STATUS BY CALLING COM HANDLERS' ISCNXALIVE FUNCTION
-        connectionMonitor.Interval = connectionMonitorInterval
-        connectionMonitor.Enabled = True
+        ConnectionMonitor.Interval = connectionMonitorInterval
+        ConnectionMonitor.Enabled = True
 
         'SETTING GENERIC LIST AS A DATASOURCE FOR GRIDCONTROLADDCONTACT
         GridControlAddContact.DataSource = patientContacts
 
     End Sub
 
-    Private Sub connectionMonitor_Tick(sender As Object, e As EventArgs) Handles connectionMonitor.Elapsed
+    Private Sub ConnectionMonitor_Tick(sender As Object, e As EventArgs) Handles ConnectionMonitor.Elapsed
         isServerConnectionAvailable = Nothing
         Try
             If lisConnectionCheck.IsServerAccessAvailable() = True Then
@@ -147,7 +147,7 @@ Public Class FormAddPatient
 
     End Sub
 
-    Private Sub txtNid_LostFocus(sender As Object, e As EventArgs) Handles TextEditNid.LostFocus
+    Private Sub TextEditNid_LostFocus(sender As Object, e As EventArgs) Handles TextEditNid.LostFocus
 
         If Not TextEditNid.Text = "" Then
             'National ID may be entered with a lower case "a". Eg: a309254 while it should be like "A309254"
@@ -248,7 +248,7 @@ Public Class FormAddPatient
         PesonalInfoNextEnabledStatusHandler()
     End Sub
 
-    Private Sub xTabAddPatientRecords_SelectedPageChanged(sender As Object, e As DevExpress.XtraTab.TabPageChangedEventArgs) Handles xTabAddPatientRecords.SelectedPageChanged
+    Private Sub XTabAddPatientRecords_SelectedPageChanged(sender As Object, e As DevExpress.XtraTab.TabPageChangedEventArgs) Handles xTabAddPatientRecords.SelectedPageChanged
         'RENAMING GrpPatientDetails.Text ACCORING TO THE XTABPAGE SELECTED.
         '       "ADD NEW PATIENT: PERSONAL INFORMATION"
         '       "ADD NEW PATIENT: ADDRESS"
@@ -356,9 +356,10 @@ Public Class FormAddPatient
 
         'SHOWING A POP UP NOTIFICATION
         Notify.ShowNotification(NotificationMessage:="Invalid ID Card Number. Correct format: A012345 or BO01012345",
-            NotificationTitle:="New Patient Entry",
-            NotficationPNG_IconName:="LanTech",
-            Heading:="Invalid ID !")
+        NotificationTitle:="New Patient Entry",
+        NotficationPNG_IconName:="LanTech",
+        Heading:="Invalid ID !")
+        'TextEditNid.SelectAll()
     End Sub
 
     Private Sub CalculateAge(dob As Date)
@@ -407,7 +408,7 @@ Public Class FormAddPatient
 
     End Sub
 
-    Private Sub txtIsland_LostFocus(sender As Object, e As EventArgs) Handles ComboBoxIsland.LostFocus
+    Private Sub ComboBoxIsland_LostFocus(sender As Object, e As EventArgs) Handles ComboBoxIsland.LostFocus
         If Not ComboBoxIsland.Text = "" Then ActivateAddressNext()
 
     End Sub
@@ -639,6 +640,38 @@ Public Class FormAddPatient
             If RowsInsertedIndividual = 1 Then
 
                 TotalRowsInsertedForNewPTEntry += RowsInsertedIndividual
+
+                ExpectedNoRowInsertForNewPTEntry = 1
+                PatientEntryStep = 1
+
+                'INSERTING DATA INTO DBO.NAMEHANDLER
+                'i) PARSE INSERT VALUES FOR INSERT QUERY
+                IdIndividualNameArrayLength = IdIndivdualNames.Length
+                For i = 0 To (IdIndividualNameArrayLength - 1)
+                    If i = 0 Then
+                        NameHandlerInsertStatement = String.Format("({0},{1},{2})", hospitalNumber, i, IdIndivdualNames(i))
+                    ElseIf i > 0 Then
+                        NameHandlerInsertStatement = NameHandlerInsertStatement & String.Format(", ({0},{1},{2})", hospitalNumber, i, IdIndivdualNames(i))
+                    End If
+                Next
+                PatientEntryStep = 2
+
+                'ii)EXECUTE INSERT STATEMENT
+                RowsInsertedNameHandler = insertValues.NonQueryINSERT(Table:="[dbo].[NameHandler]",
+                                              InsertValues:=NameHandlerInsertStatement,
+                                              Fields:=String.Format("({0}, {1}, {2})", "[IdIndividual]", "[SortOrder]", "[IdIndividualName]"))
+                PatientEntryStep = 3
+
+                'SAVING CONTACT DETAILS TO SERVER | SKIPPING THIS STEP IF NO CONTACT DETAILS ARE ENTERED.
+                Dim statusContactDetailsEntry As Integer = ParseAndInsertContactDetails()
+                If (statusContactDetailsEntry = ValidOperationSkip) Or (statusContactDetailsEntry = OperationCompletedSuccessfully) Then
+                Else
+                    log.Error("Cannot save contact details to server.")
+                End If
+                log.Info("Successfully created new patient!")
+                Notify.ShowNotification("Patient registration successful!", "Patient Registration", "PatientRegistration", "Successful Registration")
+                Close()
+                Dispose()
             Else
                 'VARIABLE RowsInsertedIndividual SHOULD BE 1 IF THERE IS NO ERROR.
                 '1) CHECK FOR CONNECTION WITH SERVER. IF NOT CONNECTED, DISPLAY AN ERROR MESSAGE SAYING, SERVER CONNECTION FAILED, RETRY NEW PATIENT ENTRY.
@@ -654,38 +687,6 @@ Public Class FormAddPatient
                 End If
 
             End If
-            ExpectedNoRowInsertForNewPTEntry = 1
-
-            PatientEntryStep = 1
-
-            'INSERTING DATA INTO DBO.NAMEHANDLER
-            'i) PARSE INSERT VALUES FOR INSERT QUERY
-            IdIndividualNameArrayLength = IdIndivdualNames.Length
-            For i = 0 To (IdIndividualNameArrayLength - 1)
-                If i = 0 Then
-                    NameHandlerInsertStatement = String.Format("({0},{1},{2})", hospitalNumber, i, IdIndivdualNames(i))
-                ElseIf i > 0 Then
-                    NameHandlerInsertStatement = NameHandlerInsertStatement & String.Format(", ({0},{1},{2})", hospitalNumber, i, IdIndivdualNames(i))
-                End If
-            Next
-            PatientEntryStep = 2
-
-            'ii)EXECUTE INSERT STATEMENT
-            RowsInsertedNameHandler = insertValues.NonQueryINSERT(Table:="[dbo].[NameHandler]",
-                                          InsertValues:=NameHandlerInsertStatement,
-                                          Fields:=String.Format("({0}, {1}, {2})", "[IdIndividual]", "[SortOrder]", "[IdIndividualName]"))
-            PatientEntryStep = 3
-
-            'SAVING CONTACT DETAILS TO SERVER | SKIPPING THIS STEP IF NO CONTACT DETAILS ARE ENTERED.
-            Dim statusContactDetailsEntry As Integer = ParseAndInsertContactDetails()
-            If (statusContactDetailsEntry = ValidOperationSkip) Or (statusContactDetailsEntry = OperationCompletedSuccessfully) Then
-            Else
-                log.Error("Cannot save contact details to server.")
-            End If
-            log.Info("Successfully created new patient!")
-            Notify.ShowNotification("Patient registration successful!", "Patient Registration", "PatientRegistration", "Successful Registration")
-            Close()
-            Dispose()
         Catch ex As Exception
             log.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(String.Format("{0}{1}", ex.Message, vbCrLf))
