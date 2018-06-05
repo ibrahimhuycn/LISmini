@@ -1,36 +1,45 @@
 ﻿Namespace SwatInc.Patients
 
-    Public Class NewPatientEventArgs
+    Public Class AddPatientEventArgs
         Inherits EventArgs
 
-        'VARIABLE TO STORE NUMBER OF INDIVIDUAL NAMES IN THE FULL NAME. THIS SERVES AS NUMBER OF ITEMS IN THE STRING ARRAY PatientName
-        Public numberIndividualNames As Integer
+        Enum PatientSex
+            M
+            F
+            O
+            U
+        End Enum
 
-        'VARIABLES FOR TEMPORARY STORAGE OF PERSONAL DATA FOR ADDING NEW PATIENTS.
-        Public nationalId As String
-
-        Public hospitalNumber As Integer
-        Public individualNameCollection() As String
-        Public gender As Integer    '0 = MALE, 1 = FEMALE, 3 = OTHER, 4 = UNKNOWN
-        Public dob As Date
+        Property Gender As PatientSex    '0 = MALE, 1 = FEMALE, 3 = OTHER, 4 = UNKNOWN
 
         'VARIABLES FOR ADDING PATIENT ADDRESS
-        Public address As String
+        Public Property Address As String
 
-        Public island As String
-        Public atoll As String
-        Public country As String
+        Public Property Atoll As String
+
+        Public Property Country As String
+
+        Public Property Dob As Date
+
+        Public Property FinalPatientName As String
+
+        Public Property HospitalNumber As Integer
+
+        Public Property IndividualNameCollection As String()
+
+        Public Property Island As String
+
+        'VARIABLES FOR TEMPORARY STORAGE OF PERSONAL DATA FOR ADDING NEW PATIENTS.
+        Public Property NationalId As String
 
         'VARIALBLES TO UPDATE LBLSUMMARY DISPLAY
-        Public nextHospitalNumber As Integer
+        Public Property NextHospitalNumber As Integer
 
-        Public finalPatientName As String
-        Public patientAge As String
-        Public PatientGender As String
+        'VARIABLE TO STORE NUMBER OF INDIVIDUAL NAMES IN THE FULL NAME. THIS SERVES AS NUMBER OF ITEMS IN THE STRING ARRAY PatientName
+        Public Property NumberIndividualNames As Integer
 
-        'VARIABLES AND INITIALISATIONS FOR CONTACT DETAILS PAGE
-        ReadOnly patientContacts As New List(Of Contacts)()
-
+        Public Property PatientAge As String
+        Public Property PatientGender As String
     End Class
 
 End Namespace

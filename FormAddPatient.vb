@@ -2,7 +2,8 @@
 Imports DevExpress.XtraEditors.Controls
 Imports LISmini.SwatInc.Mathematics.PreSetCalculations
 Imports LISmini.SwatInc.Validations.Validate
-Imports LISmini.ErrorCodes.MeaningfulErrorCodes
+Imports LISmini.SwatInc.Patients
+Imports LISmini.ErrorCodes.MeaningfulErrorAndEventCodes
 Imports ServerCommunications
 Imports SwatIncNotifications
 
@@ -50,12 +51,7 @@ Public Class FormAddPatient
     'DELIMITER FOR SEPARATING INDIVIDUAL NAMES
     Const delimiter As String = " "
 
-    'VARIALBLES TO UPDATE LBLSUMMARY DISPLAY
-    Dim nextHospitalNumber As Integer
-
-    Dim finalPatientName As String
-    Dim patientAge As String
-    Dim PatientGender As String
+    ' Dim PatientGender As PatientSex
 
     'VARIABLES FOR ADDING PATIENT ADDRESS
     Dim address As String
@@ -70,6 +66,8 @@ Public Class FormAddPatient
     'INITIALISATIONS FOR TRACKING AND LOGGING APPLICATION EVENTS, QUERIES, EXCEPTIONS ETC..
     Private Shared ReadOnly log As log4net.ILog = log4net.LogManager.GetLogger(Reflection.MethodBase.GetCurrentMethod().DeclaringType)
 
+    Dim _personalInformation As New AddPatientEventArgs
+
     Public Sub New()
 
         ' This call is required by the designer.
@@ -81,8 +79,11 @@ Public Class FormAddPatient
 
         'SETTING GENERIC LIST AS A DATASOURCE FOR GRIDCONTROLADDCONTACT
         GridControlAddContact.DataSource = patientContacts
-
     End Sub
+
+    Public Delegate Sub SummaryDisplayUpdatingEventHandler(sender As Object, patientInformation As AddPatientEventArgs)
+
+    Public Event SummaryDisplayUpdating As SummaryDisplayUpdatingEventHandler
 
     Private Sub ConnectionMonitor_Tick(sender As Object, e As EventArgs) Handles ConnectionMonitor.Elapsed
         isServerConnectionAvailable = Nothing
@@ -122,8 +123,8 @@ Public Class FormAddPatient
         End If
 
         'QUERYING FOR HOSPITAL NUMBER TO BE GIVEN TO NEXT PATIENT & UPDATING PATIENT DETAILS DISPLAY LABEL
-        nextHospitalNumber = getNextHospitalNumber.GetNextHNo()        'QUERYING
-        UpdateSummaryDisplay()                       'UPDATING THE LABEL
+        _personalInformation.NextHospitalNumber = getNextHospitalNumber.GetNextHNo()        'QUERYING
+        RaiseEvent SummaryDisplayUpdating(Me, _personalInformation)                      'UPDATING THE LABEL
 
         'SETTING FOCUS TO TEXT BOX TXTNID
         TextEditNid.Focus()
@@ -166,72 +167,59 @@ Public Class FormAddPatient
 
     Private Sub TextEditPatientName_LostFocus(ByVal sender As Object, ByVal e As EventArgs) Handles TextEditPatientName.LostFocus
 
-        Dim IndividualNameCollection_Temp() As String
-        Dim INameCounter As Integer = 0
-        If TextEditPatientName.Text = "" Then
-            'IGNORE IF THE FIELD IS EMPTY
-        Else
-
-            'SPLITTING FULL NAME INTO INDIVIDUAL NAMES, & GETTING RID OF ANY MULTIPLE SPACES IN BETWEEN THE NAMES.
-            Dim ExcludingMultipleSpaces() As String = TextEditPatientName.Text.Split(delimiter)
-
-            'EXCLUDING MULTIPLE SPACES BETWEEN INDIVIDUAL NAMES, IF ANY AND DISPLAYING REMAINDER IN THE TEXTBOX txtPatientName
-            Try
-                TextEditPatientName.Text = Nothing
-                For Each IndividualName In ExcludingMultipleSpaces
-                    If Not IndividualName = "" Then
-                        TextEditPatientName.Text = String.Format("{0} {1}", TextEditPatientName.Text, IndividualName)
-                    End If
-                Next
-            Catch ex As Exception
-                log.Error(ex)  'LOGGING ERROR TO DISK
-                MsgBox(ex.Message)
-            End Try
-
-            'TRIM THE NAME SO THAT THERE ARE NO SPACES AT THE BEGINNING OR THE END. THIS WILL BE DONE ON THE SERVER SIDE TOO, TO AVOID DUBLICATE INDIVIDUAL NAMES
-            'WITH SPACES JUST INCASE THIS STEP IS MISSED IN THE SOFTWARE CODING.
-            TextEditPatientName.Text = Trim(TextEditPatientName.Text)
+        If Not TextEditPatientName.Text = "" Then
+            'SPLITTING FULL NAME INTO INDIVIDUAL NAMES & GETTING RID OF ANY MULTIPLE SPACES IN BETWEEN THE NAMES. TRIM THE RETURN TO REMOVE TRAILING SPACES
+            TextEditPatientName.Text = Trim(RemoveMultipleSpacesInPatientName(TextEditPatientName.Text))
 
             'SET PatientName ARRAY LENGTH AND ASSIGN INDIVIDUAL NAMES TO THE STRING ARRAY PatientName
-            IndividualNameCollection_Temp = TextEditPatientName.Text.Split(delimiter)
-            numberIndividualNames = IndividualNameCollection_Temp.Length
-            ReDim individualNameCollection(numberIndividualNames - 1)
-
-            For Each IndividualName In IndividualNameCollection_Temp
-
-                individualNameCollection(INameCounter) = IndividualName
-                INameCounter = INameCounter + 1
-
-            Next
+            _personalInformation.IndividualNameCollection() = TextEditPatientName.Text.Split(delimiter)
+            'Todo: remove the following after checking for dependencies. It's a property and can be accessed anytime. Does not have to be assigned to a variable.
+            _personalInformation.NumberIndividualNames = _personalInformation.IndividualNameCollection.Length
 
             'UPDATING PATIENT DETAILS SUMMARY LABEL WITH NAME
-            finalPatientName = TextEditPatientName.Text
-            UpdateSummaryDisplay()
+            _personalInformation.FinalPatientName = TextEditPatientName.Text
+            RaiseEvent SummaryDisplayUpdating(Me, _personalInformation)                      'UPDATING THE LABEL
 
             'CHECKING TO SEE WHETHER ALL FIELDS ARE COMPLETE
             PesonalInfoNextEnabledStatusHandler()
-
+        Else
+            'IGNORE IF THE FIELD IS EMPTY
         End If
 
     End Sub
 
+    Private Function RemoveMultipleSpacesInPatientName(rawName As String) As String
+        Dim PatientNameMultipleSpacesRemoved As String = Nothing
+        'SPLITTING FULL NAME INTO INDIVIDUAL NAMES, & GETTING RID OF ANY MULTIPLE SPACES IN BETWEEN THE NAMES.
+        Dim ExcludingMultipleSpaces() As String = rawName.Split(delimiter)
+
+        'EXCLUDING MULTIPLE SPACES BETWEEN INDIVIDUAL NAMES
+        Try
+            TextEditPatientName.Text = Nothing
+            For Each IndividualName In ExcludingMultipleSpaces
+                If Not IndividualName = "" Then
+                    PatientNameMultipleSpacesRemoved = String.Format("{0} {1}", PatientNameMultipleSpacesRemoved, IndividualName)
+                End If
+            Next
+        Catch ex As Exception
+            log.Error(ex)  'LOGGING ERROR TO DISK
+            MsgBox(ex.Message)
+        End Try
+        Return PatientNameMultipleSpacesRemoved
+    End Function
+
+    Enum PatientSex
+        M
+        F
+        O
+        U
+    End Enum
+
     Private Sub ComboBoxEditGender_LostFocus(sender As Object, e As EventArgs) Handles ComboBoxEditGender.LostFocus
         'CHECKING TO SEE WHETHER ALL FIELDS ARE COMPLETE
         PesonalInfoNextEnabledStatusHandler()
-
-        'UPDATING PATIENT DETAILS DISPLAY LABEL
-        'COMBOBOX INDEXES 0 = MALE 1 = FEMALE 2 = OTHER  3 = UNKNOWN
-        If ComboBoxEditGender.SelectedIndex = 0 Then
-            PatientGender = "M"
-        ElseIf ComboBoxEditGender.SelectedIndex = 1 Then
-            PatientGender = "F"
-        ElseIf ComboBoxEditGender.SelectedIndex = 2 Then
-            PatientGender = "O"
-        ElseIf ComboBoxEditGender.SelectedIndex = 3 Then
-            PatientGender = "U"
-
-        End If
-        UpdateSummaryDisplay()
+        _personalInformation.PatientGender = (CType(ComboBoxEditGender.SelectedIndex, PatientSex)).ToString
+        RaiseEvent SummaryDisplayUpdating(Me, _personalInformation)                      'UPDATING THE LABEL
 
     End Sub
 
@@ -270,19 +258,21 @@ Public Class FormAddPatient
         Try
             'CLEAR TEMP STORE VARIABLES FOR PERSONAL DATA ASSUMING THAT THEY MIGHT HAVE PREVIOUSLY ASSIGNED VALUES INCASE USER COMES BACK TO PERSONAL INFO PAGE
             'FOR EDITING DATA ENTERED.
-            nationalId = Nothing
+            'nationalId = Nothing
             'PatientName = Nothing
-            gender = Nothing
-            dob = Nothing
-            hospitalNumber = Nothing
+            'gender = Nothing
+            'dob = Nothing
+            'hospitalNumber = Nothing
 
             'VALIDATE(PREFERRABLY VALIDATE INDIVIDUAL FIELDS ON THEIR RESPECTIVE LOSTFOCUS EVENTS) AND ASSIGN TO VARIABLES DECLARED AT THE BEGINNING.
-            nationalId = TextEditNid.Text
-            hospitalNumber = TextEditHospitalNumber.Text
+            ' nationalId = TextEditNid.Text
+            ' hospitalNumber = TextEditHospitalNumber.Text
             'VALUES FOR THE ARRAY IndividualNameCollection IS ASSIGNED ON LOST FOCUS EVENT OF THE TXTPATENTNAME OBJECT.
-            gender = ComboBoxEditGender.SelectedIndex
+            ' gender = ComboBoxEditGender.SelectedIndex
 
-            dob = TextEditDateOfBirth.Text
+            'dob = TextEditDateOfBirth.Text
+
+            MakeNotePatientInformation()
 
             'ENABLE AND SET FOCUS TO xTabPageAddress
             xTabPageAddress.PageEnabled = True
@@ -303,6 +293,15 @@ Public Class FormAddPatient
         For Each atoll In AtollList         'ADDING ATOLL LIST TO COMBOBOX LIST ITEM
             ComboBoxEditAtoll.Properties.Items.Add(atoll)
         Next
+    End Sub
+
+    Private Sub MakeNotePatientInformation()
+
+        _personalInformation.NationalId = TextEditNid.Text
+        _personalInformation.HospitalNumber = TextEditHospitalNumber.Text
+        _personalInformation.Gender = ComboBoxEditGender.SelectedIndex
+        _personalInformation.Dob = TextEditDateOfBirth.Text
+
     End Sub
 
     Private Sub SimpleButtonBack_Click(sender As Object, e As EventArgs) Handles SimpleButtonBack.Click
@@ -360,10 +359,10 @@ Public Class FormAddPatient
     Private Sub GetAgeFromDob(dob As Date)
 
         Try
-            patientAge = CalculateAge(dob)
+            _personalInformation.PatientAge = CalculateAge(dob)
 
             'UPDATING PATIENT DETAILS DISPLAY LABEL
-            UpdateSummaryDisplay()
+            RaiseEvent SummaryDisplayUpdating(Me, _personalInformation)                      'UPDATING THE LABEL
         Catch ex As Exception
             log.Error(ex)  'LOGGING ERROR TO DISK
             MsgBox(ex.Message)
@@ -371,20 +370,24 @@ Public Class FormAddPatient
 
     End Sub
 
-    Private Sub UpdateSummaryDisplay()
-        LabelSummary.Text = String.Format("#{0}, {1}, {2}/{3}", nextHospitalNumber, finalPatientName, patientAge, PatientGender)
+    Private Sub UpdateSummaryDisplay(sender As Object, e As AddPatientEventArgs) Handles Me.SummaryDisplayUpdating
+        LabelSummary.Text = String.Format("[#{0}],[{1}], [{2}/{3}], [{4}  {5}. {6}], [{7}]", e.NextHospitalNumber, e.FinalPatientName, e.PatientAge, e.PatientGender, e.Address, e.Atoll, e.Island, e.Country)
     End Sub
 
     Private Sub TextEditAddress_LostFocus(sender As Object, e As EventArgs) Handles TextEditAddress.LostFocus
         If Not TextEditAddress.Text = "" Then
-            ActivateAddressNext()
             TextEditAddress.Text = TextEditAddress.Text.ToUpper
+            _personalInformation.Address = TextEditAddress.Text
+            ActivateAddressNext()
         End If
 
     End Sub
 
     Private Sub ComboBoxIsland_LostFocus(sender As Object, e As EventArgs) Handles ComboBoxIsland.LostFocus
-        If Not ComboBoxIsland.Text = "" Then ActivateAddressNext()
+        If Not ComboBoxIsland.Text = "" Then
+            _personalInformation.Island = ComboBoxIsland.Text
+            ActivateAddressNext()
+        End If
 
     End Sub
 
@@ -399,28 +402,29 @@ Public Class FormAddPatient
             For Each Island In IslandList
                 ComboBoxIsland.Properties.Items.Add(Island)
             Next
+            _personalInformation.Atoll = ComboBoxEditAtoll.Text
             ActivateAddressNext()
         End If
     End Sub
 
     Private Sub ComboBoxEditCountry_LostFocus(sender As Object, e As EventArgs) Handles ComboBoxEditCountry.LostFocus
-        If Not ComboBoxEditCountry.Text = "" Then ActivateAddressNext()
+        If Not ComboBoxEditCountry.Text = "" Then
+            _personalInformation.Country = ComboBoxEditCountry.Text
+            ActivateAddressNext()
+        End If
+
     End Sub
 
     Private Sub ActivateAddressNext()
-        If TextEditAddress.Text = "" Or ComboBoxIsland.Text = "" Or ComboBoxEditAtoll.Text = "" Or ComboBoxEditCountry.Text = "" Then
-            'IGNORE
-        Else
+        If Not (TextEditAddress.Text = "" Or ComboBoxIsland.Text = "" Or ComboBoxEditAtoll.Text = "" Or ComboBoxEditCountry.Text = "") Then
             SimpleButtonAddressNext.Enabled = True 'IF ALL THE FIELDS ARE COMPLETED, ACTIVATE NEXT BUTTON.
-            address = TextEditAddress.Text
-            island = ComboBoxIsland.Text
-            atoll = ComboBoxEditAtoll.Text
-            country = ComboBoxEditCountry.Text
+        Else
+            'IGNORE
         End If
+        RaiseEvent SummaryDisplayUpdating(Me, _personalInformation)
     End Sub
 
     Private Sub SimpleButtonAddressNext_Click(sender As Object, e As EventArgs) Handles SimpleButtonAddressNext.Click
-        ActivateAddressNext()
         xTabPageContactInfo.PageEnabled = True
         xTabPageContactInfo.Focus()
         xTabPageAddress.PageEnabled = False

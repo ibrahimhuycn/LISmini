@@ -1,7 +1,6 @@
 ﻿Namespace SwatInc.Patients
 
-    Public Class NewPatients
-
+    Public Class AddPatients
     End Class
 
 End Namespace
