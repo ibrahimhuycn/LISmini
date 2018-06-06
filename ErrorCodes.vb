@@ -1,6 +1,6 @@
 ﻿Public Class ErrorCodes
 
-    Enum MeaningfulErrorCodes
+    Enum MeaningfulErrorAndEventCodes
         OperationCompletedSuccessfully
         ValidOperationSkip
     End Enum

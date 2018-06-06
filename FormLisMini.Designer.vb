@@ -162,7 +162,7 @@ Partial Class FormLisMini
         '
         'btnAnalyteList
         '
-        Me.btnAnalyteList.Caption = "Analyte List"
+        Me.btnAnalyteList.Caption = "Analyte contactDetaiList"
         Me.btnAnalyteList.Id = 16
         Me.btnAnalyteList.ImageOptions.Image = CType(resources.GetObject("btnAnalyteList.ImageOptions.Image"), System.Drawing.Image)
         Me.btnAnalyteList.ItemInMenuAppearance.Disabled.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
@@ -172,7 +172,7 @@ Partial Class FormLisMini
         ToolTipTitleItem1.Appearance.Image = CType(resources.GetObject("resource.Image"), System.Drawing.Image)
         ToolTipTitleItem1.Appearance.Options.UseImage = True
         ToolTipTitleItem1.ImageOptions.Image = CType(resources.GetObject("resource.Image1"), System.Drawing.Image)
-        ToolTipTitleItem1.Text = "Analyte List"
+        ToolTipTitleItem1.Text = "Analyte contactDetaiList"
         ToolTipItem1.LeftIndent = 6
         ToolTipItem1.Text = "Please fill in the list of analytes performed by your laboratory. You can also im" &
     "port it from the proposed set."

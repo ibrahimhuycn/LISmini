@@ -4,12 +4,11 @@
 
     'AUTHOR: IBRAHIM HUSSAIN
     'SWAT INC.
-    Public Sub New(ContactDetail As String, ContactType As String)
-        Me.contactDetail = ContactDetail
-        Me.contactType = ContactType
-
+    Public Sub New(contactDetail As String, ContactType As String)
+        Me.ContactDetail = contactDetail
+        Me.ContactType = ContactType
     End Sub
 
-    Public Property contactDetail() As String
-    Public Property contactType() As String
+    Public Property ContactDetail() As String
+    Public Property ContactType() As String
 End Class

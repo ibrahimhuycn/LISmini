@@ -5,7 +5,7 @@
         'Initializing log4net logger for this class and getting class name from reflection
         Private Shared ReadOnly log As log4net.ILog = log4net.LogManager.GetLogger(Reflection.MethodBase.GetCurrentMethod().DeclaringType)
 
-        Public Function CalculateAge(dob As Date) As String
+        Public Shared Function CalculateAge(dob As Date) As String
             'THIS FUNCTION CALCULATES AGE WHEN DOB IS PROVIDED.
             'RETURNS CALCULATED AGE AS A STRING
 
