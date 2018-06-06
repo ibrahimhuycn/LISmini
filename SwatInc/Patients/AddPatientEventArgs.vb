@@ -10,23 +10,19 @@
             U
         End Enum
 
-        Property Gender As PatientSex    '0 = MALE, 1 = FEMALE, 3 = OTHER, 4 = UNKNOWN
-
         'VARIABLES FOR ADDING PATIENT ADDRESS
         Public Property Address As String
 
         Public Property Atoll As String
-
         Public Property Country As String
-
         Public Property Dob As Date
-
         Public Property FinalPatientName As String
-
         Public Property HospitalNumber As Integer
-
+        Public Property IdCountry As Integer
+        Public Property IdIndivdualNames As Integer()
+        Public Property IdIslandAndAtoll As Integer
+        Property IdPatientGender As Integer    '0 = MALE, 1 = FEMALE, 3 = OTHER, 4 = UNKNOWN
         Public Property IndividualNameCollection As String()
-
         Public Property Island As String
 
         'VARIABLES FOR TEMPORARY STORAGE OF PERSONAL DATA FOR ADDING NEW PATIENTS.
@@ -39,7 +35,7 @@
         Public Property NumberIndividualNames As Integer
 
         Public Property PatientAge As String
-        Public Property PatientGender As String
+        Public Property PatientGender As String     'String representation of gender
     End Class
 
 End Namespace

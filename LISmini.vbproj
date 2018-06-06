@@ -127,6 +127,7 @@
   <ItemGroup>
     <Compile Include="AnalytesRequested.vb" />
     <Compile Include="Contacts.vb" />
+    <Compile Include="ContactsEventAgrs.vb" />
     <Compile Include="ErrorCodes.vb" />
     <Compile Include="FormAddPatient.Designer.vb">
       <DependentUpon>FormAddPatient.vb</DependentUpon>
@@ -170,7 +171,8 @@
     </Compile>
     <Compile Include="SwatInc\Mathematics\PreSetCalculations.vb" />
     <Compile Include="SwatInc\Patients\AddPatients.vb" />
-    <Compile Include="SwatInc\Patients\NewPatientEventArgs.vb" />
+    <Compile Include="SwatInc\Patients\AddPatientEventArgs.vb" />
+    <Compile Include="SwatInc\Patients\PatientInformationCommunications.vb" />
     <Compile Include="SwatInc\Validations\Validate.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +285,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>lismini.mdf</DependentUpon>
     </Content>
+    <None Include="Resources\PatientSavingError.png" />
     <None Include="Resources\PatientRegistration.png" />
     <None Include="Resources\NewPatientRegistered.bmp" />
     <None Include="Resources\DaatabaseDisconnected.png" />
