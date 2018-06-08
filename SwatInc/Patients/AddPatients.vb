@@ -13,10 +13,10 @@ Namespace SwatInc.Patients
         ReadOnly readDatabase As New ExecuteReads
 
         Enum ContactType
-            Mobile
-            Office
-            Home
-            Email
+            Mobile = 1
+            Office = 2
+            Home = 3
+            Email = 4
         End Enum
 
         Public Function ContactDetailsInserted(sender As Object, e As AddPatientEventArgs, f As ContactsEventAgrs) As Boolean
@@ -82,9 +82,9 @@ Namespace SwatInc.Patients
             Return If(rowsInserted = (e.IdIndivdualNames.Length), True, False)
         End Function
 
-        Private Function GetIdContactType(ByVal type As String) As Integer
+        Private Function GetIdContactType(ByVal contactType As String) As Integer
             '1= Mobile 2= Office 3= Home 4 = Email
-            Return ([Enum].Parse(GetType(ContactType), type)) + 1
+            Return ([Enum].Parse(GetType(ContactType), contactType))
         End Function
 
         Private Function ParseContactsInsertStatement(e As AddPatientEventArgs, f As ContactsEventAgrs) As String
