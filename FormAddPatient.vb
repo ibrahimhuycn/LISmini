@@ -24,6 +24,7 @@ Public Class FormAddPatient
 
     ReadOnly addIndividual As New AddPatients
     ReadOnly checkValuePresence As New FieldPopulation
+    ReadOnly executeInserts As New ExecuteInserts
     ReadOnly getNextHospitalNumber As New GetNextHospitalNumber
 
     'SERVER OBJECT INITIALISATION FOR EXECUTING QUERIES
@@ -340,14 +341,14 @@ Public Class FormAddPatient
         '2) INSERTING DATA INTO DBO.INDIVIDUALS & NAMEHANDLER
         Try
             'INSERTING DATA INTO DBO.INDIVIDUALS
-            If (addIndividual.IndividualInserted(Me, personalInformation)) = True Then
+            If (addIndividual.IndividualInserted(Me, executeInserts, personalInformation)) = True Then
 
                 'i) INSERTING DATA INTO DBO.NAMEHANDLER: PARSE INSERT VALUES FOR INSERT QUERY
-                If (addIndividual.NameHandlerValuesInserted(Me, personalInformation)) = True Then
+                If (addIndividual.NameHandlerValuesInserted(Me, executeInserts, personalInformation)) = True Then
 
                     'SAVING CONTACT DETAILS TO SERVER | SKIPPING THIS STEP IF NO CONTACT DETAILS ARE ENTERED.
                     Dim contactEventAgrs As New ContactsEventAgrs() With {.contactDetailsList = patientContacts}
-                    Dim statusContactDetailsEntry As Boolean = addIndividual.ContactDetailsInserted(Me, personalInformation, contactEventAgrs)
+                    Dim statusContactDetailsEntry As Boolean = addIndividual.ContactDetailsInserted(Me, executeInserts, personalInformation, contactEventAgrs)
                     If statusContactDetailsEntry = True Then
                         log.Info("Successfully created new patient!")
                         Notify.ShowNotification("Patient registration successful!", "Patient Registration", "PatientRegistration", "Successful Registration")
