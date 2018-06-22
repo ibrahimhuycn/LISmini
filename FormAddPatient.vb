@@ -343,7 +343,7 @@ Public Class FormAddPatient
             'INSERTING DATA INTO DBO.INDIVIDUALS
             If (addIndividual.IndividualInserted(Me, executeInserts, personalInformation)) = True Then
 
-                'i) INSERTING DATA INTO DBO.NAMEHANDLER: PARSE INSERT VALUES FOR INSERT QUERY
+                'i) INSERTING DATA INTO DBO.NAMEHANDLER
                 If (addIndividual.NameHandlerValuesInserted(Me, executeInserts, personalInformation)) = True Then
 
                     'SAVING CONTACT DETAILS TO SERVER | SKIPPING THIS STEP IF NO CONTACT DETAILS ARE ENTERED.
