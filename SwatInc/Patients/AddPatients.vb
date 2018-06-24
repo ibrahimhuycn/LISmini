@@ -76,7 +76,7 @@ Namespace SwatInc.Patients
                 Dim notify As New frmNotification
                 notify.ShowNotification(ex.Message, "Patient Registration Error", "PatientSavingError", "Patient Registration")
             End Try
-            Return If(rowsInserted = (e.IdIndivdualNames.Length), True, False)
+            Return If(rowsInserted = (e.IdIndividualNames.Length), True, False)
         End Function
 
         Private Function GetIdContactType(ByVal contactType As String) As Integer
@@ -117,11 +117,11 @@ Namespace SwatInc.Patients
             'i) PARSE INSERT VALUES FOR INSERT QUERY
             Dim InsertStatement As String = ""
 
-            For IndividualNameSortOrder = 0 To (e.IdIndivdualNames.Length - 1)
+            For IndividualNameSortOrder = 0 To (e.IdIndividualNames.Length - 1)
                 If IndividualNameSortOrder = 0 Then
-                    InsertStatement = String.Format("({0},{1},{2})", e.HospitalNumber, IndividualNameSortOrder, e.IdIndivdualNames(IndividualNameSortOrder))
+                    InsertStatement = String.Format("({0},{1},{2})", e.HospitalNumber, IndividualNameSortOrder, e.IdIndividualNames(IndividualNameSortOrder))
                 ElseIf IndividualNameSortOrder > 0 Then
-                    InsertStatement = InsertStatement & String.Format(", ({0},{1},{2})", e.HospitalNumber, IndividualNameSortOrder, e.IdIndivdualNames(IndividualNameSortOrder))
+                    InsertStatement = InsertStatement & String.Format(", ({0},{1},{2})", e.HospitalNumber, IndividualNameSortOrder, e.IdIndividualNames(IndividualNameSortOrder))
                 End If
             Next
             Return InsertStatement

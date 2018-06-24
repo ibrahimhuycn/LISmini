@@ -334,7 +334,7 @@ Public Class FormAddPatient
 
         Dim Notify As New frmNotification
         '1)GATHERING DATA
-        personalInformation.IdIndivdualNames = patientInformationCommunications.FetchIndividualNameIDs(personalInformation)         'i) INSERT NONEXISTING NAMES AND GET ALL IDs FOR INDIVIDUAL NAMES OF PATIENT
+        personalInformation.IdIndividualNames = patientInformationCommunications.FetchIndividualNameIDs(personalInformation)         'i) INSERT NONEXISTING NAMES AND GET ALL IDs FOR INDIVIDUAL NAMES OF PATIENT
         personalInformation.IdIslandAndAtoll = patientInformationCommunications.FetchIdIslandList(personalInformation)
         personalInformation.IdCountry = patientInformationCommunications.FetchCountryID(personalInformation)
 
