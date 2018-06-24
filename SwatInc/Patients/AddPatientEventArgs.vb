@@ -19,7 +19,7 @@
         Public Property FinalPatientName As String
         Public Property HospitalNumber As Integer
         Public Property IdCountry As Integer
-        Public Property IdIndivdualNames As Integer()
+        Public Property IdIndividualNames As Integer()
         Public Property IdIslandAndAtoll As Integer
         Property IdPatientGender As Integer    '0 = MALE, 1 = FEMALE, 3 = OTHER, 4 = UNKNOWN
         Public Property IndividualNameCollection As String()

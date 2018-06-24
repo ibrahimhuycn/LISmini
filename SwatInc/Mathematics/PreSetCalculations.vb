@@ -18,23 +18,27 @@
             Dim CalculatedAge As String = ""
 
             Try
+                If Not dob = Nothing Then
+                    AgeYears = Math.Floor(DateDiff(DateInterval.Day, DateValue(dob), Now()) / 365.25)
+                    AgeMonths = Math.Floor(DateDiff(DateInterval.Day, DateValue(dob), Now()) / 30.4375)
+                    AgeDays = Math.Floor(DateDiff(DateInterval.Day, DateValue(dob), Now()))
 
-                'A NEONATES' AGE HAS TO BE REPORTED IN MONTHS OR EVEN DAYS.
+                    If AgeYears = 0 And AgeMonths = 0 Then
+                        CalculatedAge = AgeDays & " D"
+                    ElseIf AgeYears = 0 And AgeMonths > 0 Then
 
-                AgeYears = Math.Floor(DateDiff(DateInterval.Day, DateValue(dob), Now()) / 365.25)
-                AgeMonths = Math.Floor(DateDiff(DateInterval.Day, DateValue(dob), Now()) / 30.4375)
-                AgeDays = Math.Floor(DateDiff(DateInterval.Day, DateValue(dob), Now()))
+                        Dim RemainingDays As Integer = AgeDays - (AgeMonths * 30.4375)
+                        CalculatedAge = String.Format("{0} M {1} D", AgeMonths, RemainingDays)
+                    ElseIf AgeYears > 0 Then
+                        CalculatedAge = AgeYears & " Y"
 
-                If AgeYears = 0 And AgeMonths = 0 Then
-                    CalculatedAge = AgeDays & " D"
-                ElseIf AgeYears = 0 And AgeMonths > 0 Then
-
-                    Dim RemainingDays As Integer = AgeDays - (AgeMonths * 30.4375)
-                    CalculatedAge = String.Format("{0} M {1} D", AgeMonths, RemainingDays)
-                ElseIf AgeYears > 0 Then
-                    CalculatedAge = AgeYears & " Y"
-
+                    End If
+                Else
+                    Throw New ArgumentNullException("dob", "Date cannot be Null")
                 End If
+            Catch ex As ArgumentNullException
+                log.Error(ex.Message & vbCrLf & ex.StackTrace)
+                Throw ex
             Catch ex As Exception
                 log.Error(ex.Message & vbCrLf & ex.StackTrace)
                 MsgBox(ex.Message)
