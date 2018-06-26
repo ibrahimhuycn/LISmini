@@ -38,6 +38,7 @@ Partial Class FormAddPatient
         Me.SimpleButtonAddressNext = New DevExpress.XtraEditors.SimpleButton()
         Me.xTabAddPatientRecords = New DevExpress.XtraTab.XtraTabControl()
         Me.xTabPagePersonalInfo = New DevExpress.XtraTab.XtraTabPage()
+        Me.ToggleSwitchNationalIdPassportNumber = New DevExpress.XtraEditors.ToggleSwitch()
         Me.TextEditDateOfBirth = New DevExpress.XtraEditors.DateEdit()
         Me.LabelHospitalNumber = New DevExpress.XtraEditors.LabelControl()
         Me.TextEditHospitalNumber = New DevExpress.XtraEditors.TextEdit()
@@ -69,6 +70,7 @@ Partial Class FormAddPatient
         CType(Me.xTabAddPatientRecords, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.xTabAddPatientRecords.SuspendLayout()
         Me.xTabPagePersonalInfo.SuspendLayout()
+        CType(Me.ToggleSwitchNationalIdPassportNumber.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TextEditDateOfBirth.Properties.CalendarTimeProperties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TextEditDateOfBirth.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TextEditHospitalNumber.Properties, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -388,6 +390,7 @@ Partial Class FormAddPatient
         Me.xTabPagePersonalInfo.Appearance.HeaderHotTracked.Options.UseFont = True
         Me.xTabPagePersonalInfo.Appearance.PageClient.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.xTabPagePersonalInfo.Appearance.PageClient.Options.UseFont = True
+        Me.xTabPagePersonalInfo.Controls.Add(Me.ToggleSwitchNationalIdPassportNumber)
         Me.xTabPagePersonalInfo.Controls.Add(Me.TextEditDateOfBirth)
         Me.xTabPagePersonalInfo.Controls.Add(Me.LabelHospitalNumber)
         Me.xTabPagePersonalInfo.Controls.Add(Me.TextEditHospitalNumber)
@@ -403,6 +406,15 @@ Partial Class FormAddPatient
         Me.xTabPagePersonalInfo.Name = "xTabPagePersonalInfo"
         Me.xTabPagePersonalInfo.Size = New System.Drawing.Size(470, 154)
         Me.xTabPagePersonalInfo.Text = "PERSONAL INFO"
+        '
+        'ToggleSwitchNationalIdPassportNumber
+        '
+        Me.ToggleSwitchNationalIdPassportNumber.Location = New System.Drawing.Point(14, 108)
+        Me.ToggleSwitchNationalIdPassportNumber.Name = "ToggleSwitchNationalIdPassportNumber"
+        Me.ToggleSwitchNationalIdPassportNumber.Properties.OffText = "National ID Card Number"
+        Me.ToggleSwitchNationalIdPassportNumber.Properties.OnText = "Passport Number"
+        Me.ToggleSwitchNationalIdPassportNumber.Size = New System.Drawing.Size(228, 24)
+        Me.ToggleSwitchNationalIdPassportNumber.TabIndex = 27
         '
         'TextEditDateOfBirth
         '
@@ -737,6 +749,7 @@ Partial Class FormAddPatient
         Me.Controls.Add(Me.GroupPatientDetails)
         Me.Font = New System.Drawing.Font("Ubuntu", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.KeyPreview = True
         Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.MaximizeBox = False
         Me.MinimizeBox = False
@@ -753,6 +766,7 @@ Partial Class FormAddPatient
         Me.xTabAddPatientRecords.ResumeLayout(False)
         Me.xTabPagePersonalInfo.ResumeLayout(False)
         Me.xTabPagePersonalInfo.PerformLayout()
+        CType(Me.ToggleSwitchNationalIdPassportNumber.Properties, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TextEditDateOfBirth.Properties.CalendarTimeProperties, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TextEditDateOfBirth.Properties, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TextEditHospitalNumber.Properties, System.ComponentModel.ISupportInitialize).EndInit()
@@ -813,4 +827,5 @@ Partial Class FormAddPatient
     Friend WithEvents LabelHospitalNumber As DevExpress.XtraEditors.LabelControl
     Friend WithEvents TextEditHospitalNumber As DevExpress.XtraEditors.TextEdit
     Friend WithEvents TextEditDateOfBirth As DevExpress.XtraEditors.DateEdit
+    Friend WithEvents ToggleSwitchNationalIdPassportNumber As DevExpress.XtraEditors.ToggleSwitch
 End Class

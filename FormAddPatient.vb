@@ -176,6 +176,10 @@ Public Class FormAddPatient
 
     End Sub
 
+    Private Sub FormAddPatient_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+        If e.KeyCode = Keys.F5 Then NationalIdCardPassportToggle()
+    End Sub
+
     Private Sub GetAgeFromDob(dob As Date)
 
         Try
@@ -223,6 +227,14 @@ Public Class FormAddPatient
         personalInformation.HospitalNumber = TextEditHospitalNumber.Text
         personalInformation.Dob = TextEditDateOfBirth.Text
 
+    End Sub
+
+    ''' <summary>
+    '''Toggles the option to enter National ID card number and Paaport number.
+    '''This is to be called only when F5 is pressed.
+    ''' </summary>
+    Private Sub NationalIdCardPassportToggle()
+        If xTabAddPatientRecords.SelectedTabPage Is xTabPagePersonalInfo Then ToggleSwitchNationalIdPassportNumber.Toggle()
     End Sub
 
     Private Sub PesonalInfoNextEnabledStatusHandler()
@@ -587,6 +599,23 @@ Public Class FormAddPatient
             'IGNORE IF THE FIELD IS EMPTY
         End If
 
+    End Sub
+
+    Private Sub ToggleSwitchNationalIdPassportNumber_Click(sender As Object, e As EventArgs) Handles ToggleSwitchNationalIdPassportNumber.Click
+        If ToggleSwitchNationalIdPassportNumber.EditValue = True Then
+            ToggleSwitchNationalIdPassportNumber.IsOn = True
+        Else
+            ToggleSwitchNationalIdPassportNumber.IsOn = False
+        End If
+    End Sub
+
+    Private Sub ToggleSwitchNationalIdPassportNumber_Toggled(sender As Object, e As EventArgs) Handles ToggleSwitchNationalIdPassportNumber.Toggled
+        Select Case ToggleSwitchNationalIdPassportNumber.EditValue
+            Case True
+                LabelNid.Text = "Passport Number"
+            Case False
+                LabelNid.Text = "National ID Card Number"
+        End Select
     End Sub
 
     Private Sub UpdateSummaryDisplay(sender As Object, e As AddPatientEventArgs) Handles Me.SummaryDisplayUpdating
